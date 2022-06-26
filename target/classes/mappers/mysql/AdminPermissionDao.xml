@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wei.admin.dao.mysql.AdminPermissionDao">
+    <insert id="addAdminPermission">
+        insert into admin_permission
+        (`menu_id`,`key`,`name`,`type`,`describe`,`is_enabled`,`create_time`,`modify_time`)
+        values
+        (#{menuId},#{key},#{name},#{type},#{describe},#{enabled},#{createTime},#{createTime})
+    </insert>
+    <insert id="addPermissionApis">
+        insert into admin_permission_api (`permission_id`,`api_id`) values
+        <foreach collection="apiIds" item="apiId" separator=",">
+            (#{permissionId},#{apiId})
+        </foreach>
+    </insert>
+    <update id="editAdminPermission">
+        update admin_permission set `modify_time` = #{modifyTime}
+        <if test="menuId != null and menuId > 0">
+            ,`menu_id` = #{menuId}
+        </if>
+        <if test="key != null and key.length > 0">
+            ,`key` = #{key}
+        </if>
+        <if test="name != null and name.length > 0">
+            ,`name` = #{name}
+        </if>
+        <if test="type != null and type.length > 0">
+            ,`type` = #{type}
+        </if>
+        <if test="describe != null ">
+            ,`describe` = #{describe}
+        </if>
+        <if test="enabled != null ">
+            ,`is_enabled` = #{enabled}
+        </if>
+        where `id` = #{id}
+    </update>
+    <delete id="deleteAdminPermission">
+        delete from admin_permission where `id` = #{id} and `is_enabled` = 0
+    </delete>
+    <delete id="deleteAdminPermissionApis">
+        delete from admin_permission_api where `permission_id` = #{permissionId}
+    </delete>
+
+    <select id="selectPermissions"
+            resultType="com.wei.admin.po.AdminPermissionPo">
+        SELECT ap.`id`,ap.`menu_id` menuId,ap.`name`,ap.`describe`,ap.`type`,
+        ap.`create_time` createTime,ap.`modify_time` modifyTime
+        FROM admin_user_role aur
+        INNER JOIN admin_role ar ON ar.`id` = aur.`role_id` AND ar.`is_enabled` = 1
+        INNER JOIN admin_role_permission arp ON arp.`role_id` = aur.`role_id`
+        INNER JOIN admin_permission ap ON ap.`id` = arp.`permission_id` and ap.`is_enabled` = 1
+        INNER JOIN admin_menu am ON am.`id` = ap.`menu_id` AND am.`is_enabled` = 1
+        WHERE aur.`admin_id` = #{adminId}
+        <if test="menuId != null and menuId > 0">
+            AND ap.`menu_id` = #{menuId}
+        </if>
+    </select>
+    <select id="selectAllValidMenus" resultType="com.wei.admin.bo.MenuItem">
+        select `id` ,`key`, `name`,`is_hide_children_in_menu` hideChildrenInMenu,`parent_id` parentId,`path`,`redirect`,
+        `icon`,`is_hidden` hidden from admin_menu
+        where `is_enabled` = 1
+        order by `sort` asc,`parent_id` asc, `id` asc
+    </select>
+    <select id="selectPermissionsByAdminister" resultType="com.wei.admin.po.AdminPermissionPo">
+        SELECT ap.`id`,ap.`menu_id` menuId,ap.`key`,ap.`name`,ap.`describe`,ap.`type`,
+        ap.`create_time` createTime, ap.`modify_time` modifyTime FROM admin_permission ap
+        INNER JOIN admin_menu am ON am.`id` = ap.`menu_id` AND am.`is_enabled` = 1
+        where ap.`is_enabled` = 1
+    </select>
+    <select id="selectAllAccessApiKeys" resultType="java.lang.String">
+        select a.`key` from admin_api a
+        inner join admin_permission_api b on b.`api_id` = a.`id`
+        inner join admin_permission c on c.`id` = b.`permission_id` and c.`is_enabled` = 1
+        where a.`is_enabled` = 1 and b.permission_id in
+        <foreach collection="permissionsId" item="permissionId" open="(" close=")" separator=",">
+            #{permissionId}
+        </foreach>
+    </select>
+    <select id="selectAllPermission" resultType="com.wei.admin.bo.PermissionsPageItem">
+        SELECT
+        ap.`id` permissionId, ap.`name` permissionName, ap.`type` permission, ap.`menu_id` menuId,
+        am.`name` menuName, am.`parent_id` menuPageId
+        FROM admin_permission ap
+        INNER JOIN admin_menu am ON am.`id` = ap.`menu_id` and am.`is_enabled` = 1
+        order by am.`sort` asc, am.`parent_id` asc, ap.`id` desc
+    </select>
+    <select id="selectAllPermissionIdsByRoleId" resultType="java.lang.Integer">
+        select arp.permission_id permissionId from admin_role_permission arp
+        inner join admin_permission ap on ap.id = arp.permission_id
+        where arp.`role_id` = #{roleId}
+        order by arp.`role_id` asc
+    </select>
+    <select id="selectAllPermissionIdsByCondition" resultType="java.lang.Integer">
+        select DISTINCT arp.permission_id permissionId from admin_users au
+        inner join admin_user_role aur on aur.admin_id = au.admin_id
+        inner join admin_role ar on ar.role_id = aur.role_id and ar.enabled = 1 and ar.game_id = #{gameId}
+        <choose>
+            <when test="roleId != null and roleId > 0">
+                and ar.role_id = #{roleId}
+            </when>
+        </choose>
+        inner join games g on g.game_id = ar.game_id and g.enabled = 1
+        inner join admin_role_permission arp on arp.role_id = aur.role_id
+        inner join admin_permission ap on ap.id = arp.permission_id
+        where au.admin_id = #{adminId}
+        order by arp.`permission_id` asc
+    </select>
+    <select id="findAdminPermissionDetailById" resultType="com.wei.admin.bo.PermissionDetail">
+        select a.`id`,a.`menu_id` menuId,b.`name` menuName,a.`key`,a.`name`, a.`type`,a.`describe`,a.`is_enabled`
+        enabled,a.`create_time` createTime,a.`modify_time` modifyTime
+        from admin_permission a
+        left join admin_menu b on b.`id` = a.`menu_id`
+        where a.`id` = #{id}
+    </select>
+    <select id="selectPermissionsList" resultType="com.wei.admin.bo.PermissionDetail">
+        select a.`id`,a.`menu_id` menuId,b.`name` menuName,a.`key`,a.`name`, a.`type`,a.`describe`,a.`is_enabled`
+        enabled,a.`create_time` createTime,a.`modify_time` modifyTime
+        from admin_permission a
+        left join admin_menu b on b.`id` = a.`menu_id`
+        where 1
+        <if test="key != null and key.length > 0">
+            and a.`key` like "%${key}%"
+        </if>
+        <if test="name != null and name.length > 0">
+            and a.`name` like "%${name}%"
+        </if>
+        <if test="type != null and type.length > 0">
+            and a.`type` = #{type}
+        </if>
+        <if test="enabled != null and enable > 0">
+            <if test="enabled == 1">
+                and a.`is_enabled` = 1
+            </if>
+            <if test="enabled == 2">
+                and a.`is_enabled` = 0
+            </if>
+        </if>
+        order by a.`menu_id` asc,a.`id` asc,a.`is_enabled` desc
+    </select>
+</mapper>

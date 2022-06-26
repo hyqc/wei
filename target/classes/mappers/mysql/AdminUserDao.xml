@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wei.admin.dao.mysql.AdminUserDao">
+    <insert id="registerAdminUser">
+        insert into admin_user (`username`, `nickname`, `password`, `create_time`, `modify_time`)
+        values (#{username},#{nickname},#{password},#{createTime}, #{modifyTime})
+    </insert>
+    <insert id="addAdminUser" parameterType="com.wei.admin.po.AdminUserPo">
+        <selectKey keyProperty="adminId" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as adminId
+        </selectKey>
+        insert into admin_user(`username`, `nickname`, `password`, `is_enabled`, `create_time`, `modify_time`)
+        values (#{username},#{nickname},#{password},#{enabled}, #{createTime},#{modifyTime})
+    </insert>
+    <insert id="addAdminUserRoles">
+        insert into admin_user_role (`admin_id`,`role_id`) values
+        <foreach collection="roleIds" item="roleId" separator=",">
+            (#{adminId},#{roleId})
+        </foreach>
+    </insert>
+    <update id="updatePassword">
+        update admin_user set password = #{password} where id = #{adminId}
+    </update>
+    <update id="updateAccountInfo">
+        update admin_user set modify_time = #{modifyTime}
+        <if test="nickname != null">
+            ,nickname = #{nickname}
+        </if>
+        <if test="avatar != null">
+            ,avatar = #{avatar}
+        </if>
+        where id = #{id}
+    </update>
+    <update id="updateLastLoginInfo">
+        update admin_user set `login_total` = `login_total`+1
+        <if test="lastLoginInfo!=null and lastLoginInfo.lastLoginTime!=null">
+            ,last_login_time = #{lastLoginInfo.lastLoginTime}
+        </if>
+        <if test="lastLoginInfo!=null and lastLoginInfo.lastLoginIp!=null">
+            ,last_login_ip = #{lastLoginInfo.lastLoginIp}
+        </if>
+        where username = #{username}
+    </update>
+    <update id="editAdminUser">
+        update admin_user set `modify_time` = #{modifyTime}
+        <if test="nickname != null">
+            , `nickname` = #{nickname}
+        </if>
+        <if test="password != null and password.length > 0">
+            , `password` = #{password}
+        </if>
+        <if test="enabled != null">
+            , `is_enabled` = #{enabled}
+        </if>
+        where `id` = #{id}
+    </update>
+    <update id="updateAdminUserIsEnabled">
+        update admin_user set `is_enabled` = #{enabled} where `id` = #{adminId} and `id` != 1
+    </update>
+    <select id="findAdminUserInfoByUsername" resultType="com.wei.admin.po.AdminUserPo">
+        select `id` ,`username`,`nickname`, `password`, `avatar`, `last_login_time` lastLoginTime,`login_total`
+        loginTotal, `last_login_ip` lastLoginIp,`email`,`is_enabled` enabled,`create_time`
+        createTime, `modify_time` modifyTime
+        from admin_user where `username`= #{username}
+    </select>
+    <select id="selectAdminUserList" resultType="com.wei.admin.po.AdminUserPo">
+        select `id`,`username`,`nickname`, `password`, `create_time` createTime, `modify_time` modifyTime,
+        `avatar`,`is_enabled` `enabled`,`last_login_time` lastLoginTime,`email` from admin_user
+        where 1
+        <if test="username != null and username.length > 0">
+            and `username` like "%${username}%"
+        </if>
+        <if test="nickname != null and nickname.length > 0">
+            and `nickname` like "%${nickname}%"
+        </if>
+        <if test="enabled != null">
+            <if test="enabled == true">
+                and `is_enabled` = 1
+            </if>
+            <if test="enabled == false">
+                and `is_enabled` = 0
+            </if>
+        </if>
+        order by `id` desc
+    </select>
+    <select id="findAdminUserDetailByAdminId" resultType="com.wei.admin.po.AdminUserPo">
+        select `id`,`username`,`nickname`, `password`, `create_time` createTime, `modify_time`
+        modifyTime, `avatar`,`is_enabled` `enabled`,`last_login_time` lastLoginTime,`email`
+        from admin_user where `id`= #{adminId}
+    </select>
+</mapper>

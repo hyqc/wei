@@ -1,0 +1,1678 @@
+{
+	"info": {
+		"_postman_id": "4f3622c9-ecda-4aaa-9989-7b9c9d859e16",
+		"name": "管理后台",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "个人中心",
+			"item": [
+				{
+					"name": "注册",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"wll\",\r\n    \"password\": \"123456\",\r\n    \"confirmPassword\": \"123456\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/account/register",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"account",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTU4MjA4NzY3NzAsImV4cCI6MTY1NjQyNTY3NiwidmVyc2lvbiI6Ils5OSwgNTIsIC05NSwgMTAzLCAtMTAwLCAzNiwgLTYzLCAtNTYsIDE0LCAxMCwgLTYzLCAxMDcsIC0yOCwgLTM5LCAtOTUsIC0yN10ifQ.Au0CoHeOXpiPLzTNkEFq7lswS90KRXmsNLmiYL3ck0LvsR47Sd3ZRHCSrOiobDAAmzY6qCtnwTAeOfdiuvN2Rg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"1234567\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/account/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"account",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "退出",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTU4MjA4NzY3NzAsImV4cCI6MTY1NjQyNTY3NiwidmVyc2lvbiI6Ils5OSwgNTIsIC05NSwgMTAzLCAtMTAwLCAzNiwgLTYzLCAtNTYsIDE0LCAxMCwgLTYzLCAxMDcsIC0yOCwgLTM5LCAtOTUsIC0yN10ifQ.Au0CoHeOXpiPLzTNkEFq7lswS90KRXmsNLmiYL3ck0LvsR47Sd3ZRHCSrOiobDAAmzY6qCtnwTAeOfdiuvN2Rg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"wlp\",\r\n    \"password\": \"123456\",\r\n    \"confirmPassword\": \"123456\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/account/logout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"account",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取我的详情",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjY0ODc1NzMsImV4cCI6MTY1NjgzMTI4NywidmVyc2lvbiI6Ils3NSwgMTIzLCAxMDgsIDYzLCAtMTAxLCAtNjYsIC0zLCA5NiwgNTUsIC00NywgMzMsIDEwMywgNDksIDM5LCAtNjIsIDEzXSJ9.Kg9RnokE1G6E4017ZIHkZetGC4ilKZ3yNZuN2F5mJiRGvH0O-h-vY_QxerB43RHaUrV8yLQTTOBdlAgRMiUjag",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/account/detail?refreshToken=true",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"account",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "refreshToken",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取我的菜单",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/account/menu",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"account",
+								"menu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取我的权限",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyNjA2ODg1NDksImV4cCI6MTY1Njg2NTQ4OCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.Ufy7LLZ5cj4xH0hzP7VmKRQoxkEfOEVkzCRIyQTWTqAvVfQL9F3E1YRvoERPAwUmJDJ0JT7VPjXvyjOvXc97Rw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/account/permission",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"account",
+								"permission"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "更新用户信息",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYwMDAwNDYxNzcsImV4cCI6MTY1NjYwNDg0NiwidmVyc2lvbiI6Ils3NSwgMTIzLCAxMDgsIDYzLCAtMTAxLCAtNjYsIC0zLCA5NiwgNTUsIC00NywgMzMsIDEwMywgNDksIDM5LCAtNjIsIDEzXSJ9.sIKeD494Z8kPzW2mlbmrZTT-i0ZKN-UL84LkW3obiCXdMN6eTt0wCNzP-wygoH1eMW2m2DcxjC--nZFbKTTtGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nickname\": \"admin-test\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/account/edit",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"account",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "更新用户密码",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYwMDAwNDYxNzcsImV4cCI6MTY1NjYwNDg0NiwidmVyc2lvbiI6Ils3NSwgMTIzLCAxMDgsIDYzLCAtMTAxLCAtNjYsIC0zLCA5NiwgNTUsIC00NywgMzMsIDEwMywgNDksIDM5LCAtNjIsIDEzXSJ9.sIKeD494Z8kPzW2mlbmrZTT-i0ZKN-UL84LkW3obiCXdMN6eTt0wCNzP-wygoH1eMW2m2DcxjC--nZFbKTTtGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"confirmPassword\": \"123456\",\r\n  \"newPassword\": \"123456\",\r\n  \"oldPassword\": \"1234567\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/account/updatePassword",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"account",
+								"updatePassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "账号管理",
+			"item": [
+				{
+					"name": "管理员列表",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYwMDAwNDYxNzcsImV4cCI6MTY1NjYwNDg0NiwidmVyc2lvbiI6Ils3NSwgMTIzLCAxMDgsIDYzLCAtMTAxLCAtNjYsIC0zLCA5NiwgNTUsIC00NywgMzMsIDEwMywgNDksIDM5LCAtNjIsIDEzXSJ9.sIKeD494Z8kPzW2mlbmrZTT-i0ZKN-UL84LkW3obiCXdMN6eTt0wCNzP-wygoH1eMW2m2DcxjC--nZFbKTTtGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pageSize\": 1\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/user/list",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"user",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "管理员添加角色",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYwMDAwNDYxNzcsImV4cCI6MTY1NjYwNDg0NiwidmVyc2lvbiI6Ils3NSwgMTIzLCAxMDgsIDYzLCAtMTAxLCAtNjYsIC0zLCA5NiwgNTUsIC00NywgMzMsIDEwMywgNDksIDM5LCAtNjIsIDEzXSJ9.sIKeD494Z8kPzW2mlbmrZTT-i0ZKN-UL84LkW3obiCXdMN6eTt0wCNzP-wygoH1eMW2m2DcxjC--nZFbKTTtGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"adminId\": 2,\r\n    \"roleIds\": [2,5]\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/user/assign",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"user",
+								"assign"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "管理员角色列表",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYwMDAwNDYxNzcsImV4cCI6MTY1NjYwNDg0NiwidmVyc2lvbiI6Ils3NSwgMTIzLCAxMDgsIDYzLCAtMTAxLCAtNjYsIC0zLCA5NiwgNTUsIC00NywgMzMsIDEwMywgNDksIDM5LCAtNjIsIDEzXSJ9.sIKeD494Z8kPzW2mlbmrZTT-i0ZKN-UL84LkW3obiCXdMN6eTt0wCNzP-wygoH1eMW2m2DcxjC--nZFbKTTtGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"adminId\": 2\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/user/role",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"user",
+								"role"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "角色管理",
+			"item": [
+				{
+					"name": "角色列表",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYwMDAwNDYxNzcsImV4cCI6MTY1NjYwNDg0NiwidmVyc2lvbiI6Ils3NSwgMTIzLCAxMDgsIDYzLCAtMTAxLCAtNjYsIC0zLCA5NiwgNTUsIC00NywgMzMsIDEwMywgNDksIDM5LCAtNjIsIDEzXSJ9.sIKeD494Z8kPzW2mlbmrZTT-i0ZKN-UL84LkW3obiCXdMN6eTt0wCNzP-wygoH1eMW2m2DcxjC--nZFbKTTtGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/role/list",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"role",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "创建角色",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYwMDAwNDYxNzcsImV4cCI6MTY1NjYwNDg0NiwidmVyc2lvbiI6Ils3NSwgMTIzLCAxMDgsIDYzLCAtMTAxLCAtNjYsIC0zLCA5NiwgNTUsIC00NywgMzMsIDEwMywgNDksIDM5LCAtNjIsIDEzXSJ9.sIKeD494Z8kPzW2mlbmrZTT-i0ZKN-UL84LkW3obiCXdMN6eTt0wCNzP-wygoH1eMW2m2DcxjC--nZFbKTTtGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"describe\": \"测试\",\r\n  \"enabled\": true,\r\n  \"name\": \"测试\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/role/add",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"role",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "角色详情",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYwMDAwNDYxNzcsImV4cCI6MTY1NjYwNDg0NiwidmVyc2lvbiI6Ils3NSwgMTIzLCAxMDgsIDYzLCAtMTAxLCAtNjYsIC0zLCA5NiwgNTUsIC00NywgMzMsIDEwMywgNDksIDM5LCAtNjIsIDEzXSJ9.sIKeD494Z8kPzW2mlbmrZTT-i0ZKN-UL84LkW3obiCXdMN6eTt0wCNzP-wygoH1eMW2m2DcxjC--nZFbKTTtGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"roleId\": 2\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/role/detail",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"role",
+								"detail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "编辑角色",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYwMDAwNDYxNzcsImV4cCI6MTY1NjYwNDg0NiwidmVyc2lvbiI6Ils3NSwgMTIzLCAxMDgsIDYzLCAtMTAxLCAtNjYsIC0zLCA5NiwgNTUsIC00NywgMzMsIDEwMywgNDksIDM5LCAtNjIsIDEzXSJ9.sIKeD494Z8kPzW2mlbmrZTT-i0ZKN-UL84LkW3obiCXdMN6eTt0wCNzP-wygoH1eMW2m2DcxjC--nZFbKTTtGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"describe\": \"测试\",\r\n  \"enabled\": true,\r\n  \"name\": \"测试\",\r\n  \"roleId\": 5\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/role/edit",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"role",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "启用禁用角色",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYwMDAwNDYxNzcsImV4cCI6MTY1NjYwNDg0NiwidmVyc2lvbiI6Ils3NSwgMTIzLCAxMDgsIDYzLCAtMTAxLCAtNjYsIC0zLCA5NiwgNTUsIC00NywgMzMsIDEwMywgNDksIDM5LCAtNjIsIDEzXSJ9.sIKeD494Z8kPzW2mlbmrZTT-i0ZKN-UL84LkW3obiCXdMN6eTt0wCNzP-wygoH1eMW2m2DcxjC--nZFbKTTtGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"enabled\": false,\r\n  \"roleId\": 5\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/role/enabled",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"role",
+								"enabled"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "角色分配权限",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYwMDAwNDYxNzcsImV4cCI6MTY1NjYwNDg0NiwidmVyc2lvbiI6Ils3NSwgMTIzLCAxMDgsIDYzLCAtMTAxLCAtNjYsIC0zLCA5NiwgNTUsIC00NywgMzMsIDEwMywgNDksIDM5LCAtNjIsIDEzXSJ9.sIKeD494Z8kPzW2mlbmrZTT-i0ZKN-UL84LkW3obiCXdMN6eTt0wCNzP-wygoH1eMW2m2DcxjC--nZFbKTTtGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"roleId\": 5,\r\n  \"permissionIds\": [1,2,3,4,5]\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/role/assign",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"role",
+								"assign"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "角色权限列表",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYwMDAwNDYxNzcsImV4cCI6MTY1NjYwNDg0NiwidmVyc2lvbiI6Ils3NSwgMTIzLCAxMDgsIDYzLCAtMTAxLCAtNjYsIC0zLCA5NiwgNTUsIC00NywgMzMsIDEwMywgNDksIDM5LCAtNjIsIDEzXSJ9.sIKeD494Z8kPzW2mlbmrZTT-i0ZKN-UL84LkW3obiCXdMN6eTt0wCNzP-wygoH1eMW2m2DcxjC--nZFbKTTtGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"roleId\": 5\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8888/admin/role/permission",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8888",
+							"path": [
+								"admin",
+								"role",
+								"permission"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "系统配置",
+			"item": [
+				{
+					"name": "接口管理",
+					"item": [
+						{
+							"name": "接口列表",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"列表\"\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/api/list",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"api",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "添加接口",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"path\": \"/admin/api/adds\",\r\n    \"key\": \"adminApi::adds\",\r\n    \"name\": \"接口添加s\"\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/api/add",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"api",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "接口详情",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/api/detail",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"api",
+										"detail"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "接口编辑",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 34,\r\n    \"path\": \"/admin/api/edit\",\r\n    \"key\": \"adminApi::edit\",\r\n    \"name\": \"接口编辑\",\r\n    \"describe\": \"接口编辑\",\r\n    \"enable\": true\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/api/edit",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"api",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "启用禁用接口",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"enabled\": true,\r\n  \"id\": 34\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/api/enable",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"api",
+										"enable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "删除接口",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 48\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/api/delete",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"api",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "菜单管理",
+					"item": [
+						{
+							"name": "菜单列表",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/menu/list",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"menu",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "菜单树全部",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/menu/tree",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"menu",
+										"tree"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "添加菜单",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"parentId\": 1,\r\n    \"path\": \"/admin/menu\",\r\n    \"name\": \"菜单管理\",\r\n    \"key\": \"adminMenu\",\r\n    \"describe\": \"菜单列表\",\r\n    \"icon\": \"\",\r\n    \"sort\": 0,\r\n    \"redirect\": \"/\",\r\n    \"hidden\": false,\r\n    \"hideChildrenInMenu\": true,\r\n    \"enabled\": true\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/menu/add",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"menu",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "菜单详情",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/menu/detail",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"menu",
+										"detail"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "编辑菜单",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 2,\r\n    \"parentId\": 1,\r\n    \"path\": \"/admin/menu\",\r\n    \"name\": \"菜单管理\",\r\n    \"key\": \"adminMenu\",\r\n    \"describe\": \"菜单列表\",\r\n    \"icon\": \"\",\r\n    \"sort\": 0,\r\n    \"redirect\": \"/\",\r\n    \"hidden\": false,\r\n    \"hideChildrenInMenu\": true,\r\n    \"enabled\": true\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/menu/edit",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"menu",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "禁用启用菜单",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 2,\r\n    \"enabled\": true\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/menu/enable",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"menu",
+										"enable"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "权限管理",
+					"item": [
+						{
+							"name": "权限列表",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/permission/list",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"permission",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "添加权限",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"menuId\": 2,\r\n    \"key\": \"AdminMenuEdit\",\r\n    \"name\": \"菜单编辑\",\r\n    \"type\": \"edit\",\r\n    \"describe\": \"菜单编辑\",\r\n    \"enabled\": true\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/permission/add",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"permission",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "权限详情",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/permission/detail",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"permission",
+										"detail"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "权限编辑",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"menuId\": 2,\r\n    \"key\": \"AdminMenuList\",\r\n    \"name\": \"菜单列表\",\r\n    \"operateGroup\": \"read\",\r\n    \"type\": 1,\r\n    \"describe\": \"菜单列表\",\r\n    \"enabled\": true\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/permission/edit",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"permission",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "启用禁用权限",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"enabled\": true\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/permission/enable",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"permission",
+										"enable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "删除权限",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"enabled\": true\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/permission/delete",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"permission",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "权限绑定接口资源",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE2NTYyMjc5MzAxNTcsImV4cCI6MTY1NjgzMjczMCwidmVyc2lvbiI6IlstMzcsIC00MywgNDAsIC0xOSwgLTEwLCA4OSwgMTQsIC0yNSwgNDksIC04LCA3NiwgLTI5LCAxMTYsIDEwMiwgLTc0LCAxNV0ifQ.nzHyu2lhzYBASwMVWb8u1aXDxdArwKX7yC13HKC6DTJR9QKHQXEqxqom1_4U8u4RLmlyqoaHzT9jBvHPOE28yA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"permissionId\": 1,\r\n    \"apiIds\": [50]\r\n}"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8888/admin/permission/bind",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8888",
+									"path": [
+										"admin",
+										"permission",
+										"bind"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
