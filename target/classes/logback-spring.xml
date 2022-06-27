@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration  scan="true" scanPeriod="60 seconds" debug="false">
+    <springProperty scope="context" name="profiles" source="spring.profiles.active"/>
+    <contextName>wei</contextName>
+
+    <!--输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName ${PID} [%thread] %-5level %logger{36} %L - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--输出到文件-->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/logback.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <totalSizeCap >250MB</totalSizeCap >
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName ${PID} [%thread] %-5level %logger{36} %L - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="file"/>
+        <appender-ref ref="console" />
+    </root>
+
+    <logger name="com.wei.admin.dao.mysql" level="debug"/>
+</configuration>

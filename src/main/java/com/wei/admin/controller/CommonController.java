@@ -19,7 +19,7 @@ import java.util.Map;
 @Api(tags = "公共配置方法")
 @Validated
 @RestController
-@RequestMapping(value = "/admin/base")
+@RequestMapping(value = "/admin/common")
 public class CommonController extends BaseController {
 
     @Autowired

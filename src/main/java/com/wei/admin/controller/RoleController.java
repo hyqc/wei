@@ -58,10 +58,10 @@ public class RoleController extends BaseController {
 
 
     @ApiOperation("更新角色启用状态")
-    @PostMapping("/enabled")
-    @PreAuthorize("hasAuthority('adminRole::enabled')")
+    @PostMapping("/enable")
+    @PreAuthorize("hasAuthority('adminRole::enable')")
     @ResponseBody
-    public Result enabled(@Valid @RequestBody RoleUpdateIsEnabledParams params) {
+    public Result enable(@Valid @RequestBody RoleUpdateIsEnabledParams params) {
         return roleService.updateAdminRoleIsEnabled(params);
     }
 

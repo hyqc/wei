@@ -59,7 +59,7 @@ public class UserController extends BaseController {
     @PreAuthorize("hasAuthority('adminUser::enable')")
     @ResponseBody
     public Result enable(@Valid @RequestBody UserUpdateEnabledParams params) {
-        return userService.updateAdminUserIsEnabled(params);
+        return userService.enableAdminUser(params);
     }
 
     @ApiOperation("账号的角色列表")
@@ -71,10 +71,10 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation("账号添加角色")
-    @PostMapping("/assign")
-    @PreAuthorize("hasAuthority('adminUser::assign')")
+    @PostMapping("/bind")
+    @PreAuthorize("hasAuthority('adminUser::bind')")
     @ResponseBody
-    public Result assign(@Valid @RequestBody UserAssignParams params) {
+    public Result bind(@Valid @RequestBody UserAssignParams params) {
         return userService.assignAdminUserRoles(params);
     }
 }
