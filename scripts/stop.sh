@@ -1,2 +1,2 @@
 #!/bin/bash
-pkill -9 -f 'demo-.*.jar'
+pkill -9 -f 'wei-.*.jar'

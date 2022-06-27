@@ -44,8 +44,8 @@ public class Swagger2Config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("管理后台-Demo")
-                .description("管理后台-Demo")
+                .title("管理后台-wei")
+                .description("管理后台-wei")
                 .version("0.1")
                 .build();
     }

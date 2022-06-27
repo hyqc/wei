@@ -5,7 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.wei</groupId>
-    <artifactId>demo</artifactId>
+    <packaging>pom</packaging>
+    <artifactId>wei</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
 
@@ -71,7 +72,7 @@
         <!--集成druid连接池-->
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
+            <artifactId>druid</artifactId>
             <version>${druid.version}</version>
         </dependency>
         <dependency>
@@ -148,7 +149,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.72</version>
+            <version>2.0.7</version>
         </dependency>
     </dependencies>
 
