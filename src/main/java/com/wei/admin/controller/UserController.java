@@ -33,7 +33,6 @@ public class UserController extends BaseController {
     @ApiOperation("账号详情")
     @PostMapping("/detail")
     @PreAuthorize("hasAuthority('adminUser::detail')")
-    @ResponseBody
     public Result detail(@Valid @RequestBody UserDetailParams params) {
         return userService.getAdminUserDetail(params);
     }
@@ -41,7 +40,6 @@ public class UserController extends BaseController {
     @ApiOperation("添加账号")
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('adminUser::add')")
-    @ResponseBody
     public Result add(@Valid @RequestBody UserAddParams params) {
         return userService.addAdminUser(params);
     }
@@ -49,7 +47,6 @@ public class UserController extends BaseController {
     @ApiOperation("账号编辑")
     @PostMapping("/edit")
     @PreAuthorize("hasAuthority('adminUser::edit')")
-    @ResponseBody
     public Result edit(@Valid @RequestBody UserEditParams params) {
         return userService.editAdminUser(params);
     }
@@ -57,7 +54,6 @@ public class UserController extends BaseController {
     @ApiOperation("账号状态更改")
     @PostMapping("/enable")
     @PreAuthorize("hasAuthority('adminUser::enable')")
-    @ResponseBody
     public Result enable(@Valid @RequestBody UserUpdateEnabledParams params) {
         return userService.enableAdminUser(params);
     }
@@ -65,7 +61,6 @@ public class UserController extends BaseController {
     @ApiOperation("账号的角色列表")
     @PostMapping("/role")
     @PreAuthorize("hasAuthority('adminUser::role')")
-    @ResponseBody
     public Result role(@Valid @RequestBody UserRoleDetailParams params) {
         return userService.selectAdminUserRoles(params);
     }
@@ -73,7 +68,6 @@ public class UserController extends BaseController {
     @ApiOperation("账号添加角色")
     @PostMapping("/bind")
     @PreAuthorize("hasAuthority('adminUser::bind')")
-    @ResponseBody
     public Result bind(@Valid @RequestBody UserAssignParams params) {
         return userService.assignAdminUserRoles(params);
     }
