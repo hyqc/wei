@@ -5,7 +5,7 @@ After=syslog.target network.target
 [Service]
 Type=forking
 Restart=always
-ExecStart=/bin/sh -c /data/wei/start.sh
+ExecStart=/data/server/api/wei/start.sh
 
 [Install]
 WantedBy=multi-user.target
