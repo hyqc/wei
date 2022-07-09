@@ -9,10 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author wlp
  * @date 2022/6/24
  **/
-@Api(tags = "管理后台接口")
-@Validated
-@RestController
-@RequestMapping(value = "/admin")
 public class BaseController {
 
 }

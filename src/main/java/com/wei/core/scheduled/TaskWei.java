@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class TaskDemo {
+public class TaskWei {
 
     /**
      * 秒 分 时 日 月 周
      */
     @Scheduled(cron = "0 */10 * * * *")
-    public void demo() {
+    public void wei() {
     }
 }

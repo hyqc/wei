@@ -441,7 +441,7 @@ public class UserService implements UserDetailsService {
     }
 
     @LogExecutionTime
-    public Result updateAdminUserIsEnabled(UserUpdateEnabledParams params) {
+    public Result enableAdminUser(UserUpdateEnabledParams params) {
         adminUserDao.updateAdminUserIsEnabled(params.getAdminId(), params.getEnabled());
         String msg = params.getEnabled() ? "锁定成功" : "解锁成功";
         return Result.success(msg);

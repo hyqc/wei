@@ -1,3 +1,9 @@
+application-prod.yml
+application-test.yml
+wei
+wei/
+target
+target/
 # Compiled class file
 *.class
 

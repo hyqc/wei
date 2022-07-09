@@ -34,7 +34,7 @@ public class JwtTokenUtil {
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
     private static final String CLAIM_KEY_VERSION = "version";
-    private static final String PASSWORD_SUFFIX = "demo-password-suffix";
+    private static final String PASSWORD_SUFFIX = "wei-password-suffix";
     @Value("${jwt.secret}")
     private String secret;
     @Value("${jwt.expiration}")
