@@ -6,7 +6,7 @@ server:
       enabled: true
 spring:
   profiles:
-    active: prod #默认为开发环境
+    active: dev #默认为开发环境
   servlet:
     multipart:
       enabled: true

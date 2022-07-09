@@ -23,56 +23,48 @@ public class AccountController extends BaseController {
 
     @ApiOperation("注册")
     @PostMapping("/register")
-    @ResponseBody
     public Result register(@Valid @RequestBody AccountRegisterParams params) {
         return userService.register(params);
     }
 
     @ApiOperation("登录")
     @PostMapping("/login")
-    @ResponseBody
     public Result login(@Valid @RequestBody AccountLoginParams params, HttpServletRequest request) {
         return userService.login(params, request);
     }
 
     @ApiOperation("登出")
     @PostMapping("/logout")
-    @ResponseBody
     public Result logout() {
         return Result.success();
     }
 
     @ApiOperation("个人中心详情")
     @PostMapping("/detail")
-    @ResponseBody
     public Result detail(@RequestParam(value = "refreshToken", defaultValue = "false", required = false) Boolean refreshToken) {
         return userService.getAccountDetail(refreshToken);
     }
 
     @ApiOperation("修改信息")
     @PostMapping("/edit")
-    @ResponseBody
     public Result edit(@Valid @RequestBody AccountEditParams params) {
         return userService.editAccountDetail(params);
     }
 
     @ApiOperation("修改密码")
     @PostMapping("/updatePassword")
-    @ResponseBody
     public Result updatePassword(@Valid @RequestBody AccountPasswordEditParams params) {
         return userService.updateAccountPassword(params);
     }
 
     @ApiOperation("菜单")
     @PostMapping("/menu")
-    @ResponseBody
     public Result menu() {
         return userService.getAccountMenus();
     }
 
     @ApiOperation("个人权限")
     @PostMapping("/permission")
-    @ResponseBody
     public Result permission(@Valid @RequestBody AccountPermissionParams params) {
         return userService.getAccountPermission(params);
     }

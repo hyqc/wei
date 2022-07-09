@@ -27,7 +27,6 @@ public class CommonController extends BaseController {
 
     @ApiOperation(value = "上传")
     @PostMapping(value = "/upload")
-    @ResponseBody
     public Result upload(@Valid CommonUploadFileParam param, @RequestParam("file") MultipartFile multipartFile) {
         Map<String, Object> data = commonService.upload(param, multipartFile);
         return Result.success(data);
