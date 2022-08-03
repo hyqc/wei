@@ -186,6 +186,9 @@ public class UserService implements UserDetailsService {
     @LogExecutionTime
     public Result login(AccountLoginParams params, HttpServletRequest request) {
         AdminUserPo adminUserPo = adminUserDao.findAdminUserInfoByUsername(params.getUsername());
+        if (adminUserPo == null){
+            return Result.accountOrPasswordError();
+        }
         if (!checkLoginPassword(params.getPassword(), adminUserPo.getPassword())) {
             return Result.accountOrPasswordError();
         }
@@ -249,9 +252,9 @@ public class UserService implements UserDetailsService {
         // 头像
         UploadConfig.UploadFieldItem uploadFieldItem = uploadConfig.getAvatar();
         accountInfoItem.setAvatar(storeConfig.getPresignedObjectUrl(uploadFieldItem, accountInfoItem.getAvatar()));
-        List<MenuItem> menus = getMyMenus();
-        List<AccountPermissionItem> permissions = getMyPermissions(0);
+        Map<String, MenuItem> menus = getMyMenus().stream().collect(Collectors.toMap(AdminMenuPo::getKey, item -> item));
         accountInfoItem.setMenus(menus);
+        Map<String, String> permissions = getMyPermissions(0).stream().collect(Collectors.toMap(AccountPermissionItem::getKey, AccountPermissionItem::getName));
         accountInfoItem.setPermissions(permissions);
         if (refreshToken) {
             String token = jwtTokenUtil.generateToken(userDetails);
@@ -317,7 +320,7 @@ public class UserService implements UserDetailsService {
         Map<Integer, List<MenuItem>> menusMap = adminPermissionDao.selectAllValidMenus()
                 .stream()
                 .collect(Collectors.groupingBy(AdminMenuPo::getParentId));
-        return TreeUtil.menuTree(menusMap, menuIds, 0, 0, 4);
+        return TreeUtil.menuList(menusMap, menuIds, 0, 0);
     }
 
     @LogExecutionTime

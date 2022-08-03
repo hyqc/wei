@@ -40,8 +40,29 @@ public class TreeUtil {
         }).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
+    public static List<MenuItem> menuList(Map<Integer, List<MenuItem>> menusMap, Set<Integer> menusIds,
+                                          Integer parentId, Integer level) {
+        if (!menusMap.containsKey(parentId)) {
+            return new ArrayList<>();
+        }
+        List<MenuItem> list = new ArrayList<>();
+        menusMap.get(parentId).forEach(item -> {
+            if (menusIds == null || menusIds.contains(item.getId())) {
+                item.setChildren(null);
+                item.setLevel(level);
+                list.add(item);
+                List<MenuItem> childrenList = menuList(menusMap, menusIds, item.getId(), level + 1);
+                if (childrenList.size() > 0) {
+                    list.addAll(childrenList);
+                }
+            }
+        });
+        return list;
+    }
+
     /**
      * 根据子菜单ID获取全部的祖先菜单
+     *
      * @param menuItems
      * @param childrenId
      * @return

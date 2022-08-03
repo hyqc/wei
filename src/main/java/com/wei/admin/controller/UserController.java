@@ -24,7 +24,7 @@ public class UserController extends BaseController {
 
     @ApiOperation("账号列表")
     @PostMapping("/list")
-    @PreAuthorize("hasAuthority('adminUser::list')")
+    // @PreAuthorize("hasAuthority('adminUser::list')")
     public Result list(@Valid @RequestBody UserListParams params) {
         params.handleListParams();
         return userService.selectAdminUserList(params);
@@ -32,7 +32,7 @@ public class UserController extends BaseController {
 
     @ApiOperation("账号详情")
     @PostMapping("/detail")
-    @PreAuthorize("hasAuthority('adminUser::detail')")
+    // @PreAuthorize("hasAuthority('adminUser::detail')")
     public Result detail(@Valid @RequestBody UserDetailParams params) {
         return userService.getAdminUserDetail(params);
     }

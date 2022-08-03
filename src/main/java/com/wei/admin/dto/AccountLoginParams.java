@@ -16,9 +16,9 @@ import javax.validation.constraints.Pattern;
 @Data
 @ApiModel("AccountLoginParams")
 public class AccountLoginParams {
-    @ApiParam(value = "管理员名称", required = true)
-    @NotNull(message = "管理员名称不能为空")
-    @NotBlank(message = "管理员名称不能为空")
+    @ApiParam(value = "账号", required = true)
+    @NotNull(message = "账号不能为空")
+    @NotBlank(message = "账号不能为空")
     @Pattern(regexp = PatternConstant.ADMIN_USERNAME, message = PatternConstant.ADMIN_USERNAME_MESSAGE)
     private String username;
 
