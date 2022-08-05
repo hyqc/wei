@@ -279,6 +279,7 @@ public class UserService implements UserDetailsService {
 
         adminUserPo.setNickname(params.getNickname());
         adminUserPo.setAvatar(params.getAvatar());
+        adminUserPo.setEmail(params.getEmail());
         adminUserPo.setModifyTime(LocalDateTime.now());
         adminUserDao.updateAccountInfo(adminUserPo);
         return Result.success("保存成功");

@@ -29,6 +29,9 @@
         <if test="avatar != null">
             ,avatar = #{avatar}
         </if>
+        <if test="email != null">
+            ,email = #{email}
+        </if>
         where id = #{id}
     </update>
     <update id="updateLastLoginInfo">

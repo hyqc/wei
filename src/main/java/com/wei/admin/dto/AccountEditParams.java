@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -24,4 +25,8 @@ public class AccountEditParams {
     @URL(message = "无效链接地址")
     @ApiParam(value = "头像", required = false)
     private String avatar;
+
+    @Email(message = "无效邮箱地址")
+    @ApiParam(value = "邮箱", required = false)
+    private String email;
 }

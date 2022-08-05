@@ -40,7 +40,7 @@ public class AccountController extends BaseController {
     }
 
     @ApiOperation("个人中心详情")
-    @PostMapping("/detail")
+    @GetMapping("/detail")
     public Result detail(@RequestParam(value = "refreshToken", defaultValue = "false", required = false) Boolean refreshToken) {
         return userService.getAccountDetail(refreshToken);
     }
@@ -52,8 +52,8 @@ public class AccountController extends BaseController {
     }
 
     @ApiOperation("修改密码")
-    @PostMapping("/updatePassword")
-    public Result updatePassword(@Valid @RequestBody AccountPasswordEditParams params) {
+    @PostMapping("/password")
+    public Result password(@Valid @RequestBody AccountPasswordEditParams params) {
         return userService.updateAccountPassword(params);
     }
 
