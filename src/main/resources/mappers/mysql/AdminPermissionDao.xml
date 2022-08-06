@@ -137,6 +137,9 @@
         from admin_permission a
         left join admin_menu b on b.`id` = a.`menu_id`
         where 1
+        <if test="menuId != null and menuId > 0">
+            and a.`menu_id` = #{menuId}
+        </if>
         <if test="key != null and key.length > 0">
             and a.`key` like "%${key}%"
         </if>

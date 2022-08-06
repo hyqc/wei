@@ -1,8 +1,10 @@
 package com.wei.admin.dto;
 
 import com.wei.constant.PatternConstant;
+import com.wei.validator.PermissionTypeValidator;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Pattern;
 
@@ -22,6 +24,10 @@ public class PermissionListParams extends BaseListParams {
     private String name;
 
     @ApiParam("权限类型")
-    @Pattern(regexp = PatternConstant.PERMISSION_TYPE, message = PatternConstant.PERMISSION_TYPE_MESSAGE)
+    @PermissionTypeValidator(includeAll = true)
     private String type;
+
+    @ApiParam("菜单ID")
+    @Range(min = 1, message = "无效菜单ID")
+    private Integer menuId;
 }

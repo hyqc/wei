@@ -1,6 +1,7 @@
 package com.wei.admin.dto;
 
 import com.wei.constant.PatternConstant;
+import com.wei.validator.PermissionTypeValidator;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
@@ -44,7 +45,7 @@ public class PermissionEditParams {
 
     @ApiParam("权限类型")
     @NotNull(message = "权限类型不能为空")
-    @Pattern(regexp = PatternConstant.PERMISSION_TYPE, message = PatternConstant.PERMISSION_TYPE_MESSAGE)
+    @PermissionTypeValidator(includeAll = false)
     private String type;
 
     @ApiParam("启用状态")
