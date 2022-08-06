@@ -118,4 +118,10 @@ public class ApiService extends BaseService {
         adminApiDao.deleteAdminApi(params.getId());
         return Result.success("删除成功");
     }
+
+    @LogExecutionTime
+    public Result selectAdminApiAll() {
+        List<AdminApiPo> all = adminApiDao.selectAdminApiAll();
+        return Result.success(all);
+    }
 }

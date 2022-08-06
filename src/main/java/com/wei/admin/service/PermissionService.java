@@ -4,6 +4,7 @@ import com.wei.admin.bo.PermissionDetail;
 import com.wei.admin.dao.mysql.AdminApiDao;
 import com.wei.admin.dao.mysql.AdminPermissionDao;
 import com.wei.admin.dto.*;
+import com.wei.admin.pe.AdminPermissionTypeEnum;
 import com.wei.admin.po.AdminApiPo;
 import com.wei.admin.po.AdminPermissionPo;
 import com.wei.common.Pager;
@@ -147,5 +148,37 @@ public class PermissionService extends BaseService {
             throw new BusinessException("绑定接口资源失败");
         }
         return Result.success("绑定接口资源成功");
+    }
+
+    @LogExecutionTime
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
+    public Result bindAdminPermissionsMenu(PermissionBindMenuParams params) {
+        LocalDateTime now = LocalDateTime.now();
+        params.getPermissions().forEach(item -> {
+            item.setEnabled(item.getEnabled() != null && item.getEnabled());
+            item.setMenuId(params.getMenuId());
+            item.setCreateTime(now);
+            if (item.getKey() == null || "".equals(item.getKey())) {
+                throw new BusinessException("权限键名不能为空");
+            }
+            if (item.getName() == null || "".equals(item.getName())) {
+                throw new BusinessException("权限名称不能为空");
+            }
+            if (AdminPermissionTypeEnum.getByValue(item.getType()) == null) {
+                throw new BusinessException("权限类型错误");
+            }
+        });
+        try {
+            adminPermissionDao.batchAddMenuPermissions(params.getPermissions());
+        } catch (DuplicateKeyException e) {
+            if (e.getMessage().contains("uk_key")) {
+                return Result.failed("权限键名已存在");
+            }
+            if (e.getMessage().contains("uk_permission")) {
+                return Result.failed("改菜单下已存在相同类型权限");
+            }
+            throw e;
+        }
+        return Result.success();
     }
 }

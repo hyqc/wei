@@ -27,9 +27,11 @@ public class TreeUtil {
         }
         return menusMap.get(parentId).stream().map(menuItem -> {
             menuItem.setLevel(level);
+            menuItem.setChildren(null);
             Integer next = level + 1;
             if (next <= maxDeep) {
-                menuItem.setChildren(menuTree(menusMap, menusIds, menuItem.getId(), next, maxDeep));
+                List<MenuItem> children = menuTree(menusMap, menusIds, menuItem.getId(), next, maxDeep);
+                menuItem.setChildren(children.size() > 0 ? children : null);
             }
             if (menusIds != null && menuItem.getChildren().size() == 0
                     && !menusIds.contains(parentId)

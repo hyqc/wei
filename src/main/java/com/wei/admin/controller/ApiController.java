@@ -29,10 +29,17 @@ public class ApiController {
         return apiService.selectAdminApiList(params);
     }
 
+    @ApiOperation("全部接口列表")
+    @PostMapping("/all")
+    // @PreAuthorize("hasAuthority('adminApi::all')")
+    public Result all() {
+        return apiService.selectAdminApiAll();
+    }
+
     @ApiOperation("接口添加")
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('adminApi::add')")
-    public Result list(@Valid @RequestBody ApiAddParams params) {
+    public Result add(@Valid @RequestBody ApiAddParams params) {
         return apiService.addAdminApi(params);
     }
 

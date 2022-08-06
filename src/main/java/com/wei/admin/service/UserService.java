@@ -322,7 +322,7 @@ public class UserService implements UserDetailsService {
         Map<Integer, List<MenuItem>> menusMap = adminPermissionDao.selectAllValidMenus()
                 .stream()
                 .collect(Collectors.groupingBy(AdminMenuPo::getParentId));
-        return TreeUtil.menuList(menusMap, menuIds, 0, 0);
+        return TreeUtil.menuList(menusMap, menuIds, 0, 1);
     }
 
     @LogExecutionTime

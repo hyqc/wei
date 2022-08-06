@@ -81,8 +81,17 @@
     </select>
     <select id="findAdminMenuById" resultType="com.wei.admin.po.AdminMenuPo">
         select `id`,`key`,`name`,`sort`,`parent_id` parentId,`describe`,`path`,`redirect`,`component`,
-        `is_hide_children_in_menu` hideChildrenInMenu, `icon`,`is_hide_in_menu` hideInMenu,`is_enabled` enabled,`create_time`
+        `is_hide_children_in_menu` hideChildrenInMenu, `icon`,`is_hide_in_menu` hideInMenu,`is_enabled`
+        enabled,`create_time`
         createTime,`modify_time` modifyTime
         from admin_menu where `id` = #{menuId}
+    </select>
+    <select id="selectAllAdminPageMenus" resultType="com.wei.admin.bo.MenuItem">
+        select distinct a.`id`,a.`key`,a.`name`,a.`sort`,a.`parent_id` parentId,a.`describe`,a.`path`,a.`redirect`,a.`component`,
+        a.`is_hide_children_in_menu` hideChildrenInMenu, a.`icon`,a.`is_hide_in_menu` hideInMenu,a.`is_enabled`
+        enabled,a.`create_time` createTime,a.`modify_time` modifyTime
+        from admin_permission b
+        inner join admin_menu a on a.id = b.menu_id
+        where a.`is_enabled` = 1 and a.`is_hide_in_menu` = 0
     </select>
 </mapper>

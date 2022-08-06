@@ -13,6 +13,24 @@
             (#{permissionId},#{apiId})
         </foreach>
     </insert>
+    <insert id="batchAddMenuPermissions">
+        insert into admin_permission (`menu_id`,`key`,`name`,`type`,`describe`,`is_enabled`,`create_time`,`modify_time`)
+        values
+        <foreach collection="permissions" item="item" separator="," >
+            (#{item.menuId},#{item.key},#{item.name},#{item.type},#{item.describe},#{item.enabled},#{item.createTime},#{item.createTime})
+        </foreach>
+        on duplicate key update
+        `name` = case `key`
+        <foreach collection="permissions" item="item" >
+            when #{item.key} then #{item.name}
+        </foreach>
+        else `name` end
+        ,`is_enabled` = case `key`
+        <foreach collection="permissions" item="item">
+            when #{item.key} then #{item.enabled}
+        </foreach>
+        else `is_enabled` end
+    </insert>
     <update id="editAdminPermission">
         update admin_permission set `modify_time` = #{modifyTime}
         <if test="menuId != null and menuId > 0">
@@ -107,7 +125,7 @@
         order by arp.`permission_id` asc
     </select>
     <select id="findAdminPermissionDetailById" resultType="com.wei.admin.bo.PermissionDetail">
-        select a.`id`,a.`menu_id` menuId,b.`name` menuName,a.`key`,a.`name`, a.`type`,a.`describe`,a.`is_enabled`
+        select a.`id`,a.`menu_id` menuId,b.`name` menuName,b.`path` menuPath,a.`key`,a.`name`, a.`type`,a.`describe`,a.`is_enabled`
         enabled,a.`create_time` createTime,a.`modify_time` modifyTime
         from admin_permission a
         left join admin_menu b on b.`id` = a.`menu_id`
@@ -137,5 +155,8 @@
             </if>
         </if>
         order by a.`menu_id` asc,a.`id` asc,a.`is_enabled` desc
+    </select>
+    <select id="selectPermissionsByMenuId" resultType="com.wei.admin.po.AdminPermissionPo">
+        select `id`,`menu_id` menuId,`key`,`type`,`name`,`is_enabled` enabled,`describe` from admin_permission where `menu_id` = #{menuId}
     </select>
 </mapper>

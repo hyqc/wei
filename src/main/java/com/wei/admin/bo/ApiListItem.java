@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
  **/
 @Data
 public class ApiListItem {
+    private Integer permissionId;
     private Integer id;
     private String path;
     private String key;

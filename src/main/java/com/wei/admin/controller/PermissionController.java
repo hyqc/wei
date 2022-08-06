@@ -29,28 +29,28 @@ public class PermissionController extends BaseController {
 
     @ApiOperation(value = "权限列表")
     @PostMapping("/list")
-    @PreAuthorize("hasAuthority('adminPermission::list')")
+    // @PreAuthorize("hasAuthority('adminPermission::list')")
     public Result list(@Valid @RequestBody PermissionListParams params) {
         return permissionService.selectAdminPermissionList(params);
     }
 
     @ApiOperation(value = "添加权限")
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('adminPermission::add')")
+    // @PreAuthorize("hasAuthority('adminPermission::add')")
     public Result add(@Valid @RequestBody PermissionAddParams params) {
         return permissionService.addAdminPermission(params);
     }
 
     @ApiOperation(value = "权限详情")
     @PostMapping("/detail")
-    @PreAuthorize("hasAuthority('adminPermission::detail')")
+    // @PreAuthorize("hasAuthority('adminPermission::detail')")
     public Result detail(@Valid @RequestBody PermissionDetailParams params) {
         return permissionService.getAdminPermissionDetail(params);
     }
 
     @ApiOperation(value = "权限编辑")
     @PostMapping("/edit")
-    @PreAuthorize("hasAuthority('adminPermission::edit')")
+    // @PreAuthorize("hasAuthority('adminPermission::edit')")
     public Result edit(@Valid @RequestBody PermissionEditParams params) {
         return permissionService.editAdminPermission(params);
     }
@@ -71,8 +71,15 @@ public class PermissionController extends BaseController {
 
     @ApiOperation("权限关联接口")
     @PostMapping("/bind")
-    @PreAuthorize("hasAuthority('adminPermission::bind')")
+    // @PreAuthorize("hasAuthority('adminPermission::bind')")
     public Result bind(@Valid @RequestBody PermissionApisBindParams params) {
         return permissionService.bindAdminApis(params);
+    }
+
+    @ApiOperation("添加菜单的权限")
+    @PostMapping("/menu")
+    // @PreAuthorize("hasAuthority('adminPermission::menu')")
+    public Result menu(@Valid @RequestBody PermissionBindMenuParams params) {
+        return permissionService.bindAdminPermissionsMenu(params);
     }
 }

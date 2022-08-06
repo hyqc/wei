@@ -71,4 +71,18 @@ public class MenuController extends BaseController {
     public Result delete(@Valid @RequestBody MenuDeleteParams params) {
         return menuService.deleteAdminMenu(params);
     }
+
+    @ApiOperation("菜单关联的权限信息")
+    @PostMapping("/permissions")
+    // @PreAuthorize("hasAuthority('adminMenu::permissions')")
+    public Result permissions(@Valid @RequestBody MenuPermissionsParams params){
+        return menuService.menuPermissions(params);
+    }
+
+    @ApiOperation("页面菜单")
+    @GetMapping("/page")
+    // @PreAuthorize("hasAuthority('adminMenu::page')")
+    public Result page(@RequestParam(value = "all",required = false,defaultValue = "false") Boolean all){
+        return menuService.menusPage(all);
+    }
 }

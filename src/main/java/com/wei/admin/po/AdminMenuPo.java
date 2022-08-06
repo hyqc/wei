@@ -17,64 +17,64 @@ public class AdminMenuPo {
     /**
      * 菜单自增ID
      */
-    protected Integer id;
+    Integer id;
     /**
      * 菜单唯一键
      */
-    protected String key;
+    String key;
     /**
      * 菜单名称
      */
-    protected String name;
+    String name;
     /**
      * 父级菜单ID
      */
-    protected Integer parentId;
+    Integer parentId;
     /**
      * 菜单描述
      */
-    protected String describe;
+    String describe;
     /**
      * 菜单路径
      */
-    protected String path;
+    String path;
     /**
      * 重定向地址
      */
-    protected String redirect;
+    String redirect;
     /**
      * 组件名称
      */
-    protected String component;
+    String component;
 
     /**
      * 菜单排序
      */
-    protected Integer sort;
+    Integer sort;
 
     /**
      * 菜单图标
      */
-    protected String icon;
+    String icon;
     /**
      * 是否在菜单中隐藏子菜单
      */
-    protected Boolean hideChildrenInMenu;
+    Boolean hideChildrenInMenu;
     /**
      * 是否隐藏菜单
      */
-    protected Boolean hideInMenu;
+    Boolean hideInMenu;
 
     /**
      * 是否启用
      */
-    protected Boolean enabled;
+    Boolean enabled;
 
     @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
     @JsonFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
-    protected LocalDateTime createTime;
+    LocalDateTime createTime;
 
     @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
     @JsonFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
-    protected LocalDateTime modifyTime;
+    LocalDateTime modifyTime;
 }

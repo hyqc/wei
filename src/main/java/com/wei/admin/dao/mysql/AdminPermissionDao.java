@@ -1,5 +1,6 @@
 package com.wei.admin.dao.mysql;
 
+import com.wei.admin.bo.ApiListItem;
 import com.wei.admin.bo.MenuItem;
 import com.wei.admin.bo.PermissionDetail;
 import com.wei.admin.bo.PermissionsPageItem;
@@ -10,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Administrator
@@ -99,4 +101,17 @@ public interface AdminPermissionDao {
      * @param permissionId
      */
     void deleteAdminPermissionApis(Integer permissionId);
+
+    /**
+     * 按照指定的菜单ID获取权限列表
+     * @param menuId
+     * @return
+     */
+    List<AdminPermissionPo> selectPermissionsByMenuId(Integer menuId);
+
+    /**
+     * 批量添加菜单的权限
+     * @param permissions
+     */
+    void batchAddMenuPermissions(@Param("permissions") List<AdminPermissionPo> permissions);
 }

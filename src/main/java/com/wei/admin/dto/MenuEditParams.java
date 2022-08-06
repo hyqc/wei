@@ -18,7 +18,7 @@ public class MenuEditParams {
     @ApiParam("菜单ID")
     @NotNull(message = "无效菜单")
     @Range(min = 1, message = "无效菜单")
-    private Integer id;
+    private Integer menuId;
 
     @ApiParam("父级菜单ID")
     @NotNull(message = "父级菜单不能为空")
