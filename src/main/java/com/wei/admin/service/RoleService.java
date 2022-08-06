@@ -172,4 +172,10 @@ public class RoleService extends BaseService {
         rolePermissionItems.forEach(RolePermissionItem::setPermissionTypeText);
         return Result.success(rolePermissionItems);
     }
+
+    @LogExecutionTime
+    public Result selectAdminRolesAll(RoleListParams params) {
+        List<RoleListItem> all = adminRoleDao.selectAdminRoleAll(params);
+        return Result.success(all);
+    }
 }

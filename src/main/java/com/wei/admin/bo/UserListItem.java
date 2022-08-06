@@ -1,16 +1,19 @@
 package com.wei.admin.bo;
 
-import com.wei.admin.po.AdminUserPo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wei.util.DateTimeUtil;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 
 /**
  * @author Administrator
  */
-@Getter
-@Setter
+@Data
 public class UserListItem {
     private Integer adminId;
     private String username;
@@ -18,21 +21,18 @@ public class UserListItem {
     private String email;
     private String avatar;
     private Boolean enabled;
-    private String createTime;
-    private String modifyTime;
-    private String lastLoginTime;
+    private Integer loginTotal;
+    private String lastLoginIp;
 
+    @JsonFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
+    private LocalDateTime lastLoginTime;
 
-    public UserListItem setAdminUsersListItem(AdminUserPo adminUserPo) {
-        this.adminId = adminUserPo.getId();
-        this.username = adminUserPo.getUsername();
-        this.nickname = adminUserPo.getNickname();
-        this.email = adminUserPo.getEmail();
-        this.avatar = adminUserPo.getAvatar();
-        this.enabled = adminUserPo.getEnabled();
-        this.createTime = adminUserPo.getCreateTime() == null ? "" : adminUserPo.getCreateTime().format(DateTimeUtil.DATE_TIME_FORMATTER);
-        this.modifyTime = adminUserPo.getModifyTime() == null ? "" : adminUserPo.getModifyTime().format(DateTimeUtil.DATE_TIME_FORMATTER);
-        this.lastLoginTime = adminUserPo.getLastLoginTime() == null ? "" : adminUserPo.getLastLoginTime().format(DateTimeUtil.DATE_TIME_FORMATTER);
-        return this;
-    }
+    @JsonFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
+    private LocalDateTime createTime;
+
+    @JsonFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
+    private LocalDateTime modifyTime;
 }

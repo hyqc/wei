@@ -25,10 +25,16 @@ public class RoleController extends BaseController {
 
     @ApiOperation("角色列表")
     @PostMapping("/list")
-    @PreAuthorize("hasAuthority('adminRole::list')")
+    // @PreAuthorize("hasAuthority('adminRole::list')")
     public Result list(@Valid @RequestBody RoleListParams params) {
-        params.handleListParams();
         return roleService.selectAdminRolesList(params);
+    }
+
+    @ApiOperation("全部角色列表")
+    @PostMapping("/all")
+    // @PreAuthorize("hasAuthority('adminRole::all')")
+    public Result all(@Valid @RequestBody RoleListParams params) {
+        return roleService.selectAdminRolesAll(params);
     }
 
     @ApiOperation("添加角色")

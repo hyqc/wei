@@ -4,6 +4,7 @@ import com.wei.admin.bo.RoleDetail;
 import com.wei.admin.bo.RoleListItem;
 import com.wei.admin.bo.RolePermissionItem;
 import com.wei.admin.bo.UserRoleItem;
+import com.wei.admin.dto.RoleListParams;
 import com.wei.admin.po.AdminRolePo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -97,4 +98,11 @@ public interface AdminRoleDao {
      * @return
      */
     List<RolePermissionItem> selectAdminRolePermissionAllByRoleId(Integer roleId);
+
+    /**
+     * 查询全部有效的角色列表
+     * @param params
+     * @return
+     */
+    List<RoleListItem> selectAdminRoleAll(@Param("params") RoleListParams params);
 }

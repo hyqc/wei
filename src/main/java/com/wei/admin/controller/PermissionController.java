@@ -31,7 +31,6 @@ public class PermissionController extends BaseController {
     @PostMapping("/list")
     @PreAuthorize("hasAuthority('adminPermission::list')")
     public Result list(@Valid @RequestBody PermissionListParams params) {
-        params.handleListParams();
         return permissionService.selectAdminPermissionList(params);
     }
 

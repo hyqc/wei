@@ -1,5 +1,6 @@
 package com.wei.admin.controller;
 
+import com.wei.admin.common.SortTypeEnum;
 import com.wei.admin.dto.*;
 import com.wei.admin.service.UserService;
 import com.wei.common.Result;
@@ -26,7 +27,27 @@ public class UserController extends BaseController {
     @PostMapping("/list")
     // @PreAuthorize("hasAuthority('adminUser::list')")
     public Result list(@Valid @RequestBody UserListParams params) {
-        params.handleListParams();
+        switch (params.getSortField()) {
+            case "createTime":
+                params.setSortField("create_time");
+                break;
+            case "modifyTime":
+                params.setSortField("modify_time");
+                break;
+            case "loginTotal":
+                params.setSortField("login_total");
+                break;
+            case "lastLoginTime":
+                params.setSortField("last_login_time");
+                break;
+            default:
+                params.setSortField("id");
+        }
+        if (params.getSortType() != null && params.getSortType().length() > 0) {
+            params.setSortType(SortTypeEnum.MAP.getOrDefault(params.getSortType(), SortTypeEnum.DESC).getValue());
+        } else {
+            params.setSortType(SortTypeEnum.DESC.getValue());
+        }
         return userService.selectAdminUserList(params);
     }
 

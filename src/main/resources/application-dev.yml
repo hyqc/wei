@@ -41,7 +41,8 @@ jwt:
   tokenHead: Bearer #JWT负载中拿到开头
 store:
   endpoint: oss-cn-beijing.aliyuncs.com
-  
+  accessKey:
+  secretKey:
   bucket: wlp-private
   region:
   path: admin

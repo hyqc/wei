@@ -15,7 +15,8 @@
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             select LAST_INSERT_ID() as id
         </selectKey>
-        insert into admin_role (`name`,`describe`,`is_enabled`,`create_admin_id`,`modify_admin_id`,`create_time`,`modify_time`)
+        insert into admin_role
+        (`name`,`describe`,`is_enabled`,`create_admin_id`,`modify_admin_id`,`create_time`,`modify_time`)
         values (#{name},#{describe},#{enabled}, #{createAdminId}, #{modifyAdminId},#{createTime},#{modifyTime})
     </insert>
     <insert id="addAdminRolePermission">
@@ -118,9 +119,19 @@
         where a.id = #{id}
     </select>
     <select id="selectAdminRolePermissionAllByRoleId" resultType="com.wei.admin.bo.RolePermissionItem">
-        select a.`role_id` roleId, a.`permission_id` permissionId,b.`key` permissionKey, b.`name` permissionName,b.`type` permissionType
+        select a.`role_id` roleId, a.`permission_id` permissionId,b.`key` permissionKey, b.`name`
+        permissionName,b.`type` permissionType
         from admin_role_permission a
         inner join admin_permission b on b.`id` = a.`permission_id`
         where b.`is_enabled` = 1 and `role_id` = #{roleId}
+    </select>
+    <select id="selectAdminRoleAll" resultType="com.wei.admin.bo.RoleListItem">
+        select id roleId,name roleName from admin_role where `is_enabled` = 1
+        <if test="params.roleId != null and params.roleId > 0">
+            and id = #{params.roleId}
+        </if>
+        <if test="params.roleName != null and params.roleName.length > 0">
+            and name like "%${params.roleName}%"
+        </if>
     </select>
 </mapper>

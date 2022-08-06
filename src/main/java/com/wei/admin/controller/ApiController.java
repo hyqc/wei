@@ -26,7 +26,6 @@ public class ApiController {
     @PostMapping("/list")
     @PreAuthorize("hasAuthority('adminApi::list')")
     public Result list(@Valid @RequestBody ApiListParams params) {
-        params.handleListParams();
         return apiService.selectAdminApiList(params);
     }
 

@@ -27,13 +27,12 @@ public class MenuController extends BaseController {
     @PostMapping("/list")
     @PreAuthorize("hasAuthority('adminMenu::list')")
     public Result list(@Valid @RequestBody MenuListParams params) {
-        params.handleListParams();
         return menuService.selectAdminMenuList(params);
     }
 
     @ApiOperation(value = "全部菜单")
     @PostMapping("/tree")
-    @PreAuthorize("hasAuthority('adminMenu::tree')")
+    // @PreAuthorize("hasAuthority('adminMenu::tree')")
     public Result tree() {
         return menuService.selectAllAdminMenu();
     }

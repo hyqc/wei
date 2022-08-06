@@ -26,6 +26,7 @@ import com.wei.util.CommonUtil;
 import com.wei.util.TreeUtil;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -186,7 +187,7 @@ public class UserService implements UserDetailsService {
     @LogExecutionTime
     public Result login(AccountLoginParams params, HttpServletRequest request) {
         AdminUserPo adminUserPo = adminUserDao.findAdminUserInfoByUsername(params.getUsername());
-        if (adminUserPo == null){
+        if (adminUserPo == null) {
             return Result.accountOrPasswordError();
         }
         if (!checkLoginPassword(params.getPassword(), adminUserPo.getPassword())) {
@@ -329,6 +330,14 @@ public class UserService implements UserDetailsService {
         return Result.success(getMyMenus());
     }
 
+    protected String getLastLoginIp(String ip) {
+        if (ip != null && ip.length() > 0) {
+            String[] ips = ip.split(",");
+            return ips[ips.length-1];
+        }
+        return "";
+    }
+
     @LogExecutionTime
     public Result<Pager> selectAdminUserList(UserListParams params) {
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
@@ -337,7 +346,10 @@ public class UserService implements UserDetailsService {
         if (adminUserPoList != null) {
             UploadConfig.UploadFieldItem uploadFieldItem = uploadConfig.getAvatar();
             List<UserListItem> userListItemList = adminUserPoList.stream().map(adminUsersProp -> {
-                UserListItem userListItem = new UserListItem().setAdminUsersListItem(adminUsersProp);
+                UserListItem userListItem = new UserListItem();
+                BeanUtils.copyProperties(adminUsersProp, userListItem);
+                userListItem.setAdminId(adminUsersProp.getId());
+                userListItem.setLastLoginIp(getLastLoginIp(adminUsersProp.getLastLoginIp()));
                 userListItem.setAvatar(storeConfig.getPresignedObjectUrl(uploadFieldItem, adminUsersProp.getAvatar()));
                 return userListItem;
             }).collect(Collectors.toList());
@@ -351,8 +363,10 @@ public class UserService implements UserDetailsService {
         AdminUserPo adminUserPo = adminUserDao.findAdminUserDetailByAdminId(params.getAdminId());
         UserListItem userListItem = new UserListItem();
         if (adminUserPo != null) {
+            BeanUtils.copyProperties(adminUserPo, userListItem);
+            userListItem.setAdminId(adminUserPo.getId());
+            userListItem.setLastLoginIp(getLastLoginIp(adminUserPo.getLastLoginIp()));
             UploadConfig.UploadFieldItem uploadFieldItem = uploadConfig.getAvatar();
-            userListItem.setAdminUsersListItem(adminUserPo);
             userListItem.setAvatar(storeConfig.getPresignedObjectUrl(uploadFieldItem, adminUserPo.getAvatar()));
         } else {
             throw new ParamException("账号不存在或已删除");
