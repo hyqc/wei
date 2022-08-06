@@ -28,6 +28,6 @@ public class PermissionListParams extends BaseListParams {
     private String type;
 
     @ApiParam("菜单ID")
-    @Range(min = 1, message = "无效菜单ID")
+    @Range(min = 0, message = "无效菜单ID")
     private Integer menuId;
 }
