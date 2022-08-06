@@ -75,7 +75,7 @@ CREATE TABLE `admin_menu`  (
   `sort` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '排序值',
   `redirect` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '重定向路径',
   `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '组件名称',
-  `is_hidden` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否隐藏：0显示，1隐藏',
+  `is_hide_in_menu` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否隐藏：0显示，1隐藏',
   `is_hide_children_in_menu` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否在children中隐藏：1隐藏，0显示',
   `is_enabled` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '1：启用，0禁用',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',

@@ -1204,7 +1204,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"parentId\": 1,\r\n    \"path\": \"/admin/menu\",\r\n    \"name\": \"菜单管理\",\r\n    \"key\": \"adminMenu\",\r\n    \"describe\": \"菜单列表\",\r\n    \"icon\": \"\",\r\n    \"sort\": 0,\r\n    \"redirect\": \"/\",\r\n    \"hidden\": false,\r\n    \"hideChildrenInMenu\": true,\r\n    \"enabled\": true\r\n}"
+									"raw": "{\r\n    \"parentId\": 1,\r\n    \"path\": \"/admin/menu\",\r\n    \"name\": \"菜单管理\",\r\n    \"key\": \"adminMenu\",\r\n    \"describe\": \"菜单列表\",\r\n    \"icon\": \"\",\r\n    \"sort\": 0,\r\n    \"redirect\": \"/\",\r\n    \"hide_in_menu\": false,\r\n    \"hideChildrenInMenu\": true,\r\n    \"enabled\": true\r\n}"
 								},
 								"url": {
 									"raw": "http://127.0.0.1:8888/admin/menu/add",
@@ -1292,7 +1292,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": 2,\r\n    \"parentId\": 1,\r\n    \"path\": \"/admin/menu\",\r\n    \"name\": \"菜单管理\",\r\n    \"key\": \"adminMenu\",\r\n    \"describe\": \"菜单列表\",\r\n    \"icon\": \"\",\r\n    \"sort\": 0,\r\n    \"redirect\": \"/\",\r\n    \"hidden\": false,\r\n    \"hideChildrenInMenu\": true,\r\n    \"enabled\": true\r\n}"
+									"raw": "{\r\n    \"id\": 2,\r\n    \"parentId\": 1,\r\n    \"path\": \"/admin/menu\",\r\n    \"name\": \"菜单管理\",\r\n    \"key\": \"adminMenu\",\r\n    \"describe\": \"菜单列表\",\r\n    \"icon\": \"\",\r\n    \"sort\": 0,\r\n    \"redirect\": \"/\",\r\n    \"hide_in_menu\": false,\r\n    \"hideChildrenInMenu\": true,\r\n    \"enabled\": true\r\n}"
 								},
 								"url": {
 									"raw": "http://127.0.0.1:8888/admin/menu/edit",

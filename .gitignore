@@ -1,5 +1,7 @@
 application-prod.yml
 application-test.yml
+application-dev.yml
+
 wei
 wei/
 target

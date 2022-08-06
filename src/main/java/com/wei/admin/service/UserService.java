@@ -297,7 +297,7 @@ public class UserService implements UserDetailsService {
         if (!passwordEncoder.matches(params.getOldPassword(), adminUserPo.getPassword())) {
             return Result.passwordError();
         }
-        adminUserDao.updatePassword(adminUserPo.getId(), passwordEncoder.encode(params.getNewPassword()));
+        adminUserDao.updatePassword(adminUserPo.getId(), passwordEncoder.encode(params.getPassword()));
         return Result.success("修改密码成功");
     }
 

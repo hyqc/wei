@@ -63,7 +63,7 @@ public class AdminMenuPo {
     /**
      * 是否隐藏菜单
      */
-    protected Boolean hidden;
+    protected Boolean hideInMenu;
 
     /**
      * 是否启用

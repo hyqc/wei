@@ -59,7 +59,7 @@ public class MenuEditParams {
     private Boolean hideChildrenInMenu;
 
     @ApiParam("是否隐藏菜单")
-    private Boolean hidden;
+    private Boolean hideInMenu;
 
     @ApiParam("是否启用菜单")
     private Boolean enabled;

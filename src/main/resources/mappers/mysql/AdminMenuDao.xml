@@ -3,9 +3,9 @@
 <mapper namespace="com.wei.admin.dao.mysql.AdminMenuDao">
     <insert id="addAdminMenu">
         insert into admin_menu
-        (`parent_id`,`path`,`name`,`key`,`describe`,`icon`,`sort`,`redirect`,`component`,`is_hidden`,
+        (`parent_id`,`path`,`name`,`key`,`describe`,`icon`,`sort`,`redirect`,`component`,`is_hide_in_menu`,
         `is_hide_children_in_menu`,`is_enabled`,`create_time`,`modify_time`) values
-        (#{parentId},#{path},#{name},#{key},#{describe},#{icon},#{sort},#{redirect},#{component},#{hidden},
+        (#{parentId},#{path},#{name},#{key},#{describe},#{icon},#{sort},#{redirect},#{component},#{hideInMenu},
         #{hideChildrenInMenu},#{enabled},#{createTime},#{createTime})
     </insert>
     <update id="editAdminMenu">
@@ -37,8 +37,8 @@
         <if test="component != null">
             ,`component` = #{component}
         </if>
-        <if test="hidden != null">
-            ,`is_hidden` = #{hidden}
+        <if test="hideInMenu != null">
+            ,`is_hide_in_menu` = #{hideInMenu}
         </if>
         <if test="hideChildrenInMenu != null">
             ,`is_hide_children_in_menu` = #{hideChildrenInMenu}
@@ -55,7 +55,7 @@
     <select id="selectAdminMenuList" resultType="com.wei.admin.bo.MenuItem">
         select `id`,`key`,`name`,`sort`,`parent_id`
         parentId,`describe`,`path`,`redirect`,`component`,`is_hide_children_in_menu` hideChildrenInMenu,
-        `icon`,`is_hidden` hidden,`is_enabled` enabled,`create_time` createTime,`modify_time` modifyTime
+        `icon`,`is_hide_in_menu` hideInMenu,`is_enabled` enabled,`create_time` createTime,`modify_time` modifyTime
         from admin_menu
         where 1
         <if test="parentId != null">
@@ -74,14 +74,14 @@
     </select>
     <select id="selectAllAdminMenu" resultType="com.wei.admin.bo.MenuItem">
         select `id`,`key`,`name`,`sort`,`parent_id` parentId,`describe`,`path`,`redirect`,`component`,
-        `is_hide_children_in_menu` hideChildrenInMenu, `icon`,`is_hidden` hidden,`is_enabled` enabled,
+        `is_hide_children_in_menu` hideChildrenInMenu, `icon`,`is_hide_in_menu` hideInMenu,`is_enabled` enabled,
         `create_time` createTime,`modify_time` modifyTime
         from admin_menu
         order by `parent_id` asc, `sort` desc, `id` asc
     </select>
     <select id="findAdminMenuById" resultType="com.wei.admin.po.AdminMenuPo">
         select `id`,`key`,`name`,`sort`,`parent_id` parentId,`describe`,`path`,`redirect`,`component`,
-        `is_hide_children_in_menu` hideChildrenInMenu, `icon`,`is_hidden` hidden,`is_enabled` enabled,`create_time`
+        `is_hide_children_in_menu` hideChildrenInMenu, `icon`,`is_hide_in_menu` hideInMenu,`is_enabled` enabled,`create_time`
         createTime,`modify_time` modifyTime
         from admin_menu where `id` = #{menuId}
     </select>

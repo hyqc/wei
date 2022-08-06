@@ -32,7 +32,7 @@ public class AccountPasswordEditParams {
     @Length(min = 6, max = 32, message = "密码长度为6-18位")
     @Pattern(regexp = PatternConstant.ADMIN_PASSWORD, message = PatternConstant.ADMIN_PASSWORD_MESSAGE)
     @ApiParam(value = "新密码", required = true)
-    private String newPassword;
+    private String password;
 
     @NotNull(message = "确认密码不能为空")
     @NotBlank(message = "确认密码不能为空")
@@ -46,7 +46,7 @@ public class AccountPasswordEditParams {
      * @return
      */
     public Boolean confirmPasswordEqualPassword() {
-        return getNewPassword().equals(getConfirmPassword());
+        return getPassword().equals(getConfirmPassword());
     }
 
     /**
@@ -55,6 +55,6 @@ public class AccountPasswordEditParams {
      * @return
      */
     public Boolean checkUpdatePassword() {
-        return getOldPassword().equals(getNewPassword());
+        return getOldPassword().equals(getPassword());
     }
 }
