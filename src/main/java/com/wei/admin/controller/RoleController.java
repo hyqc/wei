@@ -15,7 +15,7 @@ import javax.validation.Valid;
 /**
  * @author Administrator
  */
-@Api(tags = "账号角色管理")
+@Api(tags = "角色管理")
 @RestController
 @RequestMapping(value = "/admin/role")
 public class RoleController extends BaseController {
@@ -30,14 +30,14 @@ public class RoleController extends BaseController {
         return roleService.selectAdminRolesList(params);
     }
 
-    @ApiOperation("全部角色列表")
+    @ApiOperation("有效角色列表")
     @PostMapping("/all")
     // @PreAuthorize("hasAuthority('adminRole::all')")
     public Result all(@Valid @RequestBody RoleListParams params) {
         return roleService.selectAdminRolesAll(params);
     }
 
-    @ApiOperation("添加角色")
+    @ApiOperation("创建角色")
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('adminRole::add')")
     public Result add(@Valid @RequestBody RoleAddParams params) {
@@ -51,7 +51,7 @@ public class RoleController extends BaseController {
         return roleService.getAdminRoleDetail(params);
     }
 
-    @ApiOperation("角色编辑")
+    @ApiOperation("编辑角色")
     @PostMapping("/edit")
     @PreAuthorize("hasAuthority('adminRole::edit')")
     public Result edit(@Valid @RequestBody RoleEditParams params) {
@@ -59,7 +59,7 @@ public class RoleController extends BaseController {
     }
 
 
-    @ApiOperation("更新角色启用状态")
+    @ApiOperation("启用禁用角色")
     @PostMapping("/enable")
     @PreAuthorize("hasAuthority('adminRole::enable')")
     public Result enable(@Valid @RequestBody RoleUpdateIsEnabledParams params) {
@@ -69,7 +69,7 @@ public class RoleController extends BaseController {
     @ApiOperation("角色绑定权限")
     @PostMapping("/bind")
     @PreAuthorize("hasAuthority('adminRole::bind')")
-    public Result bind(@Valid @RequestBody RoleAssignParams params) {
+    public Result bind(@Valid @RequestBody RoleBindPermissionsParams params) {
         return roleService.bindRolePermissions(params);
     }
 

@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * @author Administrator
  */
-@Api(tags = "公共配置方法")
+@Api(tags = "公共接口")
 @Validated
 @RestController
 @RequestMapping(value = "/admin/common")
@@ -25,7 +25,7 @@ public class CommonController extends BaseController {
     @Autowired
     private CommonService commonService;
 
-    @ApiOperation(value = "上传")
+    @ApiOperation(value = "上传文件")
     @PostMapping(value = "/upload")
     public Result upload(@Valid CommonUploadFileParam param, @RequestParam("file") MultipartFile multipartFile) {
         Map<String, Object> data = commonService.upload(param, multipartFile);

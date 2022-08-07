@@ -30,14 +30,14 @@ public class MenuController extends BaseController {
         return menuService.selectAdminMenuList(params);
     }
 
-    @ApiOperation(value = "全部菜单")
+    @ApiOperation(value = "有效菜单树")
     @PostMapping("/tree")
     // @PreAuthorize("hasAuthority('adminMenu::tree')")
     public Result tree() {
         return menuService.selectAllAdminMenu();
     }
 
-    @ApiOperation(value = "添加菜单")
+    @ApiOperation(value = "创建菜单")
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('adminMenu::add')")
     public Result add(@Valid @RequestBody MenuAddParams params) {
@@ -51,7 +51,7 @@ public class MenuController extends BaseController {
         return menuService.getAdminMenuDetail(params);
     }
 
-    @ApiOperation(value = "菜单编辑")
+    @ApiOperation(value = "编辑菜单")
     @PostMapping("/edit")
     @PreAuthorize("hasAuthority('adminMenu::edit')")
     public Result edit(@Valid @RequestBody MenuEditParams params) {
@@ -72,14 +72,14 @@ public class MenuController extends BaseController {
         return menuService.deleteAdminMenu(params);
     }
 
-    @ApiOperation("菜单关联的权限信息")
+    @ApiOperation("菜单关联权限列表")
     @PostMapping("/permissions")
     // @PreAuthorize("hasAuthority('adminMenu::permissions')")
     public Result permissions(@Valid @RequestBody MenuPermissionsParams params){
         return menuService.menuPermissions(params);
     }
 
-    @ApiOperation("页面菜单")
+    @ApiOperation("页面菜单列表")
     @GetMapping("/page")
     // @PreAuthorize("hasAuthority('adminMenu::page')")
     public Result page(@RequestParam(value = "all",required = false,defaultValue = "false") Boolean all){

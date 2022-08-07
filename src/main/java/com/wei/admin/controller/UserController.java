@@ -86,10 +86,10 @@ public class UserController extends BaseController {
         return userService.selectAdminUserRoles(params);
     }
 
-    @ApiOperation("账号添加角色")
+    @ApiOperation("账号绑定角色")
     @PostMapping("/bind")
     @PreAuthorize("hasAuthority('adminUser::bind')")
-    public Result bind(@Valid @RequestBody UserAssignParams params) {
+    public Result bind(@Valid @RequestBody UserBindRolesParams params) {
         return userService.assignAdminUserRoles(params);
     }
 }

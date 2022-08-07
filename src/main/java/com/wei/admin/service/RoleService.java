@@ -142,7 +142,7 @@ public class RoleService extends BaseService {
 
     @LogExecutionTime
     @Transactional(rollbackFor = {RuntimeException.class, Error.class})
-    public Result bindRolePermissions(RoleAssignParams params) {
+    public Result bindRolePermissions(RoleBindPermissionsParams params) {
         List<Integer> permissionIds = params.getPermissionIds().stream().filter(id -> id > 0).distinct().collect(Collectors.toList());
         if (permissionIds.size() == 0) {
             return Result.failed("没有有效的权限");

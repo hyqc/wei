@@ -549,7 +549,7 @@ public class UserService implements UserDetailsService {
     }
 
     @LogExecutionTime
-    public Result assignAdminUserRoles(UserAssignParams params) {
+    public Result assignAdminUserRoles(UserBindRolesParams params) {
         List<Integer> roleIds = params.getRoleIds().stream().filter(id -> id > 0).distinct().collect(Collectors.toList());
         if (roleIds.size() == 0) {
             return Result.failed("没有有效的角色");

@@ -25,7 +25,7 @@ public class PermissionListParams extends BaseListParams {
 
     @ApiParam("权限类型")
     @PermissionTypeValidator(includeAll = true)
-    private String type;
+    private String type = "";
 
     @ApiParam("菜单ID")
     @Range(min = 0, message = "无效菜单ID")

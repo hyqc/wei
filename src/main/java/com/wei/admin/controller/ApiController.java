@@ -24,49 +24,49 @@ public class ApiController {
 
     @ApiOperation("接口列表")
     @PostMapping("/list")
-    @PreAuthorize("hasAuthority('adminApi::list')")
+    // @PreAuthorize("hasAuthority('adminApi::list')")
     public Result list(@Valid @RequestBody ApiListParams params) {
         return apiService.selectAdminApiList(params);
     }
 
-    @ApiOperation("全部接口列表")
+    @ApiOperation("有效接口列表")
     @PostMapping("/all")
     // @PreAuthorize("hasAuthority('adminApi::all')")
     public Result all() {
         return apiService.selectAdminApiAll();
     }
 
-    @ApiOperation("接口添加")
+    @ApiOperation("创建接口")
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('adminApi::add')")
+    // @PreAuthorize("hasAuthority('adminApi::add')")
     public Result add(@Valid @RequestBody ApiAddParams params) {
         return apiService.addAdminApi(params);
     }
 
     @ApiOperation("接口详情")
     @PostMapping("/detail")
-    @PreAuthorize("hasAuthority('adminApi::detail')")
+    // @PreAuthorize("hasAuthority('adminApi::detail')")
     public Result detail(@Valid @RequestBody ApiDetailParams params) {
         return apiService.getAdminApiDetail(params);
     }
 
-    @ApiOperation("接口编辑")
+    @ApiOperation("编辑接口")
     @PostMapping("/edit")
-    @PreAuthorize("hasAuthority('adminApi::edit')")
+    // @PreAuthorize("hasAuthority('adminApi::edit')")
     public Result edit(@Valid @RequestBody ApiEditParams params) {
         return apiService.editAdminApi(params);
     }
 
-    @ApiOperation("接口禁用启用")
+    @ApiOperation("启用禁用接口")
     @PostMapping("/enable")
-    @PreAuthorize("hasAuthority('adminApi::enable')")
+    // @PreAuthorize("hasAuthority('adminApi::enable')")
     public Result enable(@Valid @RequestBody ApiEnabledParams params) {
         return apiService.enableAdminApi(params);
     }
 
-    @ApiOperation("接口删除")
+    @ApiOperation("删除接口")
     @PostMapping("/delete")
-    @PreAuthorize("hasAuthority('adminApi::delete')")
+    // @PreAuthorize("hasAuthority('adminApi::delete')")
     public Result delete(@Valid @RequestBody ApiDeleteParams params) {
         return apiService.deleteAdminApi(params);
     }

@@ -16,7 +16,7 @@ import javax.validation.Valid;
 /**
  * @author Administrator
  */
-@Api(tags = "资源权限管理")
+@Api(tags = "权限管理")
 @RestController
 @RequestMapping(value = "/admin/permission")
 public class PermissionController extends BaseController {
@@ -34,7 +34,7 @@ public class PermissionController extends BaseController {
         return permissionService.selectAdminPermissionList(params);
     }
 
-    @ApiOperation(value = "添加权限")
+    @ApiOperation(value = "创建权限")
     @PostMapping("/add")
     // @PreAuthorize("hasAuthority('adminPermission::add')")
     public Result add(@Valid @RequestBody PermissionAddParams params) {
@@ -48,7 +48,7 @@ public class PermissionController extends BaseController {
         return permissionService.getAdminPermissionDetail(params);
     }
 
-    @ApiOperation(value = "权限编辑")
+    @ApiOperation(value = "编辑权限")
     @PostMapping("/edit")
     // @PreAuthorize("hasAuthority('adminPermission::edit')")
     public Result edit(@Valid @RequestBody PermissionEditParams params) {
@@ -69,14 +69,14 @@ public class PermissionController extends BaseController {
         return permissionService.deleteAdminPermission(params);
     }
 
-    @ApiOperation("权限关联接口")
+    @ApiOperation("权限绑定接口")
     @PostMapping("/bind")
     // @PreAuthorize("hasAuthority('adminPermission::bind')")
     public Result bind(@Valid @RequestBody PermissionApisBindParams params) {
         return permissionService.bindAdminApis(params);
     }
 
-    @ApiOperation("添加菜单的权限")
+    @ApiOperation("指定菜单创建查看编辑删除权限")
     @PostMapping("/menu")
     // @PreAuthorize("hasAuthority('adminPermission::menu')")
     public Result menu(@Valid @RequestBody PermissionBindMenuParams params) {
