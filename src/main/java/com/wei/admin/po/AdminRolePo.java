@@ -1,6 +1,9 @@
 package com.wei.admin.po;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wei.util.DateTimeUtil;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -34,7 +37,11 @@ public class AdminRolePo {
      */
     private Boolean enabled;
 
+    @JsonFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
     private LocalDateTime createTime;
 
+    @JsonFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
     private LocalDateTime modifyTime;
 }

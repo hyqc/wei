@@ -3,6 +3,7 @@ package com.wei.admin.bo;
 import com.wei.util.DateTimeUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -33,9 +34,11 @@ public class RoleListItem {
     private Boolean enabled;
 
     @JsonFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
-    private LocalDateTime createDateTime;
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
+    private LocalDateTime createTime;
 
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
     @JsonFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
-    private LocalDateTime modifyDateTime;
+    private LocalDateTime modifyTime;
 
 }
