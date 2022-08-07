@@ -94,4 +94,10 @@
         inner join admin_menu a on a.id = b.menu_id
         where a.`is_enabled` = 1 and a.`is_hide_in_menu` = 0
     </select>
+    <select id="selectAllValidMenus" resultType="com.wei.admin.bo.MenuItem">
+        select `id` ,`key`, `name`,`is_hide_children_in_menu` hideChildrenInMenu,`parent_id` parentId,`path`,`redirect`,
+        `icon`,`is_hide_in_menu` hideInMenu from admin_menu
+        where `is_enabled` = 1
+        order by `sort` asc,`parent_id` asc, `id` asc
+    </select>
 </mapper>

@@ -85,4 +85,11 @@ public class MenuController extends BaseController {
     public Result pages(@Valid @RequestBody MenuPagesParams params){
         return menuService.pageMenus(params);
     }
+
+    @ApiOperation("页面模块权限列表")
+    @PostMapping("/mode")
+    @PreAuthorize("hasAuthority('adminMenu::mode')")
+    public Result mode(){
+        return menuService.allMode();
+    }
 }

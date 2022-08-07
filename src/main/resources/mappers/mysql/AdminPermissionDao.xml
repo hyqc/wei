@@ -83,12 +83,6 @@
             AND ap.`menu_id` = #{menuId}
         </if>
     </select>
-    <select id="selectAllValidMenus" resultType="com.wei.admin.bo.MenuItem">
-        select `id` ,`key`, `name`,`is_hide_children_in_menu` hideChildrenInMenu,`parent_id` parentId,`path`,`redirect`,
-        `icon`,`is_hide_in_menu` hideInMenu from admin_menu
-        where `is_enabled` = 1
-        order by `sort` asc,`parent_id` asc, `id` asc
-    </select>
     <select id="selectPermissionsByAdminister" resultType="com.wei.admin.po.AdminPermissionPo">
         SELECT ap.`id`,ap.`menu_id` menuId,ap.`key`,ap.`name`,ap.`describe`,ap.`type`,
         ap.`create_time` createTime, ap.`modify_time` modifyTime FROM admin_permission ap
@@ -111,12 +105,6 @@
         FROM admin_permission ap
         INNER JOIN admin_menu am ON am.`id` = ap.`menu_id` and am.`is_enabled` = 1
         order by am.`sort` asc, am.`parent_id` asc, ap.`id` desc
-    </select>
-    <select id="selectAllPermissionIdsByRoleId" resultType="java.lang.Integer">
-        select arp.permission_id permissionId from admin_role_permission arp
-        inner join admin_permission ap on ap.id = arp.permission_id
-        where arp.`role_id` = #{roleId}
-        order by arp.`role_id` asc
     </select>
     <select id="selectAllPermissionIdsByCondition" resultType="java.lang.Integer">
         select DISTINCT arp.permission_id permissionId from admin_users au
@@ -172,5 +160,8 @@
     <select id="selectPermissionsByMenuId" resultType="com.wei.admin.po.AdminPermissionPo">
         select `id`,`menu_id` menuId,`key`,`type`,`name`,`is_enabled` enabled,`describe` from admin_permission where
         `menu_id` = #{menuId}
+    </select>
+    <select id="selectAllPermissionsMenus" resultType="java.lang.Integer">
+        select distinct `menu_id` menuId from admin_permission
     </select>
 </mapper>

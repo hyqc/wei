@@ -2,6 +2,7 @@ package com.wei.admin.service;
 
 import com.wei.admin.common.UserCommon;
 import com.wei.admin.common.UserDetails;
+import com.wei.admin.dao.mysql.AdminMenuDao;
 import com.wei.admin.po.AdminRolePo;
 import com.wei.admin.po.AdminUserPo;
 import com.wei.common.ErrorCode;
@@ -56,6 +57,9 @@ public class UserService implements UserDetailsService {
     private AdminUserDao adminUserDao;
 
     @Autowired
+    private AdminMenuDao adminMenuDao;
+
+    @Autowired
     private AdminPermissionDao adminPermissionDao;
 
     @Autowired
@@ -105,21 +109,6 @@ public class UserService implements UserDetailsService {
             apiKeys = adminPermissionDao.selectAllAccessApiKeys(permissionsId);
         }
         return apiKeys == null || apiKeys.size() == 0 ? new ArrayList<>() : apiKeys.stream().map(SimpleGrantedAuthority::new).distinct().collect(Collectors.toList());
-    }
-
-    private List<MenuPagesItem> getAllTopsMenuByPageIds(List<MenuItem> menuItems, List<Integer> pageIds) {
-        List<MenuPagesItem> result = new ArrayList<>();
-        for (Integer pageId : pageIds) {
-            MenuItem adminMenuPo = TreeUtil.getTopMenuByChildrenId(menuItems, pageId);
-            if (adminMenuPo != null) {
-                MenuPagesItem menuPagesItem = new MenuPagesItem();
-                menuPagesItem.setAdminMenusProp(adminMenuPo);
-                menuPagesItem.setMenuId(adminMenuPo.getId());
-                menuPagesItem.setPageId(pageId);
-                result.add(menuPagesItem);
-            }
-        }
-        return result;
     }
 
     /**
@@ -320,7 +309,7 @@ public class UserService implements UserDetailsService {
             menuIds = adminPermissionPoList.stream().map(AdminPermissionPo::getMenuId).collect(Collectors.toSet());
         }
         // 权限对应的页面ID
-        Map<Integer, List<MenuItem>> menusMap = adminPermissionDao.selectAllValidMenus()
+        Map<Integer, List<MenuItem>> menusMap = adminMenuDao.selectAllValidMenus()
                 .stream()
                 .collect(Collectors.groupingBy(AdminMenuPo::getParentId));
         return TreeUtil.menuList(menusMap, menuIds, 0, 1);
@@ -449,83 +438,6 @@ public class UserService implements UserDetailsService {
         adminUserDao.updateAdminUserIsEnabled(params.getAdminId(), params.getEnabled());
         String msg = params.getEnabled() ? "启用成功" : "禁用成功";
         return Result.success(msg);
-    }
-
-
-    /**
-     * 获取角色拥有的权限ID
-     *
-     * @param roleId
-     * @return
-     */
-    @LogExecutionTime
-    public HashMap<String, Integer> selectAdminUserPermissions(Integer roleId) {
-        List<Integer> ids = adminPermissionDao.selectAllPermissionIdsByRoleId(roleId);
-        HashMap<String, Integer> data = new HashMap<>();
-        if (ids == null || ids.size() == 0) {
-            return data;
-        }
-
-        for (Integer id : ids) {
-            data.put(id.toString(), id);
-        }
-        return data;
-    }
-
-    @LogExecutionTime
-    public Result getAllAdminPermissionsList() {
-        // 全部权限ID
-        List<PermissionsPageItem> permissionsPageItemList = adminPermissionDao.selectAllPermission();
-        // 获取权限对应的页面信息
-        LinkedHashMap<Integer, String> pagesMap = new LinkedHashMap<>();
-        List<Integer> pageIds = new ArrayList<>();
-        for (PermissionsPageItem permissionsPageItem : permissionsPageItemList) {
-            pageIds.add(permissionsPageItem.getMenuId());
-            if (!pagesMap.containsKey(permissionsPageItem.getMenuId())) {
-                pagesMap.put(permissionsPageItem.getMenuId(), permissionsPageItem.getMenuName());
-            }
-        }
-        pageIds = pageIds.stream().distinct().collect(Collectors.toList());
-        List<MenuItem> adminMenusProps = adminPermissionDao.selectAllValidMenus();
-        // 获取顶级模块
-        List<MenuPagesItem> menuPagesItemList = getAllTopsMenuByPageIds(adminMenusProps, pageIds);
-
-        // 获取页面对应的权限
-        LinkedHashMap<Integer, PermissionListItem.PageItem> pages = new LinkedHashMap<>();
-        for (Map.Entry<Integer, String> entry : pagesMap.entrySet()) {
-            Integer pageId = entry.getKey();
-            PermissionListItem.PageItem pageItem = new PermissionListItem.PageItem();
-            pageItem.setPageId(pageId);
-            pageItem.setPageName(entry.getValue());
-            pageItem.setPermissions(new ArrayList<>());
-            for (PermissionsPageItem permissionsPageItem : permissionsPageItemList) {
-                if (permissionsPageItem.getMenuId().equals(pageId)) {
-                    PermissionListItem.PermissionItem permissionItem = new PermissionListItem.PermissionItem();
-                    permissionItem.setPermissionId(permissionsPageItem.getPermissionId());
-                    permissionItem.setPermissionName(permissionsPageItem.getPermissionName());
-                    permissionItem.setPermission(permissionsPageItem.getPermission());
-                    pageItem.getPermissions().add(permissionItem);
-                }
-            }
-            pages.put(pageId, pageItem);
-        }
-
-        LinkedHashMap<Integer, PermissionListItem> resultMap = new LinkedHashMap<>();
-        for (MenuPagesItem menuPagesItem : menuPagesItemList) {
-            if (pages.containsKey(menuPagesItem.getPageId())) {
-                PermissionListItem permissionListItem = new PermissionListItem();
-                if (!resultMap.containsKey(menuPagesItem.getMenuId())) {
-                    permissionListItem.setModelId(menuPagesItem.getMenuId());
-                    permissionListItem.setModelName(menuPagesItem.getAdminMenusProp().getName());
-                    permissionListItem.setPages(new ArrayList<>());
-                } else {
-                    permissionListItem = resultMap.get(menuPagesItem.getMenuId());
-                }
-                permissionListItem.getPages().add(pages.get(menuPagesItem.getPageId()));
-                resultMap.put(menuPagesItem.getMenuId(), permissionListItem);
-            }
-        }
-        return Result.success(resultMap.values());
     }
 
     @LogExecutionTime

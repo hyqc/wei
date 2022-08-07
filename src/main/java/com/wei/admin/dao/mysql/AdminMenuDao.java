@@ -65,4 +65,10 @@ public interface AdminMenuDao {
      * @return
      */
     List<MenuItem> selectAllAdminPageMenus();
+
+    /**
+     * 查询全部有效的菜单
+     * @return
+     */
+    List<MenuItem> selectAllValidMenus();
 }

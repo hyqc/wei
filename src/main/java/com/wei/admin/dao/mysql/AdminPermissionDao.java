@@ -28,12 +28,6 @@ public interface AdminPermissionDao {
     List<AdminPermissionPo> selectPermissions(@Param("adminId") Integer adminId, @Param("menuId") Integer menuId);
 
     /**
-     * 查询全部有效的菜单
-     * @return
-     */
-    List<MenuItem> selectAllValidMenus();
-
-    /**
      * 查询超管的权限
      * @return
      */
@@ -51,8 +45,6 @@ public interface AdminPermissionDao {
      * @return
      */
     List<PermissionsPageItem> selectAllPermission();
-
-    List<Integer> selectAllPermissionIdsByRoleId(Integer roleId);
 
     List<Integer> selectAllPermissionIdsByCondition(Integer adminId, Integer gameId, Integer roleId);
 
@@ -126,4 +118,10 @@ public interface AdminPermissionDao {
      * @param permissionIds
      */
     void deleteAdminPermissionApisByPermissionId(@Param("permissionIds") List<Integer> permissionIds);
+
+    /**
+     * 查询出所有的跟权限有关的菜单
+     * @return
+     */
+    List<Integer> selectAllPermissionsMenus();
 }
