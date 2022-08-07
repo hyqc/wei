@@ -23,24 +23,16 @@ public interface AdminRoleDao {
     void deleteAdminUserRolesByCondition(@Param("roleIds") List<Integer> roleIds, @Param("adminId") Integer adminId);
 
     /**
-     * 获取管理员的角色列表
-     *
-     * @param adminId
-     * @return
-     */
-    List<UserRoleItem> selectAllRolesByAdminId(Integer adminId);
-
-    /**
      * 查询角色列表
      *
+     * @param params
      * @param item
      * @param startTime
      * @param endTime
      * @return
      */
-    List<RoleListItem> selectAdminRoleList(@Param("item") RoleListItem item,
-                                           @Param("startTime") LocalDateTime startTime,
-                                           @Param("endTime") LocalDateTime endTime);
+    List<RoleListItem> selectAdminRoleList(@Param("params") RoleListParams params,@Param("item") RoleListItem item
+            , @Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
 
     /**
      * 添加角色
@@ -105,4 +97,10 @@ public interface AdminRoleDao {
      * @return
      */
     List<RoleListItem> selectAdminRoleAll(@Param("params") RoleListParams params);
+
+    /**
+     * 删除角色
+     * @param id
+     */
+    void deleteAdminRoleByRoleId(Integer id);
 }

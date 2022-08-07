@@ -1,6 +1,5 @@
 package com.wei.admin.controller;
 
-import com.wei.admin.common.SortTypeEnum;
 import com.wei.admin.dto.*;
 import com.wei.admin.service.UserService;
 import com.wei.common.Result;
@@ -40,14 +39,13 @@ public class UserController extends BaseController {
             case "lastLoginTime":
                 params.setSortField("last_login_time");
                 break;
+            case "username":
+                params.setSortField("username");
+                break;
             default:
                 params.setSortField("id");
         }
-        if (params.getSortType() != null && params.getSortType().length() > 0) {
-            params.setSortType(SortTypeEnum.MAP.getOrDefault(params.getSortType(), SortTypeEnum.DESC).getValue());
-        } else {
-            params.setSortType(SortTypeEnum.DESC.getValue());
-        }
+        params.handleParams();
         return userService.selectAdminUserList(params);
     }
 
@@ -79,17 +77,10 @@ public class UserController extends BaseController {
         return userService.enableAdminUser(params);
     }
 
-    @ApiOperation("账号的角色列表")
-    @PostMapping("/role")
-    @PreAuthorize("hasAuthority('adminUser::role')")
-    public Result role(@Valid @RequestBody UserRoleDetailParams params) {
-        return userService.selectAdminUserRoles(params);
-    }
-
     @ApiOperation("账号绑定角色")
-    @PostMapping("/bind")
-    @PreAuthorize("hasAuthority('adminUser::bind')")
-    public Result bind(@Valid @RequestBody UserBindRolesParams params) {
-        return userService.assignAdminUserRoles(params);
+    @PostMapping("/bindRoles")
+    @PreAuthorize("hasAuthority('adminUser::bindRoles')")
+    public Result bindRoles(@Valid @RequestBody UserBindRolesParams params) {
+        return userService.bindAdminRoles(params);
     }
 }

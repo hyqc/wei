@@ -44,7 +44,7 @@ public class ApiService extends BaseService {
         adminApiPo.setKey(params.getKey());
         adminApiPo.setName(params.getName());
         adminApiPo.setEnabled(params.getEnabled());
-        adminApiPo.setDescribe(params.getDescribe() == null ? "" : params.getDescribe());
+        adminApiPo.setDescribe(params.getDescribe() == null ? params.getName() : params.getDescribe());
         try {
             adminApiDao.addAdminApi(adminApiPo);
         } catch (DuplicateKeyException e) {

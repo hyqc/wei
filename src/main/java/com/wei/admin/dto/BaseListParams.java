@@ -35,4 +35,12 @@ public class BaseListParams {
 
     protected String sortField = "";
     protected String sortType = "";
+
+    public void handleParams() {
+        if (this.getSortType() != null && this.getSortType().length() > 0) {
+            this.setSortType(SortTypeEnum.MAP.getOrDefault(this.getSortType(), SortTypeEnum.DESC).getValue());
+        } else {
+            this.setSortType(SortTypeEnum.DESC.getValue());
+        }
+    }
 }

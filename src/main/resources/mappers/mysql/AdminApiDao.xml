@@ -48,7 +48,7 @@
                 and a.`is_enabled` = 0
             </if>
         </if>
-        order by a.`key` asc,a.`id` asc
+        order by ${sortField} ${sortType}
     </select>
     <select id="findAdminApiById" resultType="com.wei.admin.po.AdminApiPo">
         select `id`,`path`,`key`,`name`,`describe`,`is_enabled` enabled,`create_time` createTime,`modify_time`

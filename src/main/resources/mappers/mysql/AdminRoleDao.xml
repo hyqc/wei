@@ -56,16 +56,11 @@
     <delete id="deleteAdminUserRolesByAdminId">
         delete from admin_user_role where `admin_id` = #{adminId}
     </delete>
+    <delete id="deleteAdminRoleByRoleId">
+        delete from admin_role where id = #{id} and `is_enabled` = 0
+    </delete>
     <select id="getAdminUserRolesByAdminId" resultType="java.lang.Integer">
         select `role_id` roleId from admin_user_role `admin_id` = #{adminId}
-    </select>
-    <select id="selectAllRolesByAdminId" resultType="com.wei.admin.bo.UserRoleItem">
-        select aur.admin_id adminId,aur.role_id roleId,ar.name roleName from admin_user_role aur
-        inner join admin_role ar on ar.id = aur.role_id
-        where ar.is_enabled = 1
-        <if test="adminId != null and adminId > 0">
-            and aur.admin_id = #{adminId}
-        </if>
     </select>
     <select id="selectAdminRoleList" resultType="com.wei.admin.bo.RoleListItem">
         SELECT ar.id roleId, ar.name roleName,ar.create_time createDateTime,ar.modify_time modifyDateTime,
@@ -93,7 +88,7 @@
         <if test="endTime != null">
             and <![CDATA[  ar.create_time <= #{endTime} ]]>
         </if>
-        order by ar.id desc
+        order by ${params.sortField} ${params.sortType}
     </select>
     <select id="findAdminRoleById" resultType="com.wei.admin.po.AdminRolePo">
         select `id`, `name`,`describe`,`modify_admin_id` modifyAdminId, `create_admin_id` createAdminId,
@@ -128,10 +123,10 @@
     <select id="selectAdminRoleAll" resultType="com.wei.admin.bo.RoleListItem">
         select id roleId,name roleName from admin_role where `is_enabled` = 1
         <if test="params.roleId != null and params.roleId > 0">
-            and id = #{params.roleId}
+            and id = #{params.id}
         </if>
         <if test="params.roleName != null and params.roleName.length > 0">
-            and name like "%${params.roleName}%"
+            and name like "%${params.name}%"
         </if>
     </select>
 </mapper>

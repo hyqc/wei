@@ -465,12 +465,6 @@ public class UserService implements UserDetailsService {
         return Result.success(msg);
     }
 
-    @LogExecutionTime
-    public Result selectAdminUserRoles(UserRoleDetailParams params) {
-        List<UserRoleItem> userRoleItemList = adminRoleDao.
-                selectAllRolesByAdminId(params.getAdminId());
-        return Result.success(userRoleItemList);
-    }
 
     /**
      * 获取角色拥有的权限ID
@@ -549,7 +543,7 @@ public class UserService implements UserDetailsService {
     }
 
     @LogExecutionTime
-    public Result assignAdminUserRoles(UserBindRolesParams params) {
+    public Result bindAdminRoles(UserBindRolesParams params) {
         List<Integer> roleIds = params.getRoleIds().stream().filter(id -> id > 0).distinct().collect(Collectors.toList());
         if (roleIds.size() == 0) {
             return Result.failed("没有有效的角色");
