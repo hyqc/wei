@@ -3,8 +3,7 @@ package com.wei.admin.dto;
 import com.wei.constant.PatternConstant;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
@@ -14,8 +13,7 @@ import javax.validation.constraints.Pattern;
 /**
  * @author Administrator
  */
-@Getter
-@Setter
+@Data
 @ApiModel("AccountRegisterParams")
 public class AccountRegisterParams {
 

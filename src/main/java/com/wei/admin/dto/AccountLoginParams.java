@@ -1,7 +1,6 @@
 package com.wei.admin.dto;
 
 import com.wei.constant.PatternConstant;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -14,7 +13,6 @@ import javax.validation.constraints.Pattern;
  * @author Administrator
  */
 @Data
-@ApiModel("AccountLoginParams")
 public class AccountLoginParams {
     @ApiParam(value = "账号", required = true)
     @NotNull(message = "账号不能为空")

@@ -1,15 +1,13 @@
 package com.wei.admin.po;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 /**
  * @author wlp
  */
-@Getter
-@Setter
+@Data
 public class AdminRolePo {
     /**
      * 自增角色ID

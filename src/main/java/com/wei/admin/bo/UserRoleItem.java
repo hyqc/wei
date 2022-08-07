@@ -1,13 +1,11 @@
 package com.wei.admin.bo;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * @author Administrator
  */
-@Getter
-@Setter
+@Data
 public class UserRoleItem {
     private Integer adminId;
     private Integer roleId;

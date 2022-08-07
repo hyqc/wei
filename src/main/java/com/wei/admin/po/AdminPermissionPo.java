@@ -2,8 +2,7 @@ package com.wei.admin.po;
 
 import com.wei.util.DateTimeUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -13,8 +12,7 @@ import java.time.LocalDateTime;
  *
  * @author wlp
  */
-@Getter
-@Setter
+@Data
 public class AdminPermissionPo {
     /**
      * 权限ID

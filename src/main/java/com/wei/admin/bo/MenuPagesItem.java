@@ -1,15 +1,12 @@
 package com.wei.admin.bo;
 
 import com.wei.admin.po.AdminMenuPo;
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
 
 /**
  * @author Administrator
  */
-@Getter
-@Setter
+@Data
 public class MenuPagesItem {
     private Integer menuId;
     private Integer pageId;

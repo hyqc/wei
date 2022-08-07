@@ -1,20 +1,16 @@
 package com.wei.admin.bo;
 
-import com.wei.admin.po.AdminMenuPo;
 import com.wei.admin.po.AdminUserPo;
 import com.wei.util.DateTimeUtil;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import java.util.List;
 import java.util.Map;
 
 
 /**
  * @author Administrator
  */
-@Getter
-@Setter
+@Data
 public class AccountInfoItem {
     private Integer adminId;
     private String username;

@@ -368,7 +368,9 @@ public class UserService implements UserDetailsService {
         AdminUserPo adminUserPo = adminUserDao.findAdminUserDetailByAdminId(params.getAdminId());
         UserListItem userListItem = new UserListItem();
         if (adminUserPo != null) {
-            List<UserRoleItem> adminRolePos = adminRoleDao.selectAdminUserRolesByAdminIds(new HashSet<Integer>(){{add(adminUserPo.getId());}});
+            List<UserRoleItem> adminRolePos = adminRoleDao.selectAdminUserRolesByAdminIds(new HashSet<Integer>() {{
+                add(adminUserPo.getId());
+            }});
             BeanUtils.copyProperties(adminUserPo, userListItem);
             userListItem.setRoles(adminRolePos);
             userListItem.setAdminId(adminUserPo.getId());

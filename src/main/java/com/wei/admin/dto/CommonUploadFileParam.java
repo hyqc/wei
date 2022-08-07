@@ -1,8 +1,7 @@
 package com.wei.admin.dto;
 
 import io.swagger.annotations.ApiParam;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
@@ -10,8 +9,7 @@ import javax.validation.constraints.NotNull;
 /**
  * @author Administrator
  */
-@Getter
-@Setter
+@Data
 public class CommonUploadFileParam {
 
     @NotNull(message = "上传文件类型无效")

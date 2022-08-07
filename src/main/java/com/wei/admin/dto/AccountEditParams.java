@@ -2,8 +2,7 @@ package com.wei.admin.dto;
 
 import com.wei.constant.PatternConstant;
 import io.swagger.annotations.ApiParam;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
@@ -13,8 +12,7 @@ import javax.validation.constraints.Pattern;
 /**
  * @author Administrator
  */
-@Getter
-@Setter
+@Data
 public class AccountEditParams {
 
     @Pattern(regexp = PatternConstant.TRIM_BLANK_STRING, message = PatternConstant.TRIM_BLANK_STRING_MESSAGE)

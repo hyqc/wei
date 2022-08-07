@@ -3,6 +3,7 @@ package com.wei.admin.dto;
 import com.wei.constant.PatternConstant;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -14,8 +15,7 @@ import javax.validation.constraints.Pattern;
 /**
  * @author Administrator
  */
-@Getter
-@Setter
+@Data
 @ApiModel(value = "创建管理员请求参数")
 public class UserAddParams {
     @ApiParam(value = "管理员账号", required = true)

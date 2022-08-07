@@ -2,16 +2,14 @@ package com.wei.admin.bo;
 
 import com.wei.util.DateTimeUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 /**
  * @author Administrator
  */
-@Getter
-@Setter
+@Data
 public class RoleListItem {
     /**
      * 角色ID

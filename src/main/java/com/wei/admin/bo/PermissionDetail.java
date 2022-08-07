@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author wlp
@@ -30,6 +31,10 @@ public class PermissionDetail {
      * 菜单路由
      */
     private String menuPath;
+    /**
+     * 绑定的接口列表
+     */
+    private List<ApiListItem> apis;
     /**
      * 权限唯一标识符
      */

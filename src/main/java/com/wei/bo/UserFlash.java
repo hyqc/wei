@@ -1,13 +1,11 @@
 package com.wei.bo;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * @author Administrator
  */
-@Getter
-@Setter
+@Data
 public class UserFlash {
     private String username;
     private Integer gameId;

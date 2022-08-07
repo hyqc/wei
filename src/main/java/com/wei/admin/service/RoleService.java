@@ -59,7 +59,7 @@ public class RoleService extends BaseService {
         }
 
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<RoleListItem> roleListItemList = adminRoleDao.selectAdminRoleList(params,roleListItem, startTime, endTime);
+        List<RoleListItem> roleListItemList = adminRoleDao.selectAdminRoleList(params, roleListItem, startTime, endTime);
         Pager<RoleListItem> result = Pager.restPage(roleListItemList);
         return Result.success(result);
     }
@@ -156,8 +156,8 @@ public class RoleService extends BaseService {
         try {
             adminRoleDao.addAdminRolePermission(params.getId(), permissionIds);
             return Result.success();
-        }catch (DuplicateKeyException e){
-            if (e.getMessage().contains("uk_role_permission")){
+        } catch (DuplicateKeyException e) {
+            if (e.getMessage().contains("uk_role_permission")) {
                 throw new BusinessException("角色权限关系已存在");
             }
             throw new BusinessException("绑定角色权限关系失败");
@@ -182,7 +182,7 @@ public class RoleService extends BaseService {
         if (adminRolePo == null || adminRolePo.getId() < 1) {
             return Result.failed("角色不存在或已被删除");
         }
-        if(adminRolePo.getEnabled()){
+        if (adminRolePo.getEnabled()) {
             return Result.failed("启用下的角色不能删除");
         }
         adminRoleDao.deleteAdminRoleByRoleId(params.getId());

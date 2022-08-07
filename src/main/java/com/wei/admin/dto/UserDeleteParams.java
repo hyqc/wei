@@ -2,14 +2,12 @@ package com.wei.admin.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+@Data
 @ApiModel("AdminUserDeleteQueryParams")
 public class UserDeleteParams {
 
