@@ -100,4 +100,16 @@ public interface AdminUserDao {
      * @param roleIds
      */
     void addAdminUserRoles(@Param("adminId") Integer adminId,@Param("roleIds") List<Integer> roleIds);
+
+    /**
+     * 删除管理员
+     * @param adminId
+     */
+    void deleteAdminUser(Integer adminId);
+
+    /**
+     * 删除用户角色表指定的用户
+     * @param adminId
+     */
+    void deleteAdminUserRoles(Integer adminId);
 }

@@ -470,7 +470,7 @@ public class UserService implements UserDetailsService {
     @LogExecutionTime
     public Result enableAdminUser(UserUpdateEnabledParams params) {
         adminUserDao.updateAdminUserIsEnabled(params.getAdminId(), params.getEnabled());
-        String msg = params.getEnabled() ? "锁定成功" : "解锁成功";
+        String msg = params.getEnabled() ? "启用成功" : "禁用成功";
         return Result.success(msg);
     }
 
@@ -566,5 +566,20 @@ public class UserService implements UserDetailsService {
         }
         adminUserDao.addAdminUserRoles(params.getAdminId(), params.getRoleIds());
         return Result.success();
+    }
+
+    @LogExecutionTime
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
+    public Result deleteAdminUser(UserDeleteParams params) {
+        AdminUserPo po = adminUserDao.findAdminUserDetailByAdminId(params.getAdminId());
+        if (po == null) {
+            return Result.failed("账号不存在或已被删除");
+        }
+        if (po.getEnabled()) {
+            return Result.failed("启用状态的账号不能删除");
+        }
+        adminUserDao.deleteAdminUser(params.getAdminId());
+        adminUserDao.deleteAdminUserRoles(params.getAdminId());
+        return Result.success("删除账号成功");
     }
 }

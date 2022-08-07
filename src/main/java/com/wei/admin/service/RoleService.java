@@ -177,6 +177,8 @@ public class RoleService extends BaseService {
         return Result.success(all);
     }
 
+    @LogExecutionTime
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
     public Result deleteRole(RoleDeleteParams params) {
         AdminRolePo adminRolePo = adminRoleDao.findAdminRoleById(params.getId());
         if (adminRolePo == null || adminRolePo.getId() < 1) {
@@ -186,6 +188,7 @@ public class RoleService extends BaseService {
             return Result.failed("启用下的角色不能删除");
         }
         adminRoleDao.deleteAdminRoleByRoleId(params.getId());
+        adminRoleDao.deleteAdminRole(params.getId());
         return Result.success("删除角色成功");
     }
 }

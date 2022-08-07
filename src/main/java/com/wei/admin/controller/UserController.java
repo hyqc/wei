@@ -24,7 +24,7 @@ public class UserController extends BaseController {
 
     @ApiOperation("账号列表")
     @PostMapping("/list")
-    // @PreAuthorize("hasAuthority('adminUser::list')")
+    @PreAuthorize("hasAuthority('adminUser::list')")
     public Result list(@Valid @RequestBody UserListParams params) {
         switch (params.getSortField()) {
             case "createTime":
@@ -51,7 +51,7 @@ public class UserController extends BaseController {
 
     @ApiOperation("账号详情")
     @PostMapping("/detail")
-    // @PreAuthorize("hasAuthority('adminUser::detail')")
+    @PreAuthorize("hasAuthority('adminUser::detail')")
     public Result detail(@Valid @RequestBody UserDetailParams params) {
         return userService.getAdminUserDetail(params);
     }
@@ -75,6 +75,13 @@ public class UserController extends BaseController {
     @PreAuthorize("hasAuthority('adminUser::enable')")
     public Result enable(@Valid @RequestBody UserUpdateEnabledParams params) {
         return userService.enableAdminUser(params);
+    }
+
+    @ApiOperation("删除账号")
+    @PostMapping("/delete")
+    @PreAuthorize("hasAuthority('adminUser::delete')")
+    public Result delete(@Valid @RequestBody UserDeleteParams params) {
+        return userService.deleteAdminUser(params);
     }
 
     @ApiOperation("账号绑定角色")

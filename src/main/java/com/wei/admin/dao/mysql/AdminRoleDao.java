@@ -111,4 +111,10 @@ public interface AdminRoleDao {
      * @return
      */
     List<UserRoleItem> selectAdminUserRolesByAdminIds(@Param("adminIds") Set<Integer> adminIds);
+
+    /**
+     * 按照角色ID删除用户角色表关系
+     * @param id
+     */
+    void deleteAdminRole(Integer roleId);
 }

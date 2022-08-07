@@ -60,6 +60,12 @@
     <update id="updateAdminUserIsEnabled">
         update admin_user set `is_enabled` = #{enabled} where `id` = #{adminId} and `id` != 1
     </update>
+    <delete id="deleteAdminUser">
+        delete from admin_user where id = #{adminId} and `is_enabled` = 0
+    </delete>
+    <delete id="deleteAdminUserRoles">
+        delete from admin_user_role where admin_id = #{adminId}
+    </delete>
     <select id="findAdminUserInfoByUsername" resultType="com.wei.admin.po.AdminUserPo">
         select `id` ,`username`,`nickname`, `password`, `avatar`, `last_login_time` lastLoginTime,`login_total`
         loginTotal, `last_login_ip` lastLoginIp,`email`,`is_enabled` enabled,`create_time`

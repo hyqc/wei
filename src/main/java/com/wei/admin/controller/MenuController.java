@@ -32,7 +32,7 @@ public class MenuController extends BaseController {
 
     @ApiOperation(value = "有效菜单树")
     @PostMapping("/tree")
-    // @PreAuthorize("hasAuthority('adminMenu::tree')")
+    @PreAuthorize("hasAuthority('adminMenu::tree')")
     public Result tree() {
         return menuService.selectAllAdminMenu();
     }
@@ -74,14 +74,14 @@ public class MenuController extends BaseController {
 
     @ApiOperation("菜单权限列表")
     @PostMapping("/permissions")
-    // @PreAuthorize("hasAuthority('adminMenu::permissions')")
+    @PreAuthorize("hasAuthority('adminMenu::permissions')")
     public Result permissions(@Valid @RequestBody MenuPermissionsParams params){
         return menuService.getMenuPermissions(params);
     }
 
     @ApiOperation("页面菜单列表")
     @PostMapping("/pages")
-    // @PreAuthorize("hasAuthority('adminMenu::pages')")
+    @PreAuthorize("hasAuthority('adminMenu::pages')")
     public Result pages(@Valid @RequestBody MenuPagesParams params){
         return menuService.pageMenus(params);
     }

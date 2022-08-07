@@ -59,6 +59,9 @@
     <delete id="deleteAdminRoleByRoleId">
         delete from admin_role where id = #{id} and `is_enabled` = 0
     </delete>
+    <delete id="deleteAdminRole">
+        delete from admin_user_role where role_id = #{roleId}
+    </delete>
     <select id="getAdminUserRolesByAdminId" resultType="java.lang.Integer">
         select `role_id` roleId from admin_user_role `admin_id` = #{adminId}
     </select>
