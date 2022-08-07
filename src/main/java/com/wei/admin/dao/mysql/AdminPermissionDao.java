@@ -114,4 +114,16 @@ public interface AdminPermissionDao {
      * @param permissions
      */
     void batchAddMenuPermissions(@Param("permissions") List<AdminPermissionPo> permissions);
+
+    /**
+     * 按照菜单删除权限
+     * @param menuId
+     */
+    void deleteAdminPermissionByMenuId(Integer menuId);
+
+    /**
+     * 删除指定集合权限ID的权限接口关系数据
+     * @param permissionIds
+     */
+    void deleteAdminPermissionApisByPermissionId(@Param("permissionIds") List<Integer> permissionIds);
 }

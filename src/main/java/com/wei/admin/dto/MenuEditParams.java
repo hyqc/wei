@@ -18,28 +18,21 @@ public class MenuEditParams {
     @ApiParam("菜单ID")
     @NotNull(message = "无效菜单")
     @Range(min = 1, message = "无效菜单")
-    private Integer menuId;
+    private Integer id;
 
     @ApiParam("父级菜单ID")
-    @NotNull(message = "父级菜单不能为空")
     @Range(min = 0, message = "无效父级菜单")
     private Integer parentId;
 
     @ApiParam("菜单路由")
-    @NotNull(message = "菜单路由不能为空")
-    @NotBlank(message = "菜单路由不能为空")
     @Pattern(regexp = PatternConstant.TRIM_BLANK_STRING, message = PatternConstant.TRIM_BLANK_STRING_MESSAGE)
     private String path;
 
     @ApiParam("菜单键名")
-    @NotNull(message = "菜单键名不能为空")
-    @NotBlank(message = "菜单键名不能为空")
     @Pattern(regexp = PatternConstant.TRIM_BLANK_STRING, message = PatternConstant.TRIM_BLANK_STRING_MESSAGE)
     private String key;
 
     @ApiParam("菜单名称")
-    @NotNull(message = "菜单名称不能为空")
-    @NotBlank(message = "菜单名称不能为空")
     @Pattern(regexp = PatternConstant.TRIM_BLANK_STRING, message = PatternConstant.TRIM_BLANK_STRING_MESSAGE)
     private String name;
 

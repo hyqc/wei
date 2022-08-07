@@ -60,6 +60,9 @@ public class UserController extends BaseController {
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('adminUser::add')")
     public Result add(@Valid @RequestBody UserAddParams params) {
+        if (!params.getPassword().equals(params.getConfirmPassword())) {
+            return Result.failed("两次输入的密码不一致");
+        }
         return userService.addAdminUser(params);
     }
 
@@ -67,6 +70,9 @@ public class UserController extends BaseController {
     @PostMapping("/edit")
     @PreAuthorize("hasAuthority('adminUser::edit')")
     public Result edit(@Valid @RequestBody UserEditParams params) {
+        if (params.getPassword() != null && params.getConfirmPassword() != null && !params.getPassword().equals(params.getConfirmPassword())) {
+            return Result.failed("两次输入的密码不一致");
+        }
         return userService.editAdminUser(params);
     }
 

@@ -124,6 +124,7 @@ public class PermissionService extends BaseService {
     }
 
     @LogExecutionTime
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
     public Result deleteAdminPermission(PermissionDeleteParams params) {
         PermissionDetail permissionDetail = adminPermissionDao.findAdminPermissionDetailById(params.getId());
         if (permissionDetail == null) {
@@ -133,6 +134,7 @@ public class PermissionService extends BaseService {
             return Result.failed("权限启用状态下不能删除");
         }
         adminPermissionDao.deleteAdminPermission(params.getId());
+        adminPermissionDao.deleteAdminPermissionApis(params.getId());
         return Result.success("删除成功");
     }
 

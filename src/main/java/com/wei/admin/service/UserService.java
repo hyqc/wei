@@ -389,11 +389,10 @@ public class UserService implements UserDetailsService {
         // 创建账号
         AdminUserPo adminUserPo = new AdminUserPo();
         adminUserPo.setUsername(params.getUsername());
-        if (params.getNickname() == null) {
-            params.setNickname(params.getUsername());
-        }
-        adminUserPo.setNickname(params.getNickname());
+        adminUserPo.setNickname(params.getNickname() == null ? params.getUsername() : params.getNickname());
         adminUserPo.setEnabled(params.getEnabled());
+        adminUserPo.setEmail(params.getEmail() == null ? "" : params.getEmail());
+        adminUserPo.setAvatar(params.getAvatar() == null ? "" : params.getAvatar());
         adminUserPo.setCreateTime(LocalDateTime.now());
         adminUserPo.setModifyTime(adminUserPo.getCreateTime());
         adminUserPo.setPassword(passwordEncoder.encode(params.getPassword()));
@@ -402,25 +401,6 @@ public class UserService implements UserDetailsService {
             adminUserDao.addAdminUser(adminUserPo);
         } catch (DuplicateKeyException duplicateKeyException) {
             throw new ParamException("账号已存在");
-        }
-
-        Integer adminId = adminUserPo.getId();
-        // 添加角色
-        if (params.getRoleIds() != null && params.getRoleIds().length() > 0) {
-            List<Integer> roleIds = Arrays.stream(params.getRoleIds().trim().split(","))
-                    .map(Integer::parseInt)
-                    .distinct().filter(roleId -> {
-                        return roleId > 0;
-                    }).collect(Collectors.toList());
-            // 查询角色是否存在
-            if (roleIds.size() == 0) {
-                throw new ParamException("无效角色");
-            }
-            roleIds = adminRoleDao.selectRolesByRoleIds(roleIds);
-            if (roleIds == null || roleIds.size() == 0) {
-                throw new ParamException("无效角色");
-            }
-            adminRoleDao.addAdminUserRoles(roleIds, adminId);
         }
         return Result.success("创建用户成功");
     }
@@ -431,40 +411,37 @@ public class UserService implements UserDetailsService {
         // 编辑用户信息
         AdminUserPo adminUserPo = new AdminUserPo();
         adminUserPo.setId(params.getAdminId());
-        adminUserPo.setNickname(params.getNickname());
-        adminUserPo.setEnabled(params.getEnabled());
+        boolean updateFlag = false;
+        if (params.getUsername() != null && params.getUsername().length() > 0) {
+            adminUserPo.setUsername(params.getUsername());
+            updateFlag = true;
+        }
+        if (params.getNickname() != null) {
+            adminUserPo.setNickname(params.getNickname());
+            updateFlag = true;
+        }
+        if (params.getEnabled() != null) {
+            adminUserPo.setEnabled(params.getEnabled());
+            updateFlag = true;
+        }
         if (params.getPassword() != null) {
             adminUserPo.setPassword(passwordEncoder.encode(params.getPassword()));
+            updateFlag = true;
         }
-        adminUserPo.setModifyTime(LocalDateTime.now());
-        adminUserDao.editAdminUser(adminUserPo);
-        if (params.getRoleIds() != null) {
-            if ("".equals(params.getRoleIds())) {
-                // 按用户ID删除全部角色
-                adminRoleDao.deleteAdminUserRolesByAdminId(params.getAdminId());
-            } else {
-                List<Integer> addRoleIds = new ArrayList<>();
-                // 添加用户的用户游戏角色信息
-                addRoleIds = Arrays.stream(params.getRoleIds().trim().split(","))
-                        .map(Integer::parseInt)
-                        .distinct().filter(roleId -> roleId > 0).collect(Collectors.toList());
-                if (addRoleIds.size() == 0) {
-                    throw new ParamException("无效角色");
-                }
-                // 查询角色是否存在
-                addRoleIds = adminRoleDao.selectRolesByRoleIds(addRoleIds);
-                if (addRoleIds == null || addRoleIds.size() == 0) {
-                    throw new ParamException("无效角色");
-                }
-                // 删除用户的用户游戏角色信息
-                adminRoleDao.deleteAdminUserRolesByCondition(addRoleIds, params.getAdminId());
-                if (addRoleIds.size() > 0) {
-                    adminRoleDao.addAdminUserRoles(addRoleIds, params.getAdminId());
-                }
-            }
-
+        if (params.getEmail() != null) {
+            adminUserPo.setEmail(params.getEmail());
+            updateFlag = true;
         }
-        return Result.success("更新用户成功");
+        if (params.getAvatar() != null) {
+            adminUserPo.setAvatar(params.getAvatar());
+            updateFlag = true;
+        }
+        if (updateFlag) {
+            adminUserPo.setModifyTime(LocalDateTime.now());
+            adminUserDao.editAdminUser(adminUserPo);
+            return Result.success("更新用户成功");
+        }
+        return Result.success("没有任何更新");
     }
 
     @LogExecutionTime

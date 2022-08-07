@@ -21,6 +21,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -143,6 +144,7 @@ public class MenuService extends BaseService {
     }
 
     @LogExecutionTime
+    @Transactional(rollbackFor = {RuntimeException.class,Error.class})
     public Result deleteAdminMenu(MenuDeleteParams params) {
         AdminMenuPo adminMenuPo = adminMenuDao.findAdminMenuById(params.getMenuId());
         if (adminMenuPo == null) {
@@ -151,7 +153,13 @@ public class MenuService extends BaseService {
         if (adminMenuPo.getEnabled()) {
             return Result.failed("菜单启用状态下不能删除");
         }
+        List<AdminPermissionPo> permissionPos = adminPermissionDao.selectPermissionsByMenuId(params.getMenuId());
+        List<Integer> permissionIds = permissionPos.stream().map(AdminPermissionPo::getId).collect(Collectors.toList());
         adminMenuDao.deleteAdminMenu(params.getMenuId());
+        adminPermissionDao.deleteAdminPermissionByMenuId(params.getMenuId());
+        if (permissionIds.size() > 0){
+            adminPermissionDao.deleteAdminPermissionApisByPermissionId(permissionIds);
+        }
         return Result.success("删除成功");
     }
 

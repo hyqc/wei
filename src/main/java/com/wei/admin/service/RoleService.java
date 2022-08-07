@@ -2,6 +2,7 @@ package com.wei.admin.service;
 
 import com.wei.admin.bo.RoleDetail;
 import com.wei.admin.bo.RolePermissionItem;
+import com.wei.admin.dao.mysql.AdminUserDao;
 import com.wei.admin.po.AdminUserPo;
 import com.wei.common.Result;
 import com.wei.core.aop.LogExecutionTime;
@@ -35,7 +36,7 @@ public class RoleService extends BaseService {
     private AdminRoleDao adminRoleDao;
 
     @Autowired
-    private UserService userService;
+    private AdminUserDao adminUserDao;
 
     @LogExecutionTime
     public Result selectAdminRolesList(RoleListParams params) {
@@ -189,6 +190,7 @@ public class RoleService extends BaseService {
         }
         adminRoleDao.deleteAdminRoleByRoleId(params.getId());
         adminRoleDao.deleteAdminRole(params.getId());
+        adminUserDao.deleteAdminUserRolesByRoleId(params.getId());
         return Result.success("删除角色成功");
     }
 }

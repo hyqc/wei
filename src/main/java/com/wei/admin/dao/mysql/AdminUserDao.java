@@ -112,4 +112,10 @@ public interface AdminUserDao {
      * @param adminId
      */
     void deleteAdminUserRoles(Integer adminId);
+
+    /**
+     * 按照角色ID删除角色用户关系信息
+     * @param roleId
+     */
+    void deleteAdminUserRolesByRoleId(Integer roleId);
 }

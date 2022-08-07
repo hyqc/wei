@@ -6,11 +6,11 @@
         values (#{username},#{nickname},#{password},#{createTime}, #{modifyTime})
     </insert>
     <insert id="addAdminUser" parameterType="com.wei.admin.po.AdminUserPo">
-        <selectKey keyProperty="adminId" order="AFTER" resultType="java.lang.Integer">
-            select LAST_INSERT_ID() as adminId
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as id
         </selectKey>
-        insert into admin_user(`username`, `nickname`, `password`, `is_enabled`, `create_time`, `modify_time`)
-        values (#{username},#{nickname},#{password},#{enabled}, #{createTime},#{modifyTime})
+        insert into admin_user(`username`, `nickname`, `password`, `is_enabled`, `email`,`create_time`, `modify_time`)
+        values (#{username},#{nickname},#{password},#{enabled},#{email}, #{createTime},#{modifyTime})
     </insert>
     <insert id="addAdminUserRoles">
         insert into admin_user_role (`admin_id`,`role_id`) values
@@ -65,6 +65,9 @@
     </delete>
     <delete id="deleteAdminUserRoles">
         delete from admin_user_role where admin_id = #{adminId}
+    </delete>
+    <delete id="deleteAdminUserRolesByRoleId">
+        delete from admin_user_role where role_id = #{roleId}
     </delete>
     <select id="findAdminUserInfoByUsername" resultType="com.wei.admin.po.AdminUserPo">
         select `id` ,`username`,`nickname`, `password`, `avatar`, `last_login_time` lastLoginTime,`login_total`

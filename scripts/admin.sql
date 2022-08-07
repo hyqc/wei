@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 27/06/2022 02:10:02
+ Date: 07/08/2022 21:03:42
 */
 
 SET NAMES utf8mb4;
@@ -34,31 +34,51 @@ CREATE TABLE `admin_api`  (
   UNIQUE INDEX `uk_name`(`name`) USING BTREE,
   UNIQUE INDEX `uk_key`(`key`) USING BTREE,
   UNIQUE INDEX `uk_path`(`path`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '接口权限关系表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '接口权限关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin_api
 -- ----------------------------
-INSERT INTO `admin_api` VALUES (1, '/admin/user/list', 'adminUser::list', '管理员列表', '', 1, '2022-06-24 22:31:21', '2022-06-24 22:31:21');
-INSERT INTO `admin_api` VALUES (3, '/admin/user/detail', 'adminUser::detail', '管理员详情', '', 1, '2022-06-24 22:32:52', '2022-06-24 22:32:52');
-INSERT INTO `admin_api` VALUES (4, '/admin/user/add', 'adminUser::add', '添加管理员', '', 1, '2022-06-24 22:34:04', '2022-06-24 22:34:04');
-INSERT INTO `admin_api` VALUES (5, '/admin/user/edit', 'adminUser::edit', '编辑管理员', '', 1, '2022-06-24 22:34:11', '2022-06-24 22:34:11');
-INSERT INTO `admin_api` VALUES (8, '/role/list', 'adminRole::list', '角色列表', '', 1, '2022-06-24 23:51:50', '2022-06-24 23:51:50');
-INSERT INTO `admin_api` VALUES (10, '/role/add', 'adminRole::add', '添加角色', '', 1, '2022-06-24 23:51:53', '2022-06-24 23:51:53');
-INSERT INTO `admin_api` VALUES (11, '/role/edit', 'adminRole::edit', '编辑角色', '', 1, '2022-06-24 23:51:54', '2022-06-24 23:51:54');
-INSERT INTO `admin_api` VALUES (12, '/role/detail', 'adminRole::detail', '角色详情', '', 1, '2022-06-24 23:51:57', '2022-06-24 23:51:57');
-INSERT INTO `admin_api` VALUES (26, '/admin/user/assign', 'adminUser::assign', '管理员权限列表', '', 1, '2022-06-25 21:53:20', '2022-06-25 21:53:20');
-INSERT INTO `admin_api` VALUES (27, '/admin/user/role', 'adminUser::role', '管理员的角色列表', '', 1, '2022-06-24 22:34:54', '2022-06-24 22:34:54');
-INSERT INTO `admin_api` VALUES (28, '/admin/role/enable', 'adminRole::enable', '启用禁用角色', '', 1, '2022-06-26 15:21:54', '2022-06-26 15:21:54');
-INSERT INTO `admin_api` VALUES (29, '/admin/role/permission', 'adminRole::permission', '角色权限', '', 1, '2022-06-25 21:28:18', '2022-06-25 21:28:20');
-INSERT INTO `admin_api` VALUES (30, '/admin/role/assign', 'adminRole::assign', '角色分配权限', '', 1, '2022-06-25 21:29:06', '2022-06-25 21:29:09');
-INSERT INTO `admin_api` VALUES (31, '/admin/api/list', 'adminApi::list', '接口列表', '', 1, '2022-06-26 15:19:52', '2022-06-26 15:19:55');
-INSERT INTO `admin_api` VALUES (32, '/admin/api/add', 'adminApi::add', '接口添加', '', 1, '2022-06-26 15:20:20', '2022-06-26 15:20:22');
-INSERT INTO `admin_api` VALUES (33, '/admin/api/detail', 'adminApi::detail', '接口详情', '', 1, '2022-06-26 15:20:41', '2022-06-26 15:20:44');
-INSERT INTO `admin_api` VALUES (34, '/admin/api/edit', 'adminApi::edit', '接口编辑', '接口编辑', 1, '2022-06-26 16:09:03', '2022-06-26 16:09:03');
-INSERT INTO `admin_api` VALUES (35, '/admin/api/enable', 'adminApi::enable', '接口禁用启用', '', 1, '2022-06-26 15:21:42', '2022-06-26 15:21:45');
-INSERT INTO `admin_api` VALUES (36, '/admin/api/delete', 'adminApi::delete', '接口删除', '', 1, '2022-06-26 15:22:23', '2022-06-26 15:22:25');
-INSERT INTO `admin_api` VALUES (50, '/admin/menu/list', 'adminMenu::list', '菜单列表', '', 1, '2022-06-27 01:56:54', '2022-06-27 01:56:54');
+INSERT INTO `admin_api` VALUES (1, '/admin/user/list', 'adminUser::list', '账号列表', '账号列表', 1, '2022-08-07 10:59:16', '2022-08-07 10:59:17');
+INSERT INTO `admin_api` VALUES (2, '/admin/user/add', 'adminUser::add', '账号创建', '账号创建', 1, '2022-08-07 11:01:21', '2022-08-07 11:01:21');
+INSERT INTO `admin_api` VALUES (3, '/admin/user/detail', 'adminUser::detail', '账号详情', '账号详情', 1, '2022-08-07 10:59:05', '2022-08-07 10:59:05');
+INSERT INTO `admin_api` VALUES (4, '/admin/user/edit', 'adminUser::edit', '账号编辑', '账号编辑', 1, '2022-08-07 11:24:04', '2022-08-07 11:24:04');
+INSERT INTO `admin_api` VALUES (5, '/admin/user/enable', 'adminUser::enable', '账号启用禁用', '账号启用禁用', 1, '2022-08-07 11:31:53', '2022-08-07 11:31:53');
+INSERT INTO `admin_api` VALUES (6, '/admin/user/delete', 'adminUser::delete', '账号删除', '账号删除', 1, '2022-08-07 11:31:58', '2022-08-07 11:31:58');
+INSERT INTO `admin_api` VALUES (7, '/admin/user/bindRoles', 'adminUser::bindRoles', '账号绑定角色', '账号绑定角色', 1, '2022-08-07 11:37:20', '2022-08-07 11:37:20');
+INSERT INTO `admin_api` VALUES (8, '/admin/role/list', 'adminRole::list', '角色列表', '角色列表', 1, '2022-08-07 11:48:30', '2022-08-07 11:48:30');
+INSERT INTO `admin_api` VALUES (9, '/admin/role/add', 'adminRole::add', '角色创建', '', 1, '2022-08-07 11:48:55', '2022-08-07 11:48:56');
+INSERT INTO `admin_api` VALUES (10, '/admin/role/detail', 'adminRole::detail', '角色详情', '', 1, '2022-08-07 11:50:29', '2022-08-07 11:50:29');
+INSERT INTO `admin_api` VALUES (11, '/admin/role/edit', 'adminRole::edit', '角色编辑', '', 1, '2022-08-07 12:14:07', '2022-08-07 12:14:07');
+INSERT INTO `admin_api` VALUES (12, '/admin/role/enable', 'adminRole::enable', '角色禁用启用', '', 1, '2022-08-07 12:14:38', '2022-08-07 12:14:38');
+INSERT INTO `admin_api` VALUES (13, '/admin/role/delete', 'adminRole::delete', '角色删除', '', 1, '2022-08-07 12:15:21', '2022-08-07 12:15:21');
+INSERT INTO `admin_api` VALUES (14, '/admin/role/bindPermissions', 'adminRole::bindPermissions', '角色绑定权限', '', 1, '2022-08-07 12:16:03', '2022-08-07 12:16:03');
+INSERT INTO `admin_api` VALUES (15, '/admin/role/permissions', 'adminRole::permissions', '角色权限列表', '', 1, '2022-08-07 12:16:56', '2022-08-07 12:16:56');
+INSERT INTO `admin_api` VALUES (16, '/admin/menu/tree', 'adminMenu::tree', '菜单树', '', 1, '2022-08-07 12:27:17', '2022-08-07 12:27:17');
+INSERT INTO `admin_api` VALUES (17, '/admin/menu/list', 'adminMenu::list', '菜单列表', '', 1, '2022-08-07 12:27:40', '2022-08-07 12:27:40');
+INSERT INTO `admin_api` VALUES (18, '/admin/menu/add', 'adminMenu::add', '菜单创建', '', 1, '2022-08-07 12:28:02', '2022-08-07 12:28:02');
+INSERT INTO `admin_api` VALUES (19, '/admin/menu/detail', 'adminMenu::detail', '菜单详情', '', 1, '2022-08-07 12:28:17', '2022-08-07 12:28:17');
+INSERT INTO `admin_api` VALUES (20, '/admin/menu/edit', 'adminMenu::edit', '菜单编辑', '', 1, '2022-08-07 12:28:38', '2022-08-07 12:28:38');
+INSERT INTO `admin_api` VALUES (21, '/admin/menu/enable', 'adminMenu::enable', '菜单禁用启用', '', 1, '2022-08-07 12:28:52', '2022-08-07 12:28:52');
+INSERT INTO `admin_api` VALUES (22, '/admin/menu/delete', 'adminMenu::delete', '菜单删除', '', 1, '2022-08-07 12:29:06', '2022-08-07 12:29:06');
+INSERT INTO `admin_api` VALUES (23, '/admin/menu/permissions', 'adminMenu::permissions', '菜单权限', '', 1, '2022-08-07 14:18:02', '2022-08-07 14:18:03');
+INSERT INTO `admin_api` VALUES (24, '/admin/menu/pages', 'adminMenu::pages', '菜单页面列表', '', 1, '2022-08-07 12:30:16', '2022-08-07 12:30:16');
+INSERT INTO `admin_api` VALUES (25, '/admin/permission/list', 'adminPermission::list', '权限列表', '', 1, '2022-08-07 12:31:00', '2022-08-07 12:31:00');
+INSERT INTO `admin_api` VALUES (26, '/admin/permission/add', 'adminPermission::add', '权限创建', '', 1, '2022-08-07 12:31:15', '2022-08-07 12:31:15');
+INSERT INTO `admin_api` VALUES (27, '/admin/permission/detail', 'adminPermission::detail', '权限详情', '', 1, '2022-08-07 12:31:29', '2022-08-07 12:31:29');
+INSERT INTO `admin_api` VALUES (28, '/admin/permission/edit', 'adminPermission::edit', '权限编辑', '', 1, '2022-08-07 12:36:02', '2022-08-07 12:36:02');
+INSERT INTO `admin_api` VALUES (29, '/admin/permission/enable', 'adminPermission::enable', '权限禁用启用', '', 1, '2022-08-07 12:36:18', '2022-08-07 12:36:18');
+INSERT INTO `admin_api` VALUES (30, '/admin/permission/delete', 'adminPermission::delete', '权限删除', '', 1, '2022-08-07 12:36:28', '2022-08-07 12:36:28');
+INSERT INTO `admin_api` VALUES (31, '/admin/permission/addMenuPermissions', 'adminPermission::addMenuPermissions', '权限指定菜单批量创建权限', '给指定的菜单创建查看，编辑，删除权限', 1, '2022-08-07 12:37:22', '2022-08-07 12:37:22');
+INSERT INTO `admin_api` VALUES (32, '/admin/permission/bindApis', 'adminPermission::bindApis', '权限绑定接口', '', 1, '2022-08-07 12:37:40', '2022-08-07 12:37:40');
+INSERT INTO `admin_api` VALUES (33, '/admin/api/list', 'adminApi::list', '接口列表', '', 1, '2022-08-07 12:38:24', '2022-08-07 12:38:24');
+INSERT INTO `admin_api` VALUES (34, '/admin/api/add', 'adminApi::add', '接口创建', '', 1, '2022-08-07 12:38:44', '2022-08-07 12:38:44');
+INSERT INTO `admin_api` VALUES (35, '/admin/api/detail', 'adminApi::detail', '接口详情', '', 1, '2022-08-07 12:38:59', '2022-08-07 12:38:59');
+INSERT INTO `admin_api` VALUES (36, '/admin/api/edit', 'adminApi::edit', '接口编辑', '', 1, '2022-08-07 12:39:10', '2022-08-07 12:39:10');
+INSERT INTO `admin_api` VALUES (37, '/admin/api/enable', 'adminApi::enable', '接口禁用启用', '', 1, '2022-08-07 12:39:23', '2022-08-07 12:39:23');
+INSERT INTO `admin_api` VALUES (38, '/admin/api/delete', 'adminApi::delete', '接口删除', '', 1, '2022-08-07 12:39:34', '2022-08-07 12:39:34');
+INSERT INTO `admin_api` VALUES (39, '/admin/api/all', 'adminApi::all', '接口全部', '全部有效接口列表', 1, '2022-08-07 12:40:07', '2022-08-07 12:40:07');
+INSERT INTO `admin_api` VALUES (40, '/admin/role/all', 'adminRole::all', '角色全部', '全部有效的角色列表', 1, '2022-08-07 16:26:45', '2022-08-07 16:26:45');
 
 -- ----------------------------
 -- Table structure for admin_menu
@@ -84,13 +104,19 @@ CREATE TABLE `admin_menu`  (
   UNIQUE INDEX `uk_name`(`name`) USING BTREE,
   UNIQUE INDEX `uk_key`(`key`) USING BTREE,
   UNIQUE INDEX `uk_path`(`path`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '权限菜单表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '权限菜单表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin_menu
 -- ----------------------------
-INSERT INTO `admin_menu` VALUES (1, 0, '/admin/setting', '系统设置', 'adminSetting', '系统设置', '', 0, '/', '', 0, 0, 1, '2022-06-26 22:28:24', '2022-06-26 22:28:24');
-INSERT INTO `admin_menu` VALUES (2, 1, '/admin/menu', '菜单管理', 'adminMenu', '菜单列表', '', 0, '/', '', 0, 0, 1, '2022-06-26 22:29:08', '2022-06-26 22:52:31');
+INSERT INTO `admin_menu` VALUES (1, 0, '/admin', '系统设置', 'Admin', '系统设置', '', 0, '/', '', 0, 0, 1, '2022-06-26 22:28:24', '2022-06-26 22:28:24');
+INSERT INTO `admin_menu` VALUES (2, 1, '/admin/user', '账号管理', 'AdminUser', '账号列表', '', 0, '/', '', 0, 0, 1, '2022-08-06 15:09:09', '2022-08-06 15:09:11');
+INSERT INTO `admin_menu` VALUES (3, 1, '/admin/role', '角色管理', 'AdminRole', '角色列表', '', 0, '/', '', 0, 0, 1, '2022-08-06 15:08:22', '2022-08-06 15:08:25');
+INSERT INTO `admin_menu` VALUES (4, 1, '/admin/menu', '菜单管理', 'AdminMenu', '菜单列表', '', 0, '/', '', 0, 0, 1, '2022-06-26 22:29:08', '2022-06-26 22:52:31');
+INSERT INTO `admin_menu` VALUES (5, 1, '/admin/permission', '权限管理', 'AdminPermission', '权限管理', '', 0, '/', '', 0, 0, 1, '2022-08-06 15:10:20', '2022-08-06 15:10:22');
+INSERT INTO `admin_menu` VALUES (6, 1, '/admin/api', '接口管理', 'AdminApi', '接口管理', '', 0, '/', '', 0, 0, 1, '2022-08-06 15:11:37', '2022-08-06 15:11:40');
+INSERT INTO `admin_menu` VALUES (7, 1, '/admin/menu/add', '添加菜单', 'AdminMenuAdd', '添加菜单', '', 0, '/', '', 1, 0, 1, '2022-08-06 15:12:39', '2022-08-06 15:12:42');
+INSERT INTO `admin_menu` VALUES (8, 1, '/admin/menu/edit', '编辑菜单', 'AdminMenuEdit', '编辑菜单', '', 0, '/', '', 1, 0, 1, '2022-08-06 15:13:40', '2022-08-06 15:13:42');
 
 -- ----------------------------
 -- Table structure for admin_permission
@@ -101,7 +127,7 @@ CREATE TABLE `admin_permission`  (
   `menu_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '所属菜单ID',
   `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '权限唯一标识名称',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '权限显示名称',
-  `type` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'view' COMMENT '权限的操作类型\r\nview：查看（只读）\r\nedit：编辑（读写）',
+  `type` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'view' COMMENT '权限的操作类型\r\nview：查看（只读）\r\nedit：编辑（读写）\r\ndelete：删除（彻底删除）',
   `describe` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '权限描述',
   `is_enabled` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否启用：1启用，0禁用',
   `create_time` datetime(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
@@ -109,13 +135,26 @@ CREATE TABLE `admin_permission`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_key`(`key`) USING BTREE,
   UNIQUE INDEX `uk_permission`(`menu_id`, `type`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin_permission
 -- ----------------------------
-INSERT INTO `admin_permission` VALUES (1, 2, 'AdminMenuView', '菜单查看', 'view', '菜单查看', 1, '2022-06-27 01:24:10', '2022-06-27 01:24:10');
-INSERT INTO `admin_permission` VALUES (4, 2, 'AdminMenuEdit', '菜单编辑', 'edit', '菜单编辑', 1, '2022-06-27 01:24:01', '2022-06-27 01:24:01');
+INSERT INTO `admin_permission` VALUES (1, 2, 'AdminUserView', '账号查看', 'view', '账号管理查看', 1, '2022-08-07 10:42:31', '2022-08-07 10:42:31');
+INSERT INTO `admin_permission` VALUES (2, 2, 'AdminUserEdit', '账号编辑', 'edit', '账号管理编辑', 1, '2022-08-06 20:20:58', '2022-08-06 20:20:58');
+INSERT INTO `admin_permission` VALUES (3, 2, 'AdminUserDelete', '账号删除', 'delete', '账号管理删除', 1, '2022-08-06 20:20:58', '2022-08-06 20:20:58');
+INSERT INTO `admin_permission` VALUES (4, 3, 'AdminRoleView', '角色查看', 'view', '角色管理查看', 1, '2022-08-06 20:21:52', '2022-08-06 20:21:52');
+INSERT INTO `admin_permission` VALUES (5, 3, 'AdminRoleEdit', '角色编辑', 'edit', '角色管理编辑', 1, '2022-08-06 20:21:52', '2022-08-06 20:21:52');
+INSERT INTO `admin_permission` VALUES (6, 3, 'AdminRoleDelete', '角色删除', 'delete', '角色管理删除', 1, '2022-08-06 20:21:52', '2022-08-06 20:21:52');
+INSERT INTO `admin_permission` VALUES (7, 4, 'AdminMenuView', '菜单查看', 'view', '菜单管理查看', 1, '2022-08-06 20:22:07', '2022-08-06 20:22:07');
+INSERT INTO `admin_permission` VALUES (8, 4, 'AdminMenuEdit', '菜单编辑', 'edit', '菜单管理编辑', 1, '2022-08-06 20:22:07', '2022-08-06 20:22:07');
+INSERT INTO `admin_permission` VALUES (9, 4, 'AdminMenuDelete', '菜单删除', 'delete', '菜单管理删除', 1, '2022-08-06 20:22:07', '2022-08-06 20:22:07');
+INSERT INTO `admin_permission` VALUES (10, 5, 'AdminPermissionView', '权限查看', 'view', '权限管理查看', 1, '2022-08-06 20:22:17', '2022-08-06 20:22:17');
+INSERT INTO `admin_permission` VALUES (11, 5, 'AdminPermissionEdit', '权限编辑', 'edit', '权限管理编辑', 1, '2022-08-06 20:22:17', '2022-08-06 20:22:17');
+INSERT INTO `admin_permission` VALUES (12, 5, 'AdminPermissionDelete', '权限删除', 'delete', '权限管理删除', 1, '2022-08-06 20:22:17', '2022-08-06 20:22:17');
+INSERT INTO `admin_permission` VALUES (13, 6, 'AdminApiView', '接口查看', 'view', '接口管理查看', 1, '2022-08-06 20:22:27', '2022-08-06 20:22:27');
+INSERT INTO `admin_permission` VALUES (14, 6, 'AdminApiEdit', '接口编辑', 'edit', '接口管理编辑', 1, '2022-08-06 20:22:27', '2022-08-06 20:22:27');
+INSERT INTO `admin_permission` VALUES (15, 6, 'AdminApiDelete', '接口删除', 'delete', '接口管理删除', 1, '2022-08-06 20:22:27', '2022-08-06 20:22:27');
 
 -- ----------------------------
 -- Table structure for admin_permission_api
@@ -125,12 +164,52 @@ CREATE TABLE `admin_permission_api`  (
   `permission_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '权限ID',
   `api_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '接口ID',
   UNIQUE INDEX `uk_permission_api`(`permission_id`, `api_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '接口权限关系表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '接口权限关系表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of admin_permission_api
 -- ----------------------------
-INSERT INTO `admin_permission_api` VALUES (1, 50);
+INSERT INTO `admin_permission_api` VALUES (1, 1);
+INSERT INTO `admin_permission_api` VALUES (1, 3);
+INSERT INTO `admin_permission_api` VALUES (1, 40);
+INSERT INTO `admin_permission_api` VALUES (2, 2);
+INSERT INTO `admin_permission_api` VALUES (2, 4);
+INSERT INTO `admin_permission_api` VALUES (2, 5);
+INSERT INTO `admin_permission_api` VALUES (2, 7);
+INSERT INTO `admin_permission_api` VALUES (3, 6);
+INSERT INTO `admin_permission_api` VALUES (4, 8);
+INSERT INTO `admin_permission_api` VALUES (4, 10);
+INSERT INTO `admin_permission_api` VALUES (4, 15);
+INSERT INTO `admin_permission_api` VALUES (4, 40);
+INSERT INTO `admin_permission_api` VALUES (5, 9);
+INSERT INTO `admin_permission_api` VALUES (5, 11);
+INSERT INTO `admin_permission_api` VALUES (5, 12);
+INSERT INTO `admin_permission_api` VALUES (5, 14);
+INSERT INTO `admin_permission_api` VALUES (6, 13);
+INSERT INTO `admin_permission_api` VALUES (7, 16);
+INSERT INTO `admin_permission_api` VALUES (7, 17);
+INSERT INTO `admin_permission_api` VALUES (7, 19);
+INSERT INTO `admin_permission_api` VALUES (7, 23);
+INSERT INTO `admin_permission_api` VALUES (7, 24);
+INSERT INTO `admin_permission_api` VALUES (8, 18);
+INSERT INTO `admin_permission_api` VALUES (8, 20);
+INSERT INTO `admin_permission_api` VALUES (8, 21);
+INSERT INTO `admin_permission_api` VALUES (8, 31);
+INSERT INTO `admin_permission_api` VALUES (9, 22);
+INSERT INTO `admin_permission_api` VALUES (10, 25);
+INSERT INTO `admin_permission_api` VALUES (10, 27);
+INSERT INTO `admin_permission_api` VALUES (11, 26);
+INSERT INTO `admin_permission_api` VALUES (11, 28);
+INSERT INTO `admin_permission_api` VALUES (11, 29);
+INSERT INTO `admin_permission_api` VALUES (11, 32);
+INSERT INTO `admin_permission_api` VALUES (12, 30);
+INSERT INTO `admin_permission_api` VALUES (13, 33);
+INSERT INTO `admin_permission_api` VALUES (13, 35);
+INSERT INTO `admin_permission_api` VALUES (13, 39);
+INSERT INTO `admin_permission_api` VALUES (14, 34);
+INSERT INTO `admin_permission_api` VALUES (14, 36);
+INSERT INTO `admin_permission_api` VALUES (14, 37);
+INSERT INTO `admin_permission_api` VALUES (15, 38);
 
 -- ----------------------------
 -- Table structure for admin_role
@@ -152,8 +231,6 @@ CREATE TABLE `admin_role`  (
 -- ----------------------------
 -- Records of admin_role
 -- ----------------------------
-INSERT INTO `admin_role` VALUES (2, '开发', '开发', 1, 1, 1, '2022-06-24 22:26:29', '2022-06-24 22:26:29');
-INSERT INTO `admin_role` VALUES (5, '测试', '测试', 1, 1, 0, '2022-06-25 00:07:57', '2022-06-25 00:07:57');
 
 -- ----------------------------
 -- Table structure for admin_role_permission
@@ -168,11 +245,6 @@ CREATE TABLE `admin_role_permission`  (
 -- ----------------------------
 -- Records of admin_role_permission
 -- ----------------------------
-INSERT INTO `admin_role_permission` VALUES (5, 1);
-INSERT INTO `admin_role_permission` VALUES (5, 2);
-INSERT INTO `admin_role_permission` VALUES (5, 3);
-INSERT INTO `admin_role_permission` VALUES (5, 4);
-INSERT INTO `admin_role_permission` VALUES (5, 5);
 
 -- ----------------------------
 -- Table structure for admin_user
@@ -193,15 +265,12 @@ CREATE TABLE `admin_user`  (
   `modify_time` datetime(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '管理员表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '管理员表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin_user
 -- ----------------------------
-INSERT INTO `admin_user` VALUES (1, 'admin', 'admin-test', '', '$2a$10$eLtqoUPF9EpyXM1zlvBgG.erAygj155hlw4bP9C3W49AlhRTPZKQq', '', 787, '127.0.0.1,127.0.0.1', '2022-06-27 00:24:49', 1, '2022-06-27 00:24:48', '2022-06-27 00:24:48');
-INSERT INTO `admin_user` VALUES (2, 'test', 'test', '', '$2a$10$cMLPoyArndwDtVXNTCKExe5dTAwHBxoNceiXrf95PoKO4UzFSdOaG', '', 0, '', NULL, 1, '2022-06-23 23:53:30', '2022-06-23 23:53:30');
-INSERT INTO `admin_user` VALUES (4, 'wlp', 'wlp', '', '$2a$10$cMLPoyArndwDtVXNTCKExe5dTAwHBxoNceiXrf95PoKO4UzFSdOaG', '', 0, '', NULL, 1, '2022-06-23 23:53:33', '2022-06-23 23:53:33');
-INSERT INTO `admin_user` VALUES (6, 'wll', 'wll', '', '$2a$10$x3nxXTRKI.MWJfbP.j2Ubu4c6NoFEpPLKgMJBWlHX/3FmbYo9UVQC', '', 0, '', NULL, 1, '2022-06-26 14:49:38', '2022-06-26 14:49:38');
+INSERT INTO `admin_user` VALUES (1, 'admin', '超管', 'ddd@q1.com', '$2a$10$uH8D8y9yGq4w9ByQtvh3dudv.kPcEM/..9SwDRX88N2OZOvmvb1N2', '', 2, '127.0.0.1,127.0.0.1', '2022-08-07 13:58:26', 1, '2022-08-07 13:58:25', '2022-08-07 13:58:25');
 
 -- ----------------------------
 -- Table structure for admin_user_role
@@ -216,7 +285,5 @@ CREATE TABLE `admin_user_role`  (
 -- ----------------------------
 -- Records of admin_user_role
 -- ----------------------------
-INSERT INTO `admin_user_role` VALUES (2, 2);
-INSERT INTO `admin_user_role` VALUES (2, 5);
 
 SET FOREIGN_KEY_CHECKS = 1;
