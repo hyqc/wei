@@ -70,16 +70,16 @@ public class PermissionController extends BaseController {
     }
 
     @ApiOperation("权限绑定接口")
-    @PostMapping("/bind")
-    // @PreAuthorize("hasAuthority('adminPermission::bind')")
-    public Result bind(@Valid @RequestBody PermissionApisBindParams params) {
+    @PostMapping("/bindApis")
+    // @PreAuthorize("hasAuthority('adminPermission::bindApis')")
+    public Result bindApis(@Valid @RequestBody PermissionApisBindParams params) {
         return permissionService.bindAdminApis(params);
     }
 
     @ApiOperation("指定菜单创建查看编辑删除权限")
-    @PostMapping("/menu")
-    // @PreAuthorize("hasAuthority('adminPermission::menu')")
-    public Result menu(@Valid @RequestBody PermissionBindMenuParams params) {
-        return permissionService.bindAdminPermissionsMenu(params);
+    @PostMapping("/addMenuPermissions")
+    // @PreAuthorize("hasAuthority('adminPermission::addMenuPermissions')")
+    public Result addMenuPermissions(@Valid @RequestBody PermissionBindMenuParams params) {
+        return permissionService.addMenuPermissions(params);
     }
 }

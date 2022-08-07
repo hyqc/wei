@@ -40,9 +40,9 @@ public class AccountController extends BaseController {
     }
 
     @ApiOperation("个人中心详情")
-    @GetMapping("/detail")
-    public Result detail(@RequestParam(value = "refreshToken", defaultValue = "false", required = false) Boolean refreshToken) {
-        return userService.getAccountDetail(refreshToken);
+    @PostMapping("/detail")
+    public Result detail(@Valid @RequestBody AccountDetailParams params) {
+        return userService.getAccountDetail(params);
     }
 
     @ApiOperation("修改信息")

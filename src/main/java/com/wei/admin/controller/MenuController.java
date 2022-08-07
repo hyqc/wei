@@ -72,17 +72,17 @@ public class MenuController extends BaseController {
         return menuService.deleteAdminMenu(params);
     }
 
-    @ApiOperation("菜单关联权限列表")
-    @PostMapping("/permissions")
-    // @PreAuthorize("hasAuthority('adminMenu::permissions')")
-    public Result permissions(@Valid @RequestBody MenuPermissionsParams params){
-        return menuService.menuPermissions(params);
+    @ApiOperation("批量创建菜单权限")
+    @PostMapping("/addPermissions")
+    // @PreAuthorize("hasAuthority('adminMenu::addPermissions')")
+    public Result addPermissions(@Valid @RequestBody MenuPermissionsParams params){
+        return menuService.addPermissions(params);
     }
 
     @ApiOperation("页面菜单列表")
-    @GetMapping("/page")
-    // @PreAuthorize("hasAuthority('adminMenu::page')")
-    public Result page(@RequestParam(value = "all",required = false,defaultValue = "false") Boolean all){
-        return menuService.menusPage(all);
+    @PostMapping("/pages")
+    // @PreAuthorize("hasAuthority('adminMenu::pages')")
+    public Result pages(@Valid @RequestBody MenuPagesParams params){
+        return menuService.pageMenus(params);
     }
 }

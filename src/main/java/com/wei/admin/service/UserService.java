@@ -266,8 +266,8 @@ public class UserService implements UserDetailsService {
     }
 
     @LogExecutionTime
-    public Result<AccountInfoItem> getAccountDetail(boolean refreshToken) {
-        return Result.success(getMyInfo(refreshToken));
+    public Result<AccountInfoItem> getAccountDetail(AccountDetailParams params) {
+        return Result.success(getMyInfo(params.getRefreshToken()));
     }
 
     @LogExecutionTime

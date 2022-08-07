@@ -152,7 +152,7 @@ public class PermissionService extends BaseService {
 
     @LogExecutionTime
     @Transactional(rollbackFor = {RuntimeException.class, Error.class})
-    public Result bindAdminPermissionsMenu(PermissionBindMenuParams params) {
+    public Result addMenuPermissions(PermissionBindMenuParams params) {
         LocalDateTime now = LocalDateTime.now();
         params.getPermissions().forEach(item -> {
             item.setEnabled(item.getEnabled() != null && item.getEnabled());

@@ -9,7 +9,6 @@ import com.wei.admin.dao.mysql.AdminMenuDao;
 import com.wei.admin.dao.mysql.AdminPermissionDao;
 import com.wei.admin.dto.*;
 import com.wei.admin.pe.AdminPermissionTypeEnum;
-import com.wei.admin.po.AdminApiPo;
 import com.wei.admin.po.AdminMenuPo;
 import com.wei.admin.po.AdminPermissionPo;
 import com.wei.common.Pager;
@@ -157,7 +156,7 @@ public class MenuService extends BaseService {
     }
 
     @LogExecutionTime
-    public Result menuPermissions(MenuPermissionsParams params) {
+    public Result addPermissions(MenuPermissionsParams params) {
         AdminMenuPo adminMenuPo = adminMenuDao.findAdminMenuById(params.getMenuId());
         if (adminMenuPo == null) {
             return Result.failed("菜单不存在或已被删除");
@@ -201,10 +200,10 @@ public class MenuService extends BaseService {
         return Result.success(result);
     }
 
-    public Result menusPage(Boolean all) {
+    public Result pageMenus(MenuPagesParams params) {
         List<MenuItem> allMenus = new ArrayList<>();
         List<MenuItem> menus = adminMenuDao.selectAllAdminPageMenus();
-        if (all) {
+        if (params.getAll()) {
             MenuItem allItem = new MenuItem();
             allItem.setId(0);
             allItem.setPath("");
