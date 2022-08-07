@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 @Component
@@ -103,4 +104,11 @@ public interface AdminRoleDao {
      * @param id
      */
     void deleteAdminRoleByRoleId(Integer id);
+
+    /**
+     * 根据账号ID集合查询对应的角色列表
+     * @param adminIds
+     * @return
+     */
+    List<UserRoleItem> selectAdminUserRolesByAdminIds(@Param("adminIds") Set<Integer> adminIds);
 }

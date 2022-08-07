@@ -2,6 +2,7 @@ package com.wei.admin.service;
 
 import com.wei.admin.common.UserCommon;
 import com.wei.admin.common.UserDetails;
+import com.wei.admin.po.AdminRolePo;
 import com.wei.admin.po.AdminUserPo;
 import com.wei.common.ErrorCode;
 import com.wei.common.Result;
@@ -333,7 +334,7 @@ public class UserService implements UserDetailsService {
     protected String getLastLoginIp(String ip) {
         if (ip != null && ip.length() > 0) {
             String[] ips = ip.split(",");
-            return ips[ips.length-1];
+            return ips[ips.length - 1];
         }
         return "";
     }
@@ -341,20 +342,24 @@ public class UserService implements UserDetailsService {
     @LogExecutionTime
     public Result<Pager> selectAdminUserList(UserListParams params) {
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<AdminUserPo> adminUserPoList = adminUserDao.selectAdminUserList(params);
+        List<UserListItem> adminUserPoList = adminUserDao.selectAdminUserList(params);
         Pager result = Pager.restPage(adminUserPoList);
-        if (adminUserPoList != null) {
-            UploadConfig.UploadFieldItem uploadFieldItem = uploadConfig.getAvatar();
-            List<UserListItem> userListItemList = adminUserPoList.stream().map(adminUsersProp -> {
-                UserListItem userListItem = new UserListItem();
-                BeanUtils.copyProperties(adminUsersProp, userListItem);
-                userListItem.setAdminId(adminUsersProp.getId());
-                userListItem.setLastLoginIp(getLastLoginIp(adminUsersProp.getLastLoginIp()));
-                userListItem.setAvatar(storeConfig.getPresignedObjectUrl(uploadFieldItem, adminUsersProp.getAvatar()));
-                return userListItem;
-            }).collect(Collectors.toList());
-            result.setRows(userListItemList);
+        // 获得用户ID
+        Set<Integer> adminIds = adminUserPoList.stream().map(UserListItem::getAdminId).collect(Collectors.toSet());
+        // 获取角色信息
+        Map<Integer, List<UserRoleItem>> adminRolePoMap = new HashMap<>();
+        if (adminIds.size() > 0) {
+            List<UserRoleItem> adminRolePos = adminRoleDao.selectAdminUserRolesByAdminIds(adminIds);
+            adminRolePoMap = adminRolePos.stream().collect(Collectors.groupingBy(UserRoleItem::getAdminId));
         }
+
+        UploadConfig.UploadFieldItem uploadFieldItem = uploadConfig.getAvatar();
+        Map<Integer, List<UserRoleItem>> finalAdminRolePoMap = adminRolePoMap;
+        adminUserPoList.forEach(prop -> {
+            prop.setAvatar(storeConfig.getPresignedObjectUrl(uploadFieldItem, prop.getAvatar()));
+            prop.setRoles(finalAdminRolePoMap.containsKey(prop.getAdminId()) ? finalAdminRolePoMap.get(prop.getAdminId()) : new ArrayList<>());
+        });
+        result.setRows(adminUserPoList);
         return Result.success(result);
     }
 
@@ -363,7 +368,9 @@ public class UserService implements UserDetailsService {
         AdminUserPo adminUserPo = adminUserDao.findAdminUserDetailByAdminId(params.getAdminId());
         UserListItem userListItem = new UserListItem();
         if (adminUserPo != null) {
+            List<UserRoleItem> adminRolePos = adminRoleDao.selectAdminUserRolesByAdminIds(new HashSet<Integer>(){{add(adminUserPo.getId());}});
             BeanUtils.copyProperties(adminUserPo, userListItem);
+            userListItem.setRoles(adminRolePos);
             userListItem.setAdminId(adminUserPo.getId());
             userListItem.setLastLoginIp(getLastLoginIp(adminUserPo.getLastLoginIp()));
             UploadConfig.UploadFieldItem uploadFieldItem = uploadConfig.getAvatar();

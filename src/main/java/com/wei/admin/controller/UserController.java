@@ -28,22 +28,22 @@ public class UserController extends BaseController {
     public Result list(@Valid @RequestBody UserListParams params) {
         switch (params.getSortField()) {
             case "createTime":
-                params.setSortField("create_time");
+                params.setSortField("c.`create_time`");
                 break;
             case "modifyTime":
-                params.setSortField("modify_time");
+                params.setSortField("c.`modify_time`");
                 break;
             case "loginTotal":
-                params.setSortField("login_total");
+                params.setSortField("c.`login_total`");
                 break;
             case "lastLoginTime":
-                params.setSortField("last_login_time");
+                params.setSortField("c.`last_login_time`");
                 break;
             case "username":
-                params.setSortField("username");
+                params.setSortField("c.`username`");
                 break;
             default:
-                params.setSortField("id");
+                params.setSortField("c.`id`");
         }
         params.handleParams();
         return userService.selectAdminUserList(params);

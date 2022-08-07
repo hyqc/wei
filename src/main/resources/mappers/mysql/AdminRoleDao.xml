@@ -129,4 +129,12 @@
             and name like "%${params.name}%"
         </if>
     </select>
+    <select id="selectAdminUserRolesByAdminIds" resultType="com.wei.admin.bo.UserRoleItem">
+        select a.admin_id adminId,b.`id` roleId, b.`name` roleName from admin_user_role a
+        inner join admin_role b on b.`id` = a.`role_id`
+        where b.`is_enabled` = 1 and a.`admin_id` in
+        <foreach collection="adminIds" item="adminId" open="(" separator="," close=")">
+            #{adminId}
+        </foreach>
+    </select>
 </mapper>

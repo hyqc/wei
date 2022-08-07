@@ -1,5 +1,6 @@
 package com.wei.admin.dao.mysql;
 
+import com.wei.admin.bo.UserListItem;
 import com.wei.admin.dto.UserListParams;
 import com.wei.admin.bo.LoginInfo;
 import com.wei.admin.po.AdminUserPo;
@@ -52,7 +53,7 @@ public interface AdminUserDao {
      * @param params
      * @return
      */
-    List<AdminUserPo> selectAdminUserList(UserListParams params);
+    List<UserListItem> selectAdminUserList(UserListParams params);
 
     /**
      * 更新最后登录信息

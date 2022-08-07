@@ -1,6 +1,7 @@
 package com.wei.admin.bo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wei.admin.po.AdminRolePo;
 import com.wei.util.DateTimeUtil;
 import lombok.Data;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 /**
@@ -20,6 +22,8 @@ public class UserListItem {
     private String nickname;
     private String email;
     private String avatar;
+    private String roleIds;
+    private List<UserRoleItem> roles;
     private Boolean enabled;
     private Integer loginTotal;
     private String lastLoginIp;

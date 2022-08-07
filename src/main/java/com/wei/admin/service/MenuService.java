@@ -156,7 +156,7 @@ public class MenuService extends BaseService {
     }
 
     @LogExecutionTime
-    public Result addPermissions(MenuPermissionsParams params) {
+    public Result getMenuPermissions(MenuPermissionsParams params) {
         AdminMenuPo adminMenuPo = adminMenuDao.findAdminMenuById(params.getMenuId());
         if (adminMenuPo == null) {
             return Result.failed("菜单不存在或已被删除");

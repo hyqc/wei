@@ -66,25 +66,37 @@
         createTime, `modify_time` modifyTime
         from admin_user where `username`= #{username}
     </select>
-    <select id="selectAdminUserList" resultType="com.wei.admin.po.AdminUserPo">
-        select `id`,`username`,`nickname`, `password`, `create_time` createTime, `modify_time` modifyTime,
-        `avatar`,`is_enabled` `enabled`,`last_login_time` lastLoginTime,`last_login_ip` lastLoginIp,`login_total` loginTotal,`email` from admin_user
+    <select id="selectAdminUserList" resultType="com.wei.admin.bo.UserListItem">
+        select c.`id` adminId,c.`username`,c.`nickname`,c.`email`,c.`avatar`,c.`is_enabled` enabled,c.`login_total`
+        loginTotal,
+        c.`last_login_ip` lastLoginIp,c.`create_time` createTime,c.`modify_time` modifyTime,GROUP_CONCAT(c.`role_id`)
+        roleIds
+        from (
+        select a.`id` ,a.`username`,a.`nickname`,a.`email`,a.`avatar`,a.`is_enabled`,a.`login_total` ,a.`last_login_ip`
+        ,
+        a.`last_login_time` , a.`create_time` , a.`modify_time`,b.role_id from admin_user a
+        left join admin_user_role b on b.`admin_id` = a.`id`
         where 1
         <if test="username != null and username.length > 0">
-            and `username` like "%${username}%"
+            and a.`username` like "%${username}%"
         </if>
         <if test="nickname != null and nickname.length > 0">
-            and `nickname` like "%${nickname}%"
+            and a.`nickname` like "%${nickname}%"
         </if>
         <if test="enabled != null and enabled > 0">
             <if test="enabled == 1">
-                and `is_enabled` = 1
+                and a.`is_enabled` = 1
             </if>
             <if test="enabled == 2">
-                and `is_enabled` = 0
+                and a.`is_enabled` = 0
             </if>
         </if>
-        order by `${sortField}` ${sortType}
+        <if test="roleId != null and roleId > 0">
+            and b.`role_id` = #{roleId}
+        </if>
+        ) as c
+        GROUP BY c.`id`
+        order by ${sortField} ${sortType}
     </select>
     <select id="findAdminUserDetailByAdminId" resultType="com.wei.admin.po.AdminUserPo">
         select `id`,`username`,`nickname`, `password`, `create_time` createTime, `modify_time`
