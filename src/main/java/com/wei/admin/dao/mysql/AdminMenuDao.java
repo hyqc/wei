@@ -59,4 +59,16 @@ public interface AdminMenuDao {
      * @param id
      */
     void deleteAdminMenu(Integer id);
+
+    /**
+     * 查找与权限直接关联的菜单
+     * @return
+     */
+    List<MenuItem> selectAllAdminPageMenus();
+
+    /**
+     * 查询全部有效的菜单
+     * @return
+     */
+    List<MenuItem> selectAllValidMenus();
 }

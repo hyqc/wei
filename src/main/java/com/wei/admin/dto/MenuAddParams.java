@@ -54,7 +54,7 @@ public class MenuAddParams {
     private Boolean hideChildrenInMenu = false;
 
     @ApiParam("是否隐藏菜单")
-    private Boolean hidden = false;
+    private Boolean hideInMenu = false;
 
     @ApiParam("是否启用菜单")
     private Boolean enabled = false;

@@ -2,6 +2,8 @@ package com.wei.admin.service;
 
 import com.wei.admin.common.UserCommon;
 import com.wei.admin.common.UserDetails;
+import com.wei.admin.dao.mysql.AdminMenuDao;
+import com.wei.admin.po.AdminRolePo;
 import com.wei.admin.po.AdminUserPo;
 import com.wei.common.ErrorCode;
 import com.wei.common.Result;
@@ -26,6 +28,7 @@ import com.wei.util.CommonUtil;
 import com.wei.util.TreeUtil;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -52,6 +55,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private AdminUserDao adminUserDao;
+
+    @Autowired
+    private AdminMenuDao adminMenuDao;
 
     @Autowired
     private AdminPermissionDao adminPermissionDao;
@@ -103,21 +109,6 @@ public class UserService implements UserDetailsService {
             apiKeys = adminPermissionDao.selectAllAccessApiKeys(permissionsId);
         }
         return apiKeys == null || apiKeys.size() == 0 ? new ArrayList<>() : apiKeys.stream().map(SimpleGrantedAuthority::new).distinct().collect(Collectors.toList());
-    }
-
-    private List<MenuPagesItem> getAllTopsMenuByPageIds(List<MenuItem> menuItems, List<Integer> pageIds) {
-        List<MenuPagesItem> result = new ArrayList<>();
-        for (Integer pageId : pageIds) {
-            MenuItem adminMenuPo = TreeUtil.getTopMenuByChildrenId(menuItems, pageId);
-            if (adminMenuPo != null) {
-                MenuPagesItem menuPagesItem = new MenuPagesItem();
-                menuPagesItem.setAdminMenusProp(adminMenuPo);
-                menuPagesItem.setMenuId(adminMenuPo.getId());
-                menuPagesItem.setPageId(pageId);
-                result.add(menuPagesItem);
-            }
-        }
-        return result;
     }
 
     /**
@@ -186,6 +177,9 @@ public class UserService implements UserDetailsService {
     @LogExecutionTime
     public Result login(AccountLoginParams params, HttpServletRequest request) {
         AdminUserPo adminUserPo = adminUserDao.findAdminUserInfoByUsername(params.getUsername());
+        if (adminUserPo == null) {
+            return Result.accountOrPasswordError();
+        }
         if (!checkLoginPassword(params.getPassword(), adminUserPo.getPassword())) {
             return Result.accountOrPasswordError();
         }
@@ -249,9 +243,9 @@ public class UserService implements UserDetailsService {
         // 头像
         UploadConfig.UploadFieldItem uploadFieldItem = uploadConfig.getAvatar();
         accountInfoItem.setAvatar(storeConfig.getPresignedObjectUrl(uploadFieldItem, accountInfoItem.getAvatar()));
-        List<MenuItem> menus = getMyMenus();
-        List<AccountPermissionItem> permissions = getMyPermissions(0);
+        Map<String, MenuItem> menus = getMyMenus().stream().collect(Collectors.toMap(AdminMenuPo::getKey, item -> item));
         accountInfoItem.setMenus(menus);
+        Map<String, String> permissions = getMyPermissions(0).stream().collect(Collectors.toMap(AccountPermissionItem::getKey, AccountPermissionItem::getName));
         accountInfoItem.setPermissions(permissions);
         if (refreshToken) {
             String token = jwtTokenUtil.generateToken(userDetails);
@@ -262,8 +256,8 @@ public class UserService implements UserDetailsService {
     }
 
     @LogExecutionTime
-    public Result<AccountInfoItem> getAccountDetail(boolean refreshToken) {
-        return Result.success(getMyInfo(refreshToken));
+    public Result<AccountInfoItem> getAccountDetail(AccountDetailParams params) {
+        return Result.success(getMyInfo(params.getRefreshToken()));
     }
 
     @LogExecutionTime
@@ -276,6 +270,7 @@ public class UserService implements UserDetailsService {
 
         adminUserPo.setNickname(params.getNickname());
         adminUserPo.setAvatar(params.getAvatar());
+        adminUserPo.setEmail(params.getEmail());
         adminUserPo.setModifyTime(LocalDateTime.now());
         adminUserDao.updateAccountInfo(adminUserPo);
         return Result.success("保存成功");
@@ -293,7 +288,7 @@ public class UserService implements UserDetailsService {
         if (!passwordEncoder.matches(params.getOldPassword(), adminUserPo.getPassword())) {
             return Result.passwordError();
         }
-        adminUserDao.updatePassword(adminUserPo.getId(), passwordEncoder.encode(params.getNewPassword()));
+        adminUserDao.updatePassword(adminUserPo.getId(), passwordEncoder.encode(params.getPassword()));
         return Result.success("修改密码成功");
     }
 
@@ -314,10 +309,10 @@ public class UserService implements UserDetailsService {
             menuIds = adminPermissionPoList.stream().map(AdminPermissionPo::getMenuId).collect(Collectors.toSet());
         }
         // 权限对应的页面ID
-        Map<Integer, List<MenuItem>> menusMap = adminPermissionDao.selectAllValidMenus()
+        Map<Integer, List<MenuItem>> menusMap = adminMenuDao.selectAllValidMenus()
                 .stream()
                 .collect(Collectors.groupingBy(AdminMenuPo::getParentId));
-        return TreeUtil.menuTree(menusMap, menuIds, 0, 0, 4);
+        return TreeUtil.menuList(menusMap, menuIds, 0, 1);
     }
 
     @LogExecutionTime
@@ -325,20 +320,35 @@ public class UserService implements UserDetailsService {
         return Result.success(getMyMenus());
     }
 
+    protected String getLastLoginIp(String ip) {
+        if (ip != null && ip.length() > 0) {
+            String[] ips = ip.split(",");
+            return ips[ips.length - 1];
+        }
+        return "";
+    }
+
     @LogExecutionTime
     public Result<Pager> selectAdminUserList(UserListParams params) {
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<AdminUserPo> adminUserPoList = adminUserDao.selectAdminUserList(params);
+        List<UserListItem> adminUserPoList = adminUserDao.selectAdminUserList(params);
         Pager result = Pager.restPage(adminUserPoList);
-        if (adminUserPoList != null) {
-            UploadConfig.UploadFieldItem uploadFieldItem = uploadConfig.getAvatar();
-            List<UserListItem> userListItemList = adminUserPoList.stream().map(adminUsersProp -> {
-                UserListItem userListItem = new UserListItem().setAdminUsersListItem(adminUsersProp);
-                userListItem.setAvatar(storeConfig.getPresignedObjectUrl(uploadFieldItem, adminUsersProp.getAvatar()));
-                return userListItem;
-            }).collect(Collectors.toList());
-            result.setRows(userListItemList);
+        // 获得用户ID
+        Set<Integer> adminIds = adminUserPoList.stream().map(UserListItem::getAdminId).collect(Collectors.toSet());
+        // 获取角色信息
+        Map<Integer, List<UserRoleItem>> adminRolePoMap = new HashMap<>();
+        if (adminIds.size() > 0) {
+            List<UserRoleItem> adminRolePos = adminRoleDao.selectAdminUserRolesByAdminIds(adminIds);
+            adminRolePoMap = adminRolePos.stream().collect(Collectors.groupingBy(UserRoleItem::getAdminId));
         }
+
+        UploadConfig.UploadFieldItem uploadFieldItem = uploadConfig.getAvatar();
+        Map<Integer, List<UserRoleItem>> finalAdminRolePoMap = adminRolePoMap;
+        adminUserPoList.forEach(prop -> {
+            prop.setAvatar(storeConfig.getPresignedObjectUrl(uploadFieldItem, prop.getAvatar()));
+            prop.setRoles(finalAdminRolePoMap.containsKey(prop.getAdminId()) ? finalAdminRolePoMap.get(prop.getAdminId()) : new ArrayList<>());
+        });
+        result.setRows(adminUserPoList);
         return Result.success(result);
     }
 
@@ -347,8 +357,14 @@ public class UserService implements UserDetailsService {
         AdminUserPo adminUserPo = adminUserDao.findAdminUserDetailByAdminId(params.getAdminId());
         UserListItem userListItem = new UserListItem();
         if (adminUserPo != null) {
+            List<UserRoleItem> adminRolePos = adminRoleDao.selectAdminUserRolesByAdminIds(new HashSet<Integer>() {{
+                add(adminUserPo.getId());
+            }});
+            BeanUtils.copyProperties(adminUserPo, userListItem);
+            userListItem.setRoles(adminRolePos);
+            userListItem.setAdminId(adminUserPo.getId());
+            userListItem.setLastLoginIp(getLastLoginIp(adminUserPo.getLastLoginIp()));
             UploadConfig.UploadFieldItem uploadFieldItem = uploadConfig.getAvatar();
-            userListItem.setAdminUsersListItem(adminUserPo);
             userListItem.setAvatar(storeConfig.getPresignedObjectUrl(uploadFieldItem, adminUserPo.getAvatar()));
         } else {
             throw new ParamException("账号不存在或已删除");
@@ -362,11 +378,10 @@ public class UserService implements UserDetailsService {
         // 创建账号
         AdminUserPo adminUserPo = new AdminUserPo();
         adminUserPo.setUsername(params.getUsername());
-        if (params.getNickname() == null) {
-            params.setNickname(params.getUsername());
-        }
-        adminUserPo.setNickname(params.getNickname());
+        adminUserPo.setNickname(params.getNickname() == null ? params.getUsername() : params.getNickname());
         adminUserPo.setEnabled(params.getEnabled());
+        adminUserPo.setEmail(params.getEmail() == null ? "" : params.getEmail());
+        adminUserPo.setAvatar(params.getAvatar() == null ? "" : params.getAvatar());
         adminUserPo.setCreateTime(LocalDateTime.now());
         adminUserPo.setModifyTime(adminUserPo.getCreateTime());
         adminUserPo.setPassword(passwordEncoder.encode(params.getPassword()));
@@ -375,25 +390,6 @@ public class UserService implements UserDetailsService {
             adminUserDao.addAdminUser(adminUserPo);
         } catch (DuplicateKeyException duplicateKeyException) {
             throw new ParamException("账号已存在");
-        }
-
-        Integer adminId = adminUserPo.getId();
-        // 添加角色
-        if (params.getRoleIds() != null && params.getRoleIds().length() > 0) {
-            List<Integer> roleIds = Arrays.stream(params.getRoleIds().trim().split(","))
-                    .map(Integer::parseInt)
-                    .distinct().filter(roleId -> {
-                        return roleId > 0;
-                    }).collect(Collectors.toList());
-            // 查询角色是否存在
-            if (roleIds.size() == 0) {
-                throw new ParamException("无效角色");
-            }
-            roleIds = adminRoleDao.selectRolesByRoleIds(roleIds);
-            if (roleIds == null || roleIds.size() == 0) {
-                throw new ParamException("无效角色");
-            }
-            adminRoleDao.addAdminUserRoles(roleIds, adminId);
         }
         return Result.success("创建用户成功");
     }
@@ -404,134 +400,48 @@ public class UserService implements UserDetailsService {
         // 编辑用户信息
         AdminUserPo adminUserPo = new AdminUserPo();
         adminUserPo.setId(params.getAdminId());
-        adminUserPo.setNickname(params.getNickname());
-        adminUserPo.setEnabled(params.getEnabled());
+        boolean updateFlag = false;
+        if (params.getUsername() != null && params.getUsername().length() > 0) {
+            adminUserPo.setUsername(params.getUsername());
+            updateFlag = true;
+        }
+        if (params.getNickname() != null) {
+            adminUserPo.setNickname(params.getNickname());
+            updateFlag = true;
+        }
+        if (params.getEnabled() != null) {
+            adminUserPo.setEnabled(params.getEnabled());
+            updateFlag = true;
+        }
         if (params.getPassword() != null) {
             adminUserPo.setPassword(passwordEncoder.encode(params.getPassword()));
+            updateFlag = true;
         }
-        adminUserPo.setModifyTime(LocalDateTime.now());
-        adminUserDao.editAdminUser(adminUserPo);
-        if (params.getRoleIds() != null) {
-            if ("".equals(params.getRoleIds())) {
-                // 按用户ID删除全部角色
-                adminRoleDao.deleteAdminUserRolesByAdminId(params.getAdminId());
-            } else {
-                List<Integer> addRoleIds = new ArrayList<>();
-                // 添加用户的用户游戏角色信息
-                addRoleIds = Arrays.stream(params.getRoleIds().trim().split(","))
-                        .map(Integer::parseInt)
-                        .distinct().filter(roleId -> roleId > 0).collect(Collectors.toList());
-                if (addRoleIds.size() == 0) {
-                    throw new ParamException("无效角色");
-                }
-                // 查询角色是否存在
-                addRoleIds = adminRoleDao.selectRolesByRoleIds(addRoleIds);
-                if (addRoleIds == null || addRoleIds.size() == 0) {
-                    throw new ParamException("无效角色");
-                }
-                // 删除用户的用户游戏角色信息
-                adminRoleDao.deleteAdminUserRolesByCondition(addRoleIds, params.getAdminId());
-                if (addRoleIds.size() > 0) {
-                    adminRoleDao.addAdminUserRoles(addRoleIds, params.getAdminId());
-                }
-            }
-
+        if (params.getEmail() != null) {
+            adminUserPo.setEmail(params.getEmail());
+            updateFlag = true;
         }
-        return Result.success("更新用户成功");
+        if (params.getAvatar() != null) {
+            adminUserPo.setAvatar(params.getAvatar());
+            updateFlag = true;
+        }
+        if (updateFlag) {
+            adminUserPo.setModifyTime(LocalDateTime.now());
+            adminUserDao.editAdminUser(adminUserPo);
+            return Result.success("更新用户成功");
+        }
+        return Result.success("没有任何更新");
     }
 
     @LogExecutionTime
     public Result enableAdminUser(UserUpdateEnabledParams params) {
         adminUserDao.updateAdminUserIsEnabled(params.getAdminId(), params.getEnabled());
-        String msg = params.getEnabled() ? "锁定成功" : "解锁成功";
+        String msg = params.getEnabled() ? "启用成功" : "禁用成功";
         return Result.success(msg);
     }
 
     @LogExecutionTime
-    public Result selectAdminUserRoles(UserRoleDetailParams params) {
-        List<UserRoleItem> userRoleItemList = adminRoleDao.
-                selectAllRolesByAdminId(params.getAdminId());
-        return Result.success(userRoleItemList);
-    }
-
-    /**
-     * 获取角色拥有的权限ID
-     *
-     * @param roleId
-     * @return
-     */
-    @LogExecutionTime
-    public HashMap<String, Integer> selectAdminUserPermissions(Integer roleId) {
-        List<Integer> ids = adminPermissionDao.selectAllPermissionIdsByRoleId(roleId);
-        HashMap<String, Integer> data = new HashMap<>();
-        if (ids == null || ids.size() == 0) {
-            return data;
-        }
-
-        for (Integer id : ids) {
-            data.put(id.toString(), id);
-        }
-        return data;
-    }
-
-    @LogExecutionTime
-    public Result getAllAdminPermissionsList() {
-        // 全部权限ID
-        List<PermissionsPageItem> permissionsPageItemList = adminPermissionDao.selectAllPermission();
-        // 获取权限对应的页面信息
-        LinkedHashMap<Integer, String> pagesMap = new LinkedHashMap<>();
-        List<Integer> pageIds = new ArrayList<>();
-        for (PermissionsPageItem permissionsPageItem : permissionsPageItemList) {
-            pageIds.add(permissionsPageItem.getMenuId());
-            if (!pagesMap.containsKey(permissionsPageItem.getMenuId())) {
-                pagesMap.put(permissionsPageItem.getMenuId(), permissionsPageItem.getMenuName());
-            }
-        }
-        pageIds = pageIds.stream().distinct().collect(Collectors.toList());
-        List<MenuItem> adminMenusProps = adminPermissionDao.selectAllValidMenus();
-        // 获取顶级模块
-        List<MenuPagesItem> menuPagesItemList = getAllTopsMenuByPageIds(adminMenusProps, pageIds);
-
-        // 获取页面对应的权限
-        LinkedHashMap<Integer, PermissionListItem.PageItem> pages = new LinkedHashMap<>();
-        for (Map.Entry<Integer, String> entry : pagesMap.entrySet()) {
-            Integer pageId = entry.getKey();
-            PermissionListItem.PageItem pageItem = new PermissionListItem.PageItem();
-            pageItem.setPageId(pageId);
-            pageItem.setPageName(entry.getValue());
-            pageItem.setPermissions(new ArrayList<>());
-            for (PermissionsPageItem permissionsPageItem : permissionsPageItemList) {
-                if (permissionsPageItem.getMenuId().equals(pageId)) {
-                    PermissionListItem.PermissionItem permissionItem = new PermissionListItem.PermissionItem();
-                    permissionItem.setPermissionId(permissionsPageItem.getPermissionId());
-                    permissionItem.setPermissionName(permissionsPageItem.getPermissionName());
-                    permissionItem.setPermission(permissionsPageItem.getPermission());
-                    pageItem.getPermissions().add(permissionItem);
-                }
-            }
-            pages.put(pageId, pageItem);
-        }
-
-        LinkedHashMap<Integer, PermissionListItem> resultMap = new LinkedHashMap<>();
-        for (MenuPagesItem menuPagesItem : menuPagesItemList) {
-            if (pages.containsKey(menuPagesItem.getPageId())) {
-                PermissionListItem permissionListItem = new PermissionListItem();
-                if (!resultMap.containsKey(menuPagesItem.getMenuId())) {
-                    permissionListItem.setModelId(menuPagesItem.getMenuId());
-                    permissionListItem.setModelName(menuPagesItem.getAdminMenusProp().getName());
-                    permissionListItem.setPages(new ArrayList<>());
-                } else {
-                    permissionListItem = resultMap.get(menuPagesItem.getMenuId());
-                }
-                permissionListItem.getPages().add(pages.get(menuPagesItem.getPageId()));
-                resultMap.put(menuPagesItem.getMenuId(), permissionListItem);
-            }
-        }
-        return Result.success(resultMap.values());
-    }
-
-    @LogExecutionTime
-    public Result assignAdminUserRoles(UserAssignParams params) {
+    public Result bindAdminRoles(UserBindRolesParams params) {
         List<Integer> roleIds = params.getRoleIds().stream().filter(id -> id > 0).distinct().collect(Collectors.toList());
         if (roleIds.size() == 0) {
             return Result.failed("没有有效的角色");
@@ -545,5 +455,20 @@ public class UserService implements UserDetailsService {
         }
         adminUserDao.addAdminUserRoles(params.getAdminId(), params.getRoleIds());
         return Result.success();
+    }
+
+    @LogExecutionTime
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
+    public Result deleteAdminUser(UserDeleteParams params) {
+        AdminUserPo po = adminUserDao.findAdminUserDetailByAdminId(params.getAdminId());
+        if (po == null) {
+            return Result.failed("账号不存在或已被删除");
+        }
+        if (po.getEnabled()) {
+            return Result.failed("启用状态的账号不能删除");
+        }
+        adminUserDao.deleteAdminUser(params.getAdminId());
+        adminUserDao.deleteAdminUserRoles(params.getAdminId());
+        return Result.success("删除账号成功");
     }
 }

@@ -1,7 +1,9 @@
 package com.wei.admin.po;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wei.util.DateTimeUtil;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -9,8 +11,7 @@ import java.time.LocalDateTime;
 /**
  * @author wlp
  */
-@Getter
-@Setter
+@Data
 @Component
 public class AdminUserPo {
     /**
@@ -53,7 +54,13 @@ public class AdminUserPo {
      * 启用
      */
     private Boolean enabled;
+
+    @JsonFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
     private LocalDateTime createTime;
+
+    @JsonFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
     private LocalDateTime modifyTime;
 
 }

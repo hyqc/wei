@@ -27,9 +27,11 @@ public class TreeUtil {
         }
         return menusMap.get(parentId).stream().map(menuItem -> {
             menuItem.setLevel(level);
+            menuItem.setChildren(null);
             Integer next = level + 1;
             if (next <= maxDeep) {
-                menuItem.setChildren(menuTree(menusMap, menusIds, menuItem.getId(), next, maxDeep));
+                List<MenuItem> children = menuTree(menusMap, menusIds, menuItem.getId(), next, maxDeep);
+                menuItem.setChildren(children.size() > 0 ? children : null);
             }
             if (menusIds != null && menuItem.getChildren().size() == 0
                     && !menusIds.contains(parentId)
@@ -40,8 +42,29 @@ public class TreeUtil {
         }).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
+    public static List<MenuItem> menuList(Map<Integer, List<MenuItem>> menusMap, Set<Integer> menusIds,
+                                          Integer parentId, Integer level) {
+        if (!menusMap.containsKey(parentId)) {
+            return new ArrayList<>();
+        }
+        List<MenuItem> list = new ArrayList<>();
+        menusMap.get(parentId).forEach(item -> {
+            if (menusIds == null || menusIds.contains(item.getId())) {
+                item.setChildren(null);
+                item.setLevel(level);
+                list.add(item);
+                List<MenuItem> childrenList = menuList(menusMap, menusIds, item.getId(), level + 1);
+                if (childrenList.size() > 0) {
+                    list.addAll(childrenList);
+                }
+            }
+        });
+        return list;
+    }
+
     /**
      * 根据子菜单ID获取全部的祖先菜单
+     *
      * @param menuItems
      * @param childrenId
      * @return

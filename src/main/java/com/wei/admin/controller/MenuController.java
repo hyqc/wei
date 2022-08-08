@@ -27,18 +27,17 @@ public class MenuController extends BaseController {
     @PostMapping("/list")
     @PreAuthorize("hasAuthority('adminMenu::list')")
     public Result list(@Valid @RequestBody MenuListParams params) {
-        params.handleListParams();
         return menuService.selectAdminMenuList(params);
     }
 
-    @ApiOperation(value = "全部菜单")
+    @ApiOperation(value = "有效菜单树")
     @PostMapping("/tree")
     @PreAuthorize("hasAuthority('adminMenu::tree')")
     public Result tree() {
         return menuService.selectAllAdminMenu();
     }
 
-    @ApiOperation(value = "添加菜单")
+    @ApiOperation(value = "创建菜单")
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('adminMenu::add')")
     public Result add(@Valid @RequestBody MenuAddParams params) {
@@ -52,7 +51,7 @@ public class MenuController extends BaseController {
         return menuService.getAdminMenuDetail(params);
     }
 
-    @ApiOperation(value = "菜单编辑")
+    @ApiOperation(value = "编辑菜单")
     @PostMapping("/edit")
     @PreAuthorize("hasAuthority('adminMenu::edit')")
     public Result edit(@Valid @RequestBody MenuEditParams params) {
@@ -71,5 +70,26 @@ public class MenuController extends BaseController {
     @PreAuthorize("hasAuthority('adminMenu::delete')")
     public Result delete(@Valid @RequestBody MenuDeleteParams params) {
         return menuService.deleteAdminMenu(params);
+    }
+
+    @ApiOperation("菜单权限列表")
+    @PostMapping("/permissions")
+    @PreAuthorize("hasAuthority('adminMenu::permissions')")
+    public Result permissions(@Valid @RequestBody MenuPermissionsParams params){
+        return menuService.getMenuPermissions(params);
+    }
+
+    @ApiOperation("页面菜单列表")
+    @PostMapping("/pages")
+    @PreAuthorize("hasAuthority('adminMenu::pages')")
+    public Result pages(@Valid @RequestBody MenuPagesParams params){
+        return menuService.pageMenus(params);
+    }
+
+    @ApiOperation("页面模块权限列表")
+    @PostMapping("/mode")
+    @PreAuthorize("hasAuthority('adminMenu::mode')")
+    public Result mode(){
+        return menuService.allMode();
     }
 }

@@ -26,7 +26,26 @@ public class UserController extends BaseController {
     @PostMapping("/list")
     @PreAuthorize("hasAuthority('adminUser::list')")
     public Result list(@Valid @RequestBody UserListParams params) {
-        params.handleListParams();
+        switch (params.getSortField()) {
+            case "createTime":
+                params.setSortField("c.`create_time`");
+                break;
+            case "modifyTime":
+                params.setSortField("c.`modify_time`");
+                break;
+            case "loginTotal":
+                params.setSortField("c.`login_total`");
+                break;
+            case "lastLoginTime":
+                params.setSortField("c.`last_login_time`");
+                break;
+            case "username":
+                params.setSortField("c.`username`");
+                break;
+            default:
+                params.setSortField("c.`id`");
+        }
+        params.handleParams();
         return userService.selectAdminUserList(params);
     }
 
@@ -41,6 +60,9 @@ public class UserController extends BaseController {
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('adminUser::add')")
     public Result add(@Valid @RequestBody UserAddParams params) {
+        if (!params.getPassword().equals(params.getConfirmPassword())) {
+            return Result.failed("两次输入的密码不一致");
+        }
         return userService.addAdminUser(params);
     }
 
@@ -48,6 +70,9 @@ public class UserController extends BaseController {
     @PostMapping("/edit")
     @PreAuthorize("hasAuthority('adminUser::edit')")
     public Result edit(@Valid @RequestBody UserEditParams params) {
+        if (params.getPassword() != null && params.getConfirmPassword() != null && !params.getPassword().equals(params.getConfirmPassword())) {
+            return Result.failed("两次输入的密码不一致");
+        }
         return userService.editAdminUser(params);
     }
 
@@ -58,17 +83,17 @@ public class UserController extends BaseController {
         return userService.enableAdminUser(params);
     }
 
-    @ApiOperation("账号的角色列表")
-    @PostMapping("/role")
-    @PreAuthorize("hasAuthority('adminUser::role')")
-    public Result role(@Valid @RequestBody UserRoleDetailParams params) {
-        return userService.selectAdminUserRoles(params);
+    @ApiOperation("删除账号")
+    @PostMapping("/delete")
+    @PreAuthorize("hasAuthority('adminUser::delete')")
+    public Result delete(@Valid @RequestBody UserDeleteParams params) {
+        return userService.deleteAdminUser(params);
     }
 
-    @ApiOperation("账号添加角色")
-    @PostMapping("/bind")
-    @PreAuthorize("hasAuthority('adminUser::bind')")
-    public Result bind(@Valid @RequestBody UserAssignParams params) {
-        return userService.assignAdminUserRoles(params);
+    @ApiOperation("账号绑定角色")
+    @PostMapping("/bindRoles")
+    @PreAuthorize("hasAuthority('adminUser::bindRoles')")
+    public Result bindRoles(@Valid @RequestBody UserBindRolesParams params) {
+        return userService.bindAdminRoles(params);
     }
 }

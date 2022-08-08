@@ -26,14 +26,34 @@ public class ApiController {
     @PostMapping("/list")
     @PreAuthorize("hasAuthority('adminApi::list')")
     public Result list(@Valid @RequestBody ApiListParams params) {
-        params.handleListParams();
+        switch (params.getSortField()) {
+            case "createTime":
+                params.setSortField("a.create_time");
+                break;
+            case "modifyTime":
+                params.setSortField("a.modify_time");
+                break;
+            case "key":
+                params.setSortField("a.key");
+                break;
+            default:
+                params.setSortField("a.id");
+        }
+        params.handleParams();
         return apiService.selectAdminApiList(params);
     }
 
-    @ApiOperation("接口添加")
+    @ApiOperation("有效接口列表")
+    @PostMapping("/all")
+    @PreAuthorize("hasAuthority('adminApi::all')")
+    public Result all() {
+        return apiService.selectAdminApiAll();
+    }
+
+    @ApiOperation("创建接口")
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('adminApi::add')")
-    public Result list(@Valid @RequestBody ApiAddParams params) {
+    public Result add(@Valid @RequestBody ApiAddParams params) {
         return apiService.addAdminApi(params);
     }
 
@@ -44,21 +64,21 @@ public class ApiController {
         return apiService.getAdminApiDetail(params);
     }
 
-    @ApiOperation("接口编辑")
+    @ApiOperation("编辑接口")
     @PostMapping("/edit")
     @PreAuthorize("hasAuthority('adminApi::edit')")
     public Result edit(@Valid @RequestBody ApiEditParams params) {
         return apiService.editAdminApi(params);
     }
 
-    @ApiOperation("接口禁用启用")
+    @ApiOperation("启用禁用接口")
     @PostMapping("/enable")
     @PreAuthorize("hasAuthority('adminApi::enable')")
     public Result enable(@Valid @RequestBody ApiEnabledParams params) {
         return apiService.enableAdminApi(params);
     }
 
-    @ApiOperation("接口删除")
+    @ApiOperation("删除接口")
     @PostMapping("/delete")
     @PreAuthorize("hasAuthority('adminApi::delete')")
     public Result delete(@Valid @RequestBody ApiDeleteParams params) {

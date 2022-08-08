@@ -2,6 +2,7 @@ package com.wei.admin.service;
 
 import com.wei.admin.bo.RoleDetail;
 import com.wei.admin.bo.RolePermissionItem;
+import com.wei.admin.dao.mysql.AdminUserDao;
 import com.wei.admin.po.AdminUserPo;
 import com.wei.common.Result;
 import com.wei.core.aop.LogExecutionTime;
@@ -35,13 +36,13 @@ public class RoleService extends BaseService {
     private AdminRoleDao adminRoleDao;
 
     @Autowired
-    private UserService userService;
+    private AdminUserDao adminUserDao;
 
     @LogExecutionTime
     public Result selectAdminRolesList(RoleListParams params) {
         RoleListItem roleListItem = new RoleListItem();
-        roleListItem.setRoleId(params.getRoleId());
-        roleListItem.setRoleName(params.getRoleName());
+        roleListItem.setRoleId(params.getId());
+        roleListItem.setRoleName(params.getName());
         if (params.getEnabled() != null) {
             if (params.getEnabled() == 0) {
                 roleListItem.setEnabled(null);
@@ -59,7 +60,7 @@ public class RoleService extends BaseService {
         }
 
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<RoleListItem> roleListItemList = adminRoleDao.selectAdminRoleList(roleListItem, startTime, endTime);
+        List<RoleListItem> roleListItemList = adminRoleDao.selectAdminRoleList(params, roleListItem, startTime, endTime);
         Pager<RoleListItem> result = Pager.restPage(roleListItemList);
         return Result.success(result);
     }
@@ -87,8 +88,7 @@ public class RoleService extends BaseService {
 
     @LogExecutionTime
     public Result getAdminRoleDetail(RoleDetailParams params) {
-        Integer roleId = params.getRoleId();
-        RoleDetail roleDetail = adminRoleDao.findAdminRoleDetail(roleId);
+        RoleDetail roleDetail = adminRoleDao.findAdminRoleDetail(params.getId());
         if (roleDetail == null) {
             return Result.failed("角色不存在");
         }
@@ -98,7 +98,7 @@ public class RoleService extends BaseService {
     @LogExecutionTime
     public Result editAdminRole(RoleEditParams params) {
         // 获取角色的原始游戏ID
-        AdminRolePo adminRolePo = adminRoleDao.findAdminRoleById(params.getRoleId());
+        AdminRolePo adminRolePo = adminRoleDao.findAdminRoleById(params.getId());
         if (adminRolePo == null || adminRolePo.getId() < 1) {
             return Result.failed("角色不存在或已被删除");
         }
@@ -106,7 +106,7 @@ public class RoleService extends BaseService {
         // 修改角色
         AdminUserPo adminUserPo = UserService.getAdminUserDetails().getAdminUsersPo();
         AdminRolePo updateData = new AdminRolePo();
-        updateData.setId(params.getRoleId());
+        updateData.setId(params.getId());
         updateData.setName(params.getName());
         updateData.setDescribe(params.getDescribe());
         updateData.setEnabled(params.getEnabled());
@@ -127,7 +127,7 @@ public class RoleService extends BaseService {
     public Result updateAdminRoleIsEnabled(RoleUpdateIsEnabledParams params) {
         AdminUserPo adminUserPo = UserService.getAdminUserDetails().getAdminUsersPo();
         AdminRolePo adminRolePo = new AdminRolePo();
-        adminRolePo.setId(params.getRoleId());
+        adminRolePo.setId(params.getId());
         adminRolePo.setEnabled(params.getEnabled());
         adminRolePo.setModifyAdminId(adminUserPo.getId());
         adminRolePo.setModifyTime(LocalDateTime.now());
@@ -142,24 +142,23 @@ public class RoleService extends BaseService {
 
     @LogExecutionTime
     @Transactional(rollbackFor = {RuntimeException.class, Error.class})
-    public Result bindRolePermissions(RoleAssignParams params) {
+    public Result bindRolePermissions(RoleBindPermissionsParams params) {
         List<Integer> permissionIds = params.getPermissionIds().stream().filter(id -> id > 0).distinct().collect(Collectors.toList());
         if (permissionIds.size() == 0) {
             return Result.failed("没有有效的权限");
         }
-        // 获取角色的原始游戏ID
-        AdminRolePo adminRolePo = adminRoleDao.findAdminRoleById(params.getRoleId());
+        AdminRolePo adminRolePo = adminRoleDao.findAdminRoleById(params.getId());
         if (adminRolePo == null || adminRolePo.getId() < 1) {
             return Result.failed("角色不存在或已被删除");
         }
         // 删掉旧的权限
-        adminRoleDao.deleteAdminRolePermissions(params.getRoleId());
+        adminRoleDao.deleteAdminRolePermissions(params.getId());
         // 添加新的权限
         try {
-            adminRoleDao.addAdminRolePermission(params.getRoleId(), permissionIds);
+            adminRoleDao.addAdminRolePermission(params.getId(), permissionIds);
             return Result.success();
-        }catch (DuplicateKeyException e){
-            if (e.getMessage().contains("uk_role_permission")){
+        } catch (DuplicateKeyException e) {
+            if (e.getMessage().contains("uk_role_permission")) {
                 throw new BusinessException("角色权限关系已存在");
             }
             throw new BusinessException("绑定角色权限关系失败");
@@ -167,9 +166,31 @@ public class RoleService extends BaseService {
     }
 
     @LogExecutionTime
-    public Result selectAdminRolePermissions(RolePermissionParams params) {
-        List<RolePermissionItem> rolePermissionItems = adminRoleDao.selectAdminRolePermissionAllByRoleId(params.getRoleId());
+    public Result selectAdminRolePermissions(RolePermissionsParams params) {
+        List<RolePermissionItem> rolePermissionItems = adminRoleDao.selectAdminRolePermissionAllByRoleId(params.getId());
         rolePermissionItems.forEach(RolePermissionItem::setPermissionTypeText);
         return Result.success(rolePermissionItems);
+    }
+
+    @LogExecutionTime
+    public Result selectAdminRolesAll(RoleListParams params) {
+        List<RoleListItem> all = adminRoleDao.selectAdminRoleAll(params);
+        return Result.success(all);
+    }
+
+    @LogExecutionTime
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
+    public Result deleteRole(RoleDeleteParams params) {
+        AdminRolePo adminRolePo = adminRoleDao.findAdminRoleById(params.getId());
+        if (adminRolePo == null || adminRolePo.getId() < 1) {
+            return Result.failed("角色不存在或已被删除");
+        }
+        if (adminRolePo.getEnabled()) {
+            return Result.failed("启用下的角色不能删除");
+        }
+        adminRoleDao.deleteAdminRoleByRoleId(params.getId());
+        adminRoleDao.deleteAdminRole(params.getId());
+        adminUserDao.deleteAdminUserRolesByRoleId(params.getId());
+        return Result.success("删除角色成功");
     }
 }

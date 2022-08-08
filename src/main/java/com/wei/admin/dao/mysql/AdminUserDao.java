@@ -1,5 +1,6 @@
 package com.wei.admin.dao.mysql;
 
+import com.wei.admin.bo.UserListItem;
 import com.wei.admin.dto.UserListParams;
 import com.wei.admin.bo.LoginInfo;
 import com.wei.admin.po.AdminUserPo;
@@ -52,7 +53,7 @@ public interface AdminUserDao {
      * @param params
      * @return
      */
-    List<AdminUserPo> selectAdminUserList(UserListParams params);
+    List<UserListItem> selectAdminUserList(UserListParams params);
 
     /**
      * 更新最后登录信息
@@ -99,4 +100,22 @@ public interface AdminUserDao {
      * @param roleIds
      */
     void addAdminUserRoles(@Param("adminId") Integer adminId,@Param("roleIds") List<Integer> roleIds);
+
+    /**
+     * 删除管理员
+     * @param adminId
+     */
+    void deleteAdminUser(Integer adminId);
+
+    /**
+     * 删除用户角色表指定的用户
+     * @param adminId
+     */
+    void deleteAdminUserRoles(Integer adminId);
+
+    /**
+     * 按照角色ID删除角色用户关系信息
+     * @param roleId
+     */
+    void deleteAdminUserRolesByRoleId(Integer roleId);
 }

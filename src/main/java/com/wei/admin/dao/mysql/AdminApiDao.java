@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -57,4 +58,17 @@ public interface AdminApiDao {
      * @return
      */
     List<AdminApiPo> selectAdminApiAllByIds(@Param("ids")List<Integer> ids,@Param("enabled") Boolean enabled);
+
+    /**
+     * 按照权限ID查询接口资源列表
+     * @param permissionIds
+     * @return
+     */
+    List<ApiListItem> selectApisByPermissionIds(Set<Integer> permissionIds);
+
+    /**
+     * 查询所有的接口列表
+     * @return
+     */
+    List<AdminApiPo> selectAdminApiAll();
 }

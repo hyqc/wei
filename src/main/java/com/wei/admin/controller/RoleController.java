@@ -15,7 +15,7 @@ import javax.validation.Valid;
 /**
  * @author Administrator
  */
-@Api(tags = "账号角色管理")
+@Api(tags = "角色管理")
 @RestController
 @RequestMapping(value = "/admin/role")
 public class RoleController extends BaseController {
@@ -27,11 +27,28 @@ public class RoleController extends BaseController {
     @PostMapping("/list")
     @PreAuthorize("hasAuthority('adminRole::list')")
     public Result list(@Valid @RequestBody RoleListParams params) {
-        params.handleListParams();
+        switch (params.getSortField()) {
+            case "createTime":
+                params.setSortField("ar.create_time");
+                break;
+            case "modifyTime":
+                params.setSortField("ar.modify_time");
+                break;
+            default:
+                params.setSortField("ar.id");
+        }
+        params.handleParams();
         return roleService.selectAdminRolesList(params);
     }
 
-    @ApiOperation("添加角色")
+    @ApiOperation("有效角色列表")
+    @PostMapping("/all")
+    @PreAuthorize("hasAuthority('adminRole::all')")
+    public Result all(@Valid @RequestBody RoleListParams params) {
+        return roleService.selectAdminRolesAll(params);
+    }
+
+    @ApiOperation("创建角色")
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('adminRole::add')")
     public Result add(@Valid @RequestBody RoleAddParams params) {
@@ -45,7 +62,7 @@ public class RoleController extends BaseController {
         return roleService.getAdminRoleDetail(params);
     }
 
-    @ApiOperation("角色编辑")
+    @ApiOperation("编辑角色")
     @PostMapping("/edit")
     @PreAuthorize("hasAuthority('adminRole::edit')")
     public Result edit(@Valid @RequestBody RoleEditParams params) {
@@ -53,24 +70,32 @@ public class RoleController extends BaseController {
     }
 
 
-    @ApiOperation("更新角色启用状态")
+    @ApiOperation("启用禁用角色")
     @PostMapping("/enable")
     @PreAuthorize("hasAuthority('adminRole::enable')")
     public Result enable(@Valid @RequestBody RoleUpdateIsEnabledParams params) {
         return roleService.updateAdminRoleIsEnabled(params);
     }
 
+    @ApiOperation("删除角色")
+    @PostMapping("/delete")
+    @PreAuthorize("hasAuthority('adminRole::delete')")
+    public Result delete(@Valid @RequestBody RoleDeleteParams params) {
+        return roleService.deleteRole(params);
+    }
+
     @ApiOperation("角色绑定权限")
-    @PostMapping("/bind")
-    @PreAuthorize("hasAuthority('adminRole::bind')")
-    public Result bind(@Valid @RequestBody RoleAssignParams params) {
+    @PostMapping("/bindPermissions")
+    @PreAuthorize("hasAuthority('adminRole::bindPermissions')")
+    public Result bindPermissions(@Valid @RequestBody RoleBindPermissionsParams params) {
         return roleService.bindRolePermissions(params);
     }
 
     @ApiOperation("角色权限列表")
-    @PostMapping("/permission")
-    @PreAuthorize("hasAuthority('adminRole::permission')")
-    public Result permission(@Valid @RequestBody RolePermissionParams params) {
+    @PostMapping("/permissions")
+    @PreAuthorize("hasAuthority('adminRole::permissions')")
+    public Result permissions(@Valid @RequestBody RolePermissionsParams params) {
         return roleService.selectAdminRolePermissions(params);
     }
+
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author wlp
@@ -22,8 +23,18 @@ public class PermissionDetail {
      * 权限对应的菜单ID
      */
     private Integer menuId;
-
+    /**
+     * 菜单名称
+     */
     private String menuName;
+    /**
+     * 菜单路由
+     */
+    private String menuPath;
+    /**
+     * 绑定的接口列表
+     */
+    private List<ApiListItem> apis;
     /**
      * 权限唯一标识符
      */
@@ -58,11 +69,11 @@ public class PermissionDetail {
     @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
     private LocalDateTime modifyTime;
 
-    public String getTypeText(){
+    public String getTypeText() {
         return this.typeText;
     }
 
-    public void setTypeText(){
+    public void setTypeText() {
         this.typeText = AdminPermissionTypeEnum.getByValue(this.type).getText();
     }
 }

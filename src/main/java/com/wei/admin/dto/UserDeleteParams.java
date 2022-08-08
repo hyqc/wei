@@ -2,20 +2,17 @@ package com.wei.admin.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+@Data
 @ApiModel("AdminUserDeleteQueryParams")
 public class UserDeleteParams {
 
-    // 要删除的管理员ID集合，英文逗号隔开
     @NotNull(message = "无效账号")
-    @NotBlank(message = "无效账号")
-    @ApiParam(value = "账号ID集合，英文逗号隔开", required = true)
-    private String adminIds;
+    @ApiParam(value = "账号ID", required = true)
+    @Range(min = 1, message = "无效账号")
+    private Integer adminId;
 }

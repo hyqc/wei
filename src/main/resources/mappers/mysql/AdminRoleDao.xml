@@ -15,7 +15,8 @@
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             select LAST_INSERT_ID() as id
         </selectKey>
-        insert into admin_role (`name`,`describe`,`is_enabled`,`create_admin_id`,`modify_admin_id`,`create_time`,`modify_time`)
+        insert into admin_role
+        (`name`,`describe`,`is_enabled`,`create_admin_id`,`modify_admin_id`,`create_time`,`modify_time`)
         values (#{name},#{describe},#{enabled}, #{createAdminId}, #{modifyAdminId},#{createTime},#{modifyTime})
     </insert>
     <insert id="addAdminRolePermission">
@@ -55,19 +56,17 @@
     <delete id="deleteAdminUserRolesByAdminId">
         delete from admin_user_role where `admin_id` = #{adminId}
     </delete>
+    <delete id="deleteAdminRoleByRoleId">
+        delete from admin_role where id = #{id} and `is_enabled` = 0
+    </delete>
+    <delete id="deleteAdminRole">
+        delete from admin_user_role where role_id = #{roleId}
+    </delete>
     <select id="getAdminUserRolesByAdminId" resultType="java.lang.Integer">
         select `role_id` roleId from admin_user_role `admin_id` = #{adminId}
     </select>
-    <select id="selectAllRolesByAdminId" resultType="com.wei.admin.bo.UserRoleItem">
-        select aur.admin_id adminId,aur.role_id roleId,ar.name roleName from admin_user_role aur
-        inner join admin_role ar on ar.id = aur.role_id
-        where ar.is_enabled = 1
-        <if test="adminId != null and adminId > 0">
-            and aur.admin_id = #{adminId}
-        </if>
-    </select>
     <select id="selectAdminRoleList" resultType="com.wei.admin.bo.RoleListItem">
-        SELECT ar.id roleId, ar.name roleName,ar.create_time createDateTime,ar.modify_time modifyDateTime,
+        SELECT ar.id roleId, ar.name roleName,ar.create_time createTime,ar.modify_time modifyTime,
         ar.create_admin_id createAdminId,au.username createAdminName,ar.`is_enabled` enabled
         FROM admin_role ar
         INNER JOIN admin_user au ON au.id = ar.create_admin_id
@@ -92,7 +91,7 @@
         <if test="endTime != null">
             and <![CDATA[  ar.create_time <= #{endTime} ]]>
         </if>
-        order by ar.id desc
+        order by ${params.sortField} ${params.sortType}
     </select>
     <select id="findAdminRoleById" resultType="com.wei.admin.po.AdminRolePo">
         select `id`, `name`,`describe`,`modify_admin_id` modifyAdminId, `create_admin_id` createAdminId,
@@ -118,9 +117,27 @@
         where a.id = #{id}
     </select>
     <select id="selectAdminRolePermissionAllByRoleId" resultType="com.wei.admin.bo.RolePermissionItem">
-        select a.`role_id` roleId, a.`permission_id` permissionId,b.`key` permissionKey, b.`name` permissionName,b.`type` permissionType
+        select a.`role_id` roleId, a.`permission_id` permissionId,b.`key` permissionKey, b.`name`
+        permissionName,b.`type` permissionType
         from admin_role_permission a
         inner join admin_permission b on b.`id` = a.`permission_id`
         where b.`is_enabled` = 1 and `role_id` = #{roleId}
+    </select>
+    <select id="selectAdminRoleAll" resultType="com.wei.admin.bo.RoleListItem">
+        select id roleId,name roleName from admin_role where `is_enabled` = 1
+        <if test="params.id != null and params.id > 0">
+            and id = #{params.id}
+        </if>
+        <if test="params.name != null and params.name.length > 0">
+            and name like "%${params.name}%"
+        </if>
+    </select>
+    <select id="selectAdminUserRolesByAdminIds" resultType="com.wei.admin.bo.UserRoleItem">
+        select a.admin_id adminId,b.`id` roleId, b.`name` roleName from admin_user_role a
+        inner join admin_role b on b.`id` = a.`role_id`
+        where b.`is_enabled` = 1 and a.`admin_id` in
+        <foreach collection="adminIds" item="adminId" open="(" separator="," close=")">
+            #{adminId}
+        </foreach>
     </select>
 </mapper>

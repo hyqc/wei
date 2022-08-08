@@ -2,16 +2,14 @@ package com.wei.admin.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 
 /**
  * @author Administrator
  */
-@Getter
-@Setter
+@Data
 @ApiModel("AdminUserListQueryParams")
 public class UserListParams extends BaseListParams {
 
@@ -22,4 +20,8 @@ public class UserListParams extends BaseListParams {
     @ApiParam(value = "昵称", required = false)
     @Length(max = 50, message = "昵称不能超过50个字符")
     private String nickname;
+
+    @ApiParam(value = "角色", required = false)
+    private String roleId;
+
 }

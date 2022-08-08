@@ -4,6 +4,7 @@ import com.wei.admin.bo.RoleDetail;
 import com.wei.admin.bo.RoleListItem;
 import com.wei.admin.bo.RolePermissionItem;
 import com.wei.admin.bo.UserRoleItem;
+import com.wei.admin.dto.RoleListParams;
 import com.wei.admin.po.AdminRolePo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 @Component
@@ -22,24 +24,16 @@ public interface AdminRoleDao {
     void deleteAdminUserRolesByCondition(@Param("roleIds") List<Integer> roleIds, @Param("adminId") Integer adminId);
 
     /**
-     * 获取管理员的角色列表
-     *
-     * @param adminId
-     * @return
-     */
-    List<UserRoleItem> selectAllRolesByAdminId(Integer adminId);
-
-    /**
      * 查询角色列表
      *
+     * @param params
      * @param item
      * @param startTime
      * @param endTime
      * @return
      */
-    List<RoleListItem> selectAdminRoleList(@Param("item") RoleListItem item,
-                                           @Param("startTime") LocalDateTime startTime,
-                                           @Param("endTime") LocalDateTime endTime);
+    List<RoleListItem> selectAdminRoleList(@Param("params") RoleListParams params,@Param("item") RoleListItem item
+            , @Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
 
     /**
      * 添加角色
@@ -97,4 +91,30 @@ public interface AdminRoleDao {
      * @return
      */
     List<RolePermissionItem> selectAdminRolePermissionAllByRoleId(Integer roleId);
+
+    /**
+     * 查询全部有效的角色列表
+     * @param params
+     * @return
+     */
+    List<RoleListItem> selectAdminRoleAll(@Param("params") RoleListParams params);
+
+    /**
+     * 删除角色
+     * @param id
+     */
+    void deleteAdminRoleByRoleId(Integer id);
+
+    /**
+     * 根据账号ID集合查询对应的角色列表
+     * @param adminIds
+     * @return
+     */
+    List<UserRoleItem> selectAdminUserRolesByAdminIds(@Param("adminIds") Set<Integer> adminIds);
+
+    /**
+     * 按照角色ID删除用户角色表关系
+     * @param id
+     */
+    void deleteAdminRole(Integer roleId);
 }

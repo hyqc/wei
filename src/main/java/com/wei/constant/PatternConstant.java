@@ -21,7 +21,4 @@ public class PatternConstant {
 
     public static final String API_KEY = "^\\w+::\\w+";
     public static final String API_KEY_MESSAGE = "不是有效路由键名";
-
-    public static final String PERMISSION_TYPE = "view|edit";
-    public static final String PERMISSION_TYPE_MESSAGE = "无效权限类型";
 }

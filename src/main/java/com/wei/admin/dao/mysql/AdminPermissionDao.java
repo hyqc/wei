@@ -1,5 +1,6 @@
 package com.wei.admin.dao.mysql;
 
+import com.wei.admin.bo.ApiListItem;
 import com.wei.admin.bo.MenuItem;
 import com.wei.admin.bo.PermissionDetail;
 import com.wei.admin.bo.PermissionsPageItem;
@@ -10,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Administrator
@@ -24,12 +26,6 @@ public interface AdminPermissionDao {
      * @return
      */
     List<AdminPermissionPo> selectPermissions(@Param("adminId") Integer adminId, @Param("menuId") Integer menuId);
-
-    /**
-     * 查询全部有效的菜单
-     * @return
-     */
-    List<MenuItem> selectAllValidMenus();
 
     /**
      * 查询超管的权限
@@ -49,8 +45,6 @@ public interface AdminPermissionDao {
      * @return
      */
     List<PermissionsPageItem> selectAllPermission();
-
-    List<Integer> selectAllPermissionIdsByRoleId(Integer roleId);
 
     List<Integer> selectAllPermissionIdsByCondition(Integer adminId, Integer gameId, Integer roleId);
 
@@ -99,4 +93,35 @@ public interface AdminPermissionDao {
      * @param permissionId
      */
     void deleteAdminPermissionApis(Integer permissionId);
+
+    /**
+     * 按照指定的菜单ID获取权限列表
+     * @param menuId
+     * @return
+     */
+    List<AdminPermissionPo> selectPermissionsByMenuId(Integer menuId);
+
+    /**
+     * 批量添加菜单的权限
+     * @param permissions
+     */
+    void batchAddMenuPermissions(@Param("permissions") List<AdminPermissionPo> permissions);
+
+    /**
+     * 按照菜单删除权限
+     * @param menuId
+     */
+    void deleteAdminPermissionByMenuId(Integer menuId);
+
+    /**
+     * 删除指定集合权限ID的权限接口关系数据
+     * @param permissionIds
+     */
+    void deleteAdminPermissionApisByPermissionId(@Param("permissionIds") List<Integer> permissionIds);
+
+    /**
+     * 查询出所有的跟权限有关的菜单
+     * @return
+     */
+    List<Integer> selectAllPermissionsMenus();
 }

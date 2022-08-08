@@ -17,7 +17,7 @@ public class RoleEditParams {
     @ApiParam(value = "无效角色", required = true)
     @NotNull(message = "无效角色")
     @Range(min = 1, message = "无效角色")
-    private Integer roleId;
+    private Integer id;
 
     @ApiParam(value = "角色名称", required = false)
     @NotBlank(message = "角色名称不能为空")

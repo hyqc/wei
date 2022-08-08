@@ -44,7 +44,7 @@ public class ApiService extends BaseService {
         adminApiPo.setKey(params.getKey());
         adminApiPo.setName(params.getName());
         adminApiPo.setEnabled(params.getEnabled());
-        adminApiPo.setDescribe(params.getDescribe() == null ? "" : params.getDescribe());
+        adminApiPo.setDescribe(params.getDescribe() == null ? params.getName() : params.getDescribe());
         try {
             adminApiDao.addAdminApi(adminApiPo);
         } catch (DuplicateKeyException e) {
@@ -117,5 +117,11 @@ public class ApiService extends BaseService {
         }
         adminApiDao.deleteAdminApi(params.getId());
         return Result.success("删除成功");
+    }
+
+    @LogExecutionTime
+    public Result selectAdminApiAll() {
+        List<AdminApiPo> all = adminApiDao.selectAdminApiAll();
+        return Result.success(all);
     }
 }

@@ -1,15 +1,16 @@
 package com.wei.admin.po;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wei.util.DateTimeUtil;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 /**
  * @author wlp
  */
-@Getter
-@Setter
+@Data
 public class AdminRolePo {
     /**
      * 自增角色ID
@@ -36,7 +37,11 @@ public class AdminRolePo {
      */
     private Boolean enabled;
 
+    @JsonFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
     private LocalDateTime createTime;
 
+    @JsonFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_FORMAT)
     private LocalDateTime modifyTime;
 }

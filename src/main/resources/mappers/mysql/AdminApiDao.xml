@@ -40,7 +40,7 @@
         <if test="name != null and name.length > 0">
             and a.`name` like "%${name}%"
         </if>
-        <if test="enabled != null">
+        <if test="enabled != null and enabled > 0">
             <if test="enabled == 1">
                 and a.`is_enabled` = 1
             </if>
@@ -48,7 +48,7 @@
                 and a.`is_enabled` = 0
             </if>
         </if>
-        order by a.`key` asc,a.`id` asc
+        order by ${sortField} ${sortType}
     </select>
     <select id="findAdminApiById" resultType="com.wei.admin.po.AdminApiPo">
         select `id`,`path`,`key`,`name`,`describe`,`is_enabled` enabled,`create_time` createTime,`modify_time`
@@ -62,5 +62,17 @@
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
+    </select>
+    <select id="selectApisByPermissionIds" resultType="com.wei.admin.bo.ApiListItem">
+        select a.permission_id permissionId, a.api_id apiId,b.id,b.key,b.path,b.name
+        from admin_permission_api a
+        inner join admin_api b on b.id = a.api_id
+        where a.permission_id in
+        <foreach collection="permissionIds" item="pid" open="(" separator="," close=")">
+            #{pid}
+        </foreach>
+    </select>
+    <select id="selectAdminApiAll" resultType="com.wei.admin.po.AdminApiPo">
+        select id,name,`key`,`path` from admin_api where `is_enabled` = 1 order by `key` asc,`id` asc
     </select>
 </mapper>

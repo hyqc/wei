@@ -40,9 +40,9 @@ jwt:
   expiration: 604800 #JWT的超期限时间(60*60*24)
   tokenHead: Bearer #JWT负载中拿到开头
 store:
-  endpoint: http://127.0.0.1:9090/
-  accessKey: minioadmin
-  secretKey: minioadmin
-  bucket: wei-bucket
-  region: us-east-1
+  endpoint: oss-cn-beijing.aliyuncs.com
+  accessKey:
+  secretKey:
+  bucket: wlp-private
+  region:
   path: admin

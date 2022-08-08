@@ -6,11 +6,11 @@
         values (#{username},#{nickname},#{password},#{createTime}, #{modifyTime})
     </insert>
     <insert id="addAdminUser" parameterType="com.wei.admin.po.AdminUserPo">
-        <selectKey keyProperty="adminId" order="AFTER" resultType="java.lang.Integer">
-            select LAST_INSERT_ID() as adminId
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as id
         </selectKey>
-        insert into admin_user(`username`, `nickname`, `password`, `is_enabled`, `create_time`, `modify_time`)
-        values (#{username},#{nickname},#{password},#{enabled}, #{createTime},#{modifyTime})
+        insert into admin_user(`username`, `nickname`, `password`, `is_enabled`, `email`,`create_time`, `modify_time`)
+        values (#{username},#{nickname},#{password},#{enabled},#{email}, #{createTime},#{modifyTime})
     </insert>
     <insert id="addAdminUserRoles">
         insert into admin_user_role (`admin_id`,`role_id`) values
@@ -28,6 +28,9 @@
         </if>
         <if test="avatar != null">
             ,avatar = #{avatar}
+        </if>
+        <if test="email != null">
+            ,email = #{email}
         </if>
         where id = #{id}
     </update>
@@ -57,31 +60,52 @@
     <update id="updateAdminUserIsEnabled">
         update admin_user set `is_enabled` = #{enabled} where `id` = #{adminId} and `id` != 1
     </update>
+    <delete id="deleteAdminUser">
+        delete from admin_user where id = #{adminId} and `is_enabled` = 0
+    </delete>
+    <delete id="deleteAdminUserRoles">
+        delete from admin_user_role where admin_id = #{adminId}
+    </delete>
+    <delete id="deleteAdminUserRolesByRoleId">
+        delete from admin_user_role where role_id = #{roleId}
+    </delete>
     <select id="findAdminUserInfoByUsername" resultType="com.wei.admin.po.AdminUserPo">
         select `id` ,`username`,`nickname`, `password`, `avatar`, `last_login_time` lastLoginTime,`login_total`
         loginTotal, `last_login_ip` lastLoginIp,`email`,`is_enabled` enabled,`create_time`
         createTime, `modify_time` modifyTime
         from admin_user where `username`= #{username}
     </select>
-    <select id="selectAdminUserList" resultType="com.wei.admin.po.AdminUserPo">
-        select `id`,`username`,`nickname`, `password`, `create_time` createTime, `modify_time` modifyTime,
-        `avatar`,`is_enabled` `enabled`,`last_login_time` lastLoginTime,`email` from admin_user
+    <select id="selectAdminUserList" resultType="com.wei.admin.bo.UserListItem">
+        select c.`id` adminId,c.`username`,c.`nickname`,c.`email`,c.`avatar`,c.`is_enabled` enabled,c.`login_total`
+        loginTotal,
+        c.`last_login_ip` lastLoginIp,c.`create_time` createTime,c.`modify_time` modifyTime,GROUP_CONCAT(c.`role_id`)
+        roleIds
+        from (
+        select a.`id` ,a.`username`,a.`nickname`,a.`email`,a.`avatar`,a.`is_enabled`,a.`login_total` ,a.`last_login_ip`
+        ,
+        a.`last_login_time` , a.`create_time` , a.`modify_time`,b.role_id from admin_user a
+        left join admin_user_role b on b.`admin_id` = a.`id`
         where 1
         <if test="username != null and username.length > 0">
-            and `username` like "%${username}%"
+            and a.`username` like "%${username}%"
         </if>
         <if test="nickname != null and nickname.length > 0">
-            and `nickname` like "%${nickname}%"
+            and a.`nickname` like "%${nickname}%"
         </if>
-        <if test="enabled != null">
-            <if test="enabled == true">
-                and `is_enabled` = 1
+        <if test="enabled != null and enabled > 0">
+            <if test="enabled == 1">
+                and a.`is_enabled` = 1
             </if>
-            <if test="enabled == false">
-                and `is_enabled` = 0
+            <if test="enabled == 2">
+                and a.`is_enabled` = 0
             </if>
         </if>
-        order by `id` desc
+        <if test="roleId != null and roleId > 0">
+            and b.`role_id` = #{roleId}
+        </if>
+        ) as c
+        GROUP BY c.`id`
+        order by ${sortField} ${sortType}
     </select>
     <select id="findAdminUserDetailByAdminId" resultType="com.wei.admin.po.AdminUserPo">
         select `id`,`username`,`nickname`, `password`, `create_time` createTime, `modify_time`

@@ -11,13 +11,17 @@ import java.util.Map;
  **/
 public enum AdminPermissionTypeEnum {
     /**
-     * 页面
+     * 查看
      */
-    PAGE("view", "查看"),
+    VIEW("view", "查看"),
     /**
-     * 按钮
+     * 编辑
      */
-    BUTTON("edit", "编辑");
+    EDIT("edit", "编辑"),
+    /**
+     * 删除
+     */
+    DELETE("delete", "删除");
 
     AdminPermissionTypeEnum(String value, String text) {
         this.value = value;
