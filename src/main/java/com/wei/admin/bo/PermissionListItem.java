@@ -26,5 +26,6 @@ public class PermissionListItem {
         private Integer permissionId;
         private String permissionName;
         private String permission;
+        private String permissionText;
     }
 }
