@@ -242,7 +242,7 @@ public class MenuService extends BaseService {
         pageIds = new ArrayList<>(new HashSet<Integer>(pageIds));
         List<MenuItem> adminMenusProps = adminMenuDao.selectAllValidMenus();
         // 获取顶级模块
-        List<MenuPagesItem> menuPagesItemList = getAllTopsMenuByPageIds(adminMenusProps, pageIds);
+        List<MenuPagesItem> menuPagesItemList = TreeUtil.getAllTopsMenuByPageIds(adminMenusProps, pageIds);
 
         // 获取页面对应的权限
         LinkedHashMap<Integer, PermissionListItem.PageItem> pages = new LinkedHashMap<>();
@@ -283,18 +283,4 @@ public class MenuService extends BaseService {
         return Result.success(resultMap.values());
     }
 
-    private List<MenuPagesItem> getAllTopsMenuByPageIds(List<MenuItem> menuItems, List<Integer> pageIds) {
-        List<MenuPagesItem> result = new ArrayList<>();
-        for (Integer pageId : pageIds) {
-            MenuItem adminMenuPo = TreeUtil.getTopMenuByChildrenId(menuItems, pageId);
-            if (adminMenuPo != null) {
-                MenuPagesItem menuPagesItem = new MenuPagesItem();
-                menuPagesItem.setAdminMenusProp(adminMenuPo);
-                menuPagesItem.setMenuId(adminMenuPo.getId());
-                menuPagesItem.setPageId(pageId);
-                result.add(menuPagesItem);
-            }
-        }
-        return result;
-    }
 }

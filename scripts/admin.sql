@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 07/08/2022 21:03:42
+ Date: 11/08/2022 02:24:32
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `admin_api`  (
   UNIQUE INDEX `uk_name`(`name`) USING BTREE,
   UNIQUE INDEX `uk_key`(`key`) USING BTREE,
   UNIQUE INDEX `uk_path`(`path`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '接口权限关系表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '接口权限关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin_api
@@ -79,6 +79,7 @@ INSERT INTO `admin_api` VALUES (37, '/admin/api/enable', 'adminApi::enable', '�
 INSERT INTO `admin_api` VALUES (38, '/admin/api/delete', 'adminApi::delete', '接口删除', '', 1, '2022-08-07 12:39:34', '2022-08-07 12:39:34');
 INSERT INTO `admin_api` VALUES (39, '/admin/api/all', 'adminApi::all', '接口全部', '全部有效接口列表', 1, '2022-08-07 12:40:07', '2022-08-07 12:40:07');
 INSERT INTO `admin_api` VALUES (40, '/admin/role/all', 'adminRole::all', '角色全部', '全部有效的角色列表', 1, '2022-08-07 16:26:45', '2022-08-07 16:26:45');
+INSERT INTO `admin_api` VALUES (41, '/admin/menu/mode', 'adminMenu::mode', '菜单页面权限列表', '', 1, '2022-08-08 03:18:10', '2022-08-08 03:18:10');
 
 -- ----------------------------
 -- Table structure for admin_menu
@@ -104,19 +105,19 @@ CREATE TABLE `admin_menu`  (
   UNIQUE INDEX `uk_name`(`name`) USING BTREE,
   UNIQUE INDEX `uk_key`(`key`) USING BTREE,
   UNIQUE INDEX `uk_path`(`path`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '权限菜单表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '权限菜单表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin_menu
 -- ----------------------------
 INSERT INTO `admin_menu` VALUES (1, 0, '/admin', '系统设置', 'Admin', '系统设置', '', 0, '/', '', 0, 0, 1, '2022-06-26 22:28:24', '2022-06-26 22:28:24');
-INSERT INTO `admin_menu` VALUES (2, 1, '/admin/user', '账号管理', 'AdminUser', '账号列表', '', 0, '/', '', 0, 0, 1, '2022-08-06 15:09:09', '2022-08-06 15:09:11');
-INSERT INTO `admin_menu` VALUES (3, 1, '/admin/role', '角色管理', 'AdminRole', '角色列表', '', 0, '/', '', 0, 0, 1, '2022-08-06 15:08:22', '2022-08-06 15:08:25');
-INSERT INTO `admin_menu` VALUES (4, 1, '/admin/menu', '菜单管理', 'AdminMenu', '菜单列表', '', 0, '/', '', 0, 0, 1, '2022-06-26 22:29:08', '2022-06-26 22:52:31');
-INSERT INTO `admin_menu` VALUES (5, 1, '/admin/permission', '权限管理', 'AdminPermission', '权限管理', '', 0, '/', '', 0, 0, 1, '2022-08-06 15:10:20', '2022-08-06 15:10:22');
+INSERT INTO `admin_menu` VALUES (2, 1, '/admin/user', '账号管理', 'AdminUser', '账号列表', '', 0, '/', '', 0, 1, 1, '2022-08-06 15:09:09', '2022-08-11 00:57:19');
+INSERT INTO `admin_menu` VALUES (3, 1, '/admin/role', '角色管理', 'AdminRole', '角色列表', '', 0, '/', '', 0, 1, 1, '2022-08-06 15:08:22', '2022-08-10 22:45:34');
+INSERT INTO `admin_menu` VALUES (4, 1, '/admin/menu', '菜单管理', 'AdminMenu', '菜单列表', '', 0, '/', '', 0, 1, 1, '2022-06-26 22:29:08', '2022-08-08 02:41:15');
+INSERT INTO `admin_menu` VALUES (5, 1, '/admin/permission', '权限管理', 'AdminPermission', '权限管理', '', 0, '/', '', 0, 1, 1, '2022-08-06 15:10:20', '2022-08-11 00:57:49');
 INSERT INTO `admin_menu` VALUES (6, 1, '/admin/api', '接口管理', 'AdminApi', '接口管理', '', 0, '/', '', 0, 0, 1, '2022-08-06 15:11:37', '2022-08-06 15:11:40');
-INSERT INTO `admin_menu` VALUES (7, 1, '/admin/menu/add', '添加菜单', 'AdminMenuAdd', '添加菜单', '', 0, '/', '', 1, 0, 1, '2022-08-06 15:12:39', '2022-08-06 15:12:42');
-INSERT INTO `admin_menu` VALUES (8, 1, '/admin/menu/edit', '编辑菜单', 'AdminMenuEdit', '编辑菜单', '', 0, '/', '', 1, 0, 1, '2022-08-06 15:13:40', '2022-08-06 15:13:42');
+INSERT INTO `admin_menu` VALUES (7, 4, '/admin/menu/add', '添加菜单', 'AdminMenuAdd', '添加菜单', '', 0, '/', '', 1, 1, 1, '2022-08-06 15:12:39', '2022-08-11 00:57:29');
+INSERT INTO `admin_menu` VALUES (8, 4, '/admin/menu/edit', '编辑菜单', 'AdminMenuEdit', '编辑菜单', '', 0, '/', '', 1, 1, 1, '2022-08-06 15:13:40', '2022-08-11 00:57:33');
 
 -- ----------------------------
 -- Table structure for admin_permission
@@ -135,7 +136,7 @@ CREATE TABLE `admin_permission`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_key`(`key`) USING BTREE,
   UNIQUE INDEX `uk_permission`(`menu_id`, `type`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin_permission
@@ -181,6 +182,7 @@ INSERT INTO `admin_permission_api` VALUES (4, 8);
 INSERT INTO `admin_permission_api` VALUES (4, 10);
 INSERT INTO `admin_permission_api` VALUES (4, 15);
 INSERT INTO `admin_permission_api` VALUES (4, 40);
+INSERT INTO `admin_permission_api` VALUES (4, 41);
 INSERT INTO `admin_permission_api` VALUES (5, 9);
 INSERT INTO `admin_permission_api` VALUES (5, 11);
 INSERT INTO `admin_permission_api` VALUES (5, 12);
@@ -191,6 +193,7 @@ INSERT INTO `admin_permission_api` VALUES (7, 17);
 INSERT INTO `admin_permission_api` VALUES (7, 19);
 INSERT INTO `admin_permission_api` VALUES (7, 23);
 INSERT INTO `admin_permission_api` VALUES (7, 24);
+INSERT INTO `admin_permission_api` VALUES (7, 41);
 INSERT INTO `admin_permission_api` VALUES (8, 18);
 INSERT INTO `admin_permission_api` VALUES (8, 20);
 INSERT INTO `admin_permission_api` VALUES (8, 21);
@@ -226,11 +229,12 @@ CREATE TABLE `admin_role`  (
   `modify_time` datetime(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '管理员角色表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '管理员角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin_role
 -- ----------------------------
+INSERT INTO `admin_role` VALUES (1, '管理员', '拥有全部权限', 9, 1, 1, '2022-08-11 02:09:58', '2022-08-11 02:09:59');
 
 -- ----------------------------
 -- Table structure for admin_role_permission
@@ -245,6 +249,12 @@ CREATE TABLE `admin_role_permission`  (
 -- ----------------------------
 -- Records of admin_role_permission
 -- ----------------------------
+INSERT INTO `admin_role_permission` VALUES (1, 1);
+INSERT INTO `admin_role_permission` VALUES (1, 2);
+INSERT INTO `admin_role_permission` VALUES (1, 3);
+INSERT INTO `admin_role_permission` VALUES (1, 4);
+INSERT INTO `admin_role_permission` VALUES (1, 5);
+INSERT INTO `admin_role_permission` VALUES (1, 6);
 
 -- ----------------------------
 -- Table structure for admin_user
@@ -265,12 +275,16 @@ CREATE TABLE `admin_user`  (
   `modify_time` datetime(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '管理员表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '管理员表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin_user
 -- ----------------------------
-INSERT INTO `admin_user` VALUES (1, 'admin', '超管', 'ddd@q1.com', '$2a$10$uH8D8y9yGq4w9ByQtvh3dudv.kPcEM/..9SwDRX88N2OZOvmvb1N2', '', 2, '127.0.0.1,127.0.0.1', '2022-08-07 13:58:26', 1, '2022-08-07 13:58:25', '2022-08-07 13:58:25');
+INSERT INTO `admin_user` VALUES (1, 'admin', '超管', 'ddd@q1.com', '$2a$10$uH8D8y9yGq4w9ByQtvh3dudv.kPcEM/..9SwDRX88N2OZOvmvb1N2', '', 15, '127.0.0.1,127.0.0.1', '2022-08-11 02:13:24', 1, '2022-08-11 02:13:24', '2022-08-11 02:13:24');
+INSERT INTO `admin_user` VALUES (5, 'test00001', '测试00001', '', '$2a$10$xEnugTiRvgBY1n21Mg7g7uCnzBP7aA9G0vzUv.jAnTgF2tM3JBSsC', '', 0, '', NULL, 1, '2022-08-07 21:09:23', '2022-08-07 21:09:23');
+INSERT INTO `admin_user` VALUES (7, 'test00002', '测试00002', '', '$2a$10$MHuAUxjZAG.8bITT12hEZu6qFb9C8izBM7NSe/FPB4Q3Jth29NnBW', '', 0, '', NULL, 1, '2022-08-07 21:11:05', '2022-08-07 21:11:05');
+INSERT INTO `admin_user` VALUES (8, 'test00003', '测试00003', '', '$2a$10$l2YYmOBMX0WX3a27NGFYyeGwHAbi6Jozu0k.P/YDjnkYKs94Bi75u', '', 0, '', NULL, 1, '2022-08-07 21:13:59', '2022-08-07 21:13:59');
+INSERT INTO `admin_user` VALUES (9, 'test00004', '测试00004', 'test0004@qq.com', '$2a$10$Z/WRvsc9apFLcD5DwWjvleZAaaPja99IeOuTXFFzmDZ0tCn8FVLjm', '', 19, '127.0.0.1,127.0.0.1', '2022-08-11 02:17:29', 1, '2022-08-11 02:17:28', '2022-08-11 02:17:28');
 
 -- ----------------------------
 -- Table structure for admin_user_role
@@ -285,5 +299,6 @@ CREATE TABLE `admin_user_role`  (
 -- ----------------------------
 -- Records of admin_user_role
 -- ----------------------------
+INSERT INTO `admin_user_role` VALUES (9, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
