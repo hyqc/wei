@@ -311,9 +311,14 @@ public class UserService implements UserDetailsService {
         Map<Integer, MenuItem> allMenusMap = allMenus.stream().collect(Collectors.toMap(AdminMenuPo::getId, item -> item));
         List<MenuItem> result = new ArrayList<>();
         Map<Integer, MenuItem> resultMap = new HashMap<>();
-        TreeUtil.getAllRelatedMenusByPageIds(result, allMenusMap, new ArrayList<>(menuIds)).forEach(item->{
-            if(!resultMap.containsKey(item.getId())){
-                resultMap.put(item.getId(),item);
+        TreeUtil.getAllRelatedMenusByPageIds(result, allMenusMap, new ArrayList<>(menuIds)).forEach(item -> {
+            if (!resultMap.containsKey(item.getId())) {
+                resultMap.put(item.getId(), item);
+            }
+        });
+        TreeUtil.getAllChildrenPagesByPageIds(result, allMenus, new ArrayList<>(menuIds)).forEach(item -> {
+            if (!resultMap.containsKey(item.getId())) {
+                resultMap.put(item.getId(), item);
             }
         });
         return new ArrayList<>(resultMap.values());

@@ -111,6 +111,13 @@ public class TreeUtil {
         return result;
     }
 
+    public static List<MenuItem> getAllChildrenPagesByPageIds(List<MenuItem> result, List<MenuItem> allMenus, List<Integer> pageIds) {
+        for (Integer parentId : pageIds) {
+            getAllChildrenMenuByChildrenId(result, allMenus, parentId);
+        }
+        return result;
+    }
+
     /**
      * 找出单个叶子节点的祖先列表
      * @param result
@@ -123,6 +130,24 @@ public class TreeUtil {
             MenuItem menu = menuItemMap.get(menuId);
             result.add(menu);
             getAllFatherMenuByChildrenId(result, menuItemMap, menu.getParentId());
+        }
+        return result;
+    }
+
+    /**
+     * 找出单个节点的所有后代页面节点列表
+     * @param result
+     * @param allMenus
+     * @param parentId
+     * @return
+     */
+    private static List<MenuItem> getAllChildrenMenuByChildrenId(List<MenuItem> result, List<MenuItem> allMenus, Integer parentId) {
+        for (MenuItem item: allMenus){
+            if(item.getParentId().equals(parentId)){
+                result.add(item);
+                List<MenuItem> tmpMens = allMenus.stream().filter(prop-> !prop.getParentId().equals(parentId)).collect(Collectors.toList());
+                getAllChildrenMenuByChildrenId(result,tmpMens, item.getId());
+            }
         }
         return result;
     }

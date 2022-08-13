@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 11/08/2022 02:24:32
+ Date: 11/08/2022 22:33:28
 */
 
 SET NAMES utf8mb4;
@@ -255,6 +255,8 @@ INSERT INTO `admin_role_permission` VALUES (1, 3);
 INSERT INTO `admin_role_permission` VALUES (1, 4);
 INSERT INTO `admin_role_permission` VALUES (1, 5);
 INSERT INTO `admin_role_permission` VALUES (1, 6);
+INSERT INTO `admin_role_permission` VALUES (1, 7);
+INSERT INTO `admin_role_permission` VALUES (1, 8);
 
 -- ----------------------------
 -- Table structure for admin_user
@@ -280,7 +282,7 @@ CREATE TABLE `admin_user`  (
 -- ----------------------------
 -- Records of admin_user
 -- ----------------------------
-INSERT INTO `admin_user` VALUES (1, 'admin', '超管', 'ddd@q1.com', '$2a$10$uH8D8y9yGq4w9ByQtvh3dudv.kPcEM/..9SwDRX88N2OZOvmvb1N2', '', 15, '127.0.0.1,127.0.0.1', '2022-08-11 02:13:24', 1, '2022-08-11 02:13:24', '2022-08-11 02:13:24');
+INSERT INTO `admin_user` VALUES (1, 'admin', '超管', 'ddd@q1.com', '$2a$10$uH8D8y9yGq4w9ByQtvh3dudv.kPcEM/..9SwDRX88N2OZOvmvb1N2', '', 16, '127.0.0.1,127.0.0.1', '2022-08-11 02:45:26', 1, '2022-08-11 02:45:25', '2022-08-11 02:45:25');
 INSERT INTO `admin_user` VALUES (5, 'test00001', '测试00001', '', '$2a$10$xEnugTiRvgBY1n21Mg7g7uCnzBP7aA9G0vzUv.jAnTgF2tM3JBSsC', '', 0, '', NULL, 1, '2022-08-07 21:09:23', '2022-08-07 21:09:23');
 INSERT INTO `admin_user` VALUES (7, 'test00002', '测试00002', '', '$2a$10$MHuAUxjZAG.8bITT12hEZu6qFb9C8izBM7NSe/FPB4Q3Jth29NnBW', '', 0, '', NULL, 1, '2022-08-07 21:11:05', '2022-08-07 21:11:05');
 INSERT INTO `admin_user` VALUES (8, 'test00003', '测试00003', '', '$2a$10$l2YYmOBMX0WX3a27NGFYyeGwHAbi6Jozu0k.P/YDjnkYKs94Bi75u', '', 0, '', NULL, 1, '2022-08-07 21:13:59', '2022-08-07 21:13:59');
