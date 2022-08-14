@@ -1,4 +1,6 @@
+# Gitee地址：https://gitee.com/hyqc/wei
 # Wei 
+
 > 实现基于RBAC的权限控制基础业务功能服务，只提供以下功能，以下功能均可开箱即用：
 - 登录
 - 个人中心
@@ -15,12 +17,15 @@
 # 示例站点
 - [模拟数据版本](https://mock.admin.jianean.com/home)：https://mock.admin.jianean.com/home
 - [前端代码库](https://github.com/hyqc/ant-react-admin)：https://github.com/hyqc/ant-react-admin，输入任意账号，任意密码即可进入模拟数据版本管理后台， **要使用前端代码，请遵循前端mock版本的接口格式开发后端接口即可开箱即用，登录页勾选自动登录后，会自动续签登录令牌**
+- [导航站点](https://nav.jianean.com/)：需要简易导航站点的可查看仓库：https://github.com/hyqc/gcwguide
 
 ![image](https://user-images.githubusercontent.com/33064604/184541956-a03f42df-a51a-4a93-bbd9-00d1dce2b7f7.png)
 
 ![image](https://user-images.githubusercontent.com/33064604/184541924-9fb6c21d-37a6-47f7-9e23-d4d6ff34ef9b.png)
 
 ![image](https://user-images.githubusercontent.com/33064604/184542906-8808cc44-9478-405c-9a16-9a317956138a.png)
+
+![image](https://user-images.githubusercontent.com/33064604/184543103-ea84eccb-8abb-482a-b5ef-335befecf7cd.png)
 
 
 # 环境
@@ -44,3 +49,4 @@
 代码仓库中提供了一份postman请求接口的文件，可以导入自己的postman中
 
 后续补充~
+微信号(wlp18507143412)
