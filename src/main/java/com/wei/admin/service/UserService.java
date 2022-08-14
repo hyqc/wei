@@ -243,9 +243,11 @@ public class UserService implements UserDetailsService {
         // 头像
         UploadConfig.UploadFieldItem uploadFieldItem = uploadConfig.getAvatar();
         accountInfoItem.setAvatar(storeConfig.getPresignedObjectUrl(uploadFieldItem, accountInfoItem.getAvatar()));
-        Map<String, MenuItem> menus = getMyMenus().stream().collect(Collectors.toMap(AdminMenuPo::getKey, item -> item));
+        List<MenuItem> menuItems = getMyMenus();
+        Map<String, MenuItem> menus = menuItems.stream().collect(Collectors.toMap(AdminMenuPo::getKey, item -> item));
         accountInfoItem.setMenus(menus);
-        Map<String, String> permissions = getMyPermissions(0).stream().collect(Collectors.toMap(AccountPermissionItem::getKey, AccountPermissionItem::getName));
+        List<AccountPermissionItem> accountPermissionItems = getMyPermissions(0);
+        Map<String, String> permissions = accountPermissionItems.stream().collect(Collectors.toMap(AccountPermissionItem::getKey, AccountPermissionItem::getName));
         accountInfoItem.setPermissions(permissions);
         if (refreshToken) {
             String token = jwtTokenUtil.generateToken(userDetails);
@@ -301,18 +303,25 @@ public class UserService implements UserDetailsService {
         UserDetails userDetails = getAdminUserDetails();
         AdminUserPo adminUserPo = userDetails.getAdminUsersPo();
         Integer adminId = adminUserPo.getId();
-        Set<Integer> menuIds = null;
-        List<AdminPermissionPo> adminPermissionPoList;
-        boolean isAdministrator = CommonConstant.isAdministrator(adminId);
-        if (!isAdministrator) {
-            adminPermissionPoList = adminPermissionDao.selectPermissions(adminId, null);
-            menuIds = adminPermissionPoList.stream().map(AdminPermissionPo::getMenuId).collect(Collectors.toSet());
-        }
+        Set<Integer> menuIds = new HashSet<>();
+        List<AdminPermissionPo> adminPermissionPoList = getAccountPermission(adminId, null);
+        menuIds = adminPermissionPoList.stream().map(AdminPermissionPo::getMenuId).collect(Collectors.toSet());
         // 权限对应的页面ID
-        Map<Integer, List<MenuItem>> menusMap = adminMenuDao.selectAllValidMenus()
-                .stream()
-                .collect(Collectors.groupingBy(AdminMenuPo::getParentId));
-        return TreeUtil.menuList(menusMap, menuIds, 0, 1);
+        List<MenuItem> allMenus = adminMenuDao.selectAllValidMenus();
+        Map<Integer, MenuItem> allMenusMap = allMenus.stream().collect(Collectors.toMap(AdminMenuPo::getId, item -> item));
+        List<MenuItem> result = new ArrayList<>();
+        Map<Integer, MenuItem> resultMap = new HashMap<>();
+        TreeUtil.getAllRelatedMenusByPageIds(result, allMenusMap, new ArrayList<>(menuIds)).forEach(item -> {
+            if (!resultMap.containsKey(item.getId())) {
+                resultMap.put(item.getId(), item);
+            }
+        });
+        TreeUtil.getAllChildrenPagesByPageIds(result, allMenus, new ArrayList<>(menuIds)).forEach(item -> {
+            if (!resultMap.containsKey(item.getId())) {
+                resultMap.put(item.getId(), item);
+            }
+        });
+        return new ArrayList<>(resultMap.values());
     }
 
     @LogExecutionTime

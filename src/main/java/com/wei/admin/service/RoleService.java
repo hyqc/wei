@@ -92,6 +92,9 @@ public class RoleService extends BaseService {
         if (roleDetail == null) {
             return Result.failed("角色不存在");
         }
+       Set<Integer> setIds = adminRoleDao.selectAdminRolePermissionAllByRoleId(roleDetail.getId()).stream()
+               .map(RolePermissionItem::getPermissionId).collect(Collectors.toSet());
+        roleDetail.setPermissionIds(new ArrayList<>(setIds));
         return Result.success(roleDetail);
     }
 

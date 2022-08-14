@@ -1,6 +1,7 @@
 package com.wei.util;
 
 import com.wei.admin.bo.MenuItem;
+import com.wei.admin.bo.MenuPagesItem;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -80,4 +81,75 @@ public class TreeUtil {
         }
         return null;
     }
+
+    public static List<MenuPagesItem> getAllTopsMenuByPageIds(List<MenuItem> menuItems, List<Integer> pageIds) {
+        List<MenuPagesItem> result = new ArrayList<>();
+        for (Integer pageId : pageIds) {
+            MenuItem adminMenuPo = TreeUtil.getTopMenuByChildrenId(menuItems, pageId);
+            if (adminMenuPo != null) {
+                MenuPagesItem menuPagesItem = new MenuPagesItem();
+                menuPagesItem.setAdminMenusProp(adminMenuPo);
+                menuPagesItem.setMenuId(adminMenuPo.getId());
+                menuPagesItem.setPageId(pageId);
+                result.add(menuPagesItem);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 按照叶子节点列表找出全部的祖先
+     * @param result
+     * @param menuItemMap
+     * @param pageIds
+     * @return
+     */
+    public static List<MenuItem> getAllRelatedMenusByPageIds(List<MenuItem> result, Map<Integer, MenuItem> menuItemMap, List<Integer> pageIds) {
+        for (Integer pageId : pageIds) {
+            getAllFatherMenuByChildrenId(result, menuItemMap, pageId);
+        }
+        return result;
+    }
+
+    public static List<MenuItem> getAllChildrenPagesByPageIds(List<MenuItem> result, List<MenuItem> allMenus, List<Integer> pageIds) {
+        for (Integer parentId : pageIds) {
+            getAllChildrenMenuByChildrenId(result, allMenus, parentId);
+        }
+        return result;
+    }
+
+    /**
+     * 找出单个叶子节点的祖先列表
+     * @param result
+     * @param menuItemMap
+     * @param menuId
+     * @return
+     */
+    private static List<MenuItem> getAllFatherMenuByChildrenId(List<MenuItem> result, Map<Integer, MenuItem> menuItemMap, Integer menuId) {
+        if (menuItemMap.containsKey(menuId)) {
+            MenuItem menu = menuItemMap.get(menuId);
+            result.add(menu);
+            getAllFatherMenuByChildrenId(result, menuItemMap, menu.getParentId());
+        }
+        return result;
+    }
+
+    /**
+     * 找出单个节点的所有后代页面节点列表
+     * @param result
+     * @param allMenus
+     * @param parentId
+     * @return
+     */
+    private static List<MenuItem> getAllChildrenMenuByChildrenId(List<MenuItem> result, List<MenuItem> allMenus, Integer parentId) {
+        for (MenuItem item: allMenus){
+            if(item.getParentId().equals(parentId)){
+                result.add(item);
+                List<MenuItem> tmpMens = allMenus.stream().filter(prop-> !prop.getParentId().equals(parentId)).collect(Collectors.toList());
+                getAllChildrenMenuByChildrenId(result,tmpMens, item.getId());
+            }
+        }
+        return result;
+    }
+
 }
