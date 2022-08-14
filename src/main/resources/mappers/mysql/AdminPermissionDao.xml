@@ -71,7 +71,7 @@
 
     <select id="selectPermissions"
             resultType="com.wei.admin.po.AdminPermissionPo">
-        SELECT ap.`id`,ap.`menu_id` menuId,ap.`name`,ap.`describe`,ap.`type`,
+        SELECT ap.`id`,ap.`menu_id` menuId,ap.`name`,ap.`describe`,ap.`type`,ap.`key`,
         ap.`create_time` createTime,ap.`modify_time` modifyTime
         FROM admin_user_role aur
         INNER JOIN admin_role ar ON ar.`id` = aur.`role_id` AND ar.`is_enabled` = 1

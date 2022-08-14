@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author wlp
@@ -20,6 +21,10 @@ public class RoleDetail {
      * 角色名称
      */
     private String name;
+    /**
+     * 角色的全部有效权限ID
+     */
+    private List<Integer> permissionIds;
     /**
      * 角色描述
      */
